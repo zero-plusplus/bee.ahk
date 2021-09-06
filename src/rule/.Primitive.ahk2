@@ -1,0 +1,12 @@
+﻿class Primitive {
+  /**
+   * @praam {primitive} primitive
+   */
+  __New(primitive) {
+    if (IsObject(primitive)) {
+      throw TypeError("#1 Must be a primitive value.", -1)
+    }
+    this._value := primitive
+  }
+  value => this._value
+}

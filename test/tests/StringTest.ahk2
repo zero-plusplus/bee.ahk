@@ -1,0 +1,17 @@
+﻿#Include ..\common.ahk2
+
+class StringTest {
+  class StaticTest {
+    testLength(assert) {
+      assert.equals(bee.String.length("abc"), 3)
+    }
+  }
+  class InstanceTest {
+    testValue(assert) {
+      assert.equals(bee.String("abc").value, "abc")
+    }
+    testLength(assert) {
+      assert.equals(bee.String("abc").length(), 3)
+    }
+  }
+}

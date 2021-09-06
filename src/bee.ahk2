@@ -1,0 +1,5 @@
+﻿class bee {
+  #Include .String.ahk2
+
+  #Include rule\rule.ahk2
+}

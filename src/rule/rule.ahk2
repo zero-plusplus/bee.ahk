@@ -1,0 +1,3 @@
+﻿class rule {
+  #Include .Primitive.ahk2
+}

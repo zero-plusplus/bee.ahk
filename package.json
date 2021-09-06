@@ -1,0 +1,21 @@
+{
+  "name": "bee.ahk",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://github.com/zero-plusplus/bee.ahk#readme",
+  "bugs": {
+    "url": "https://github.com/zero-plusplus/bee.ahk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zero-plusplus/bee.ahk.git"
+  },
+  "license": "MIT",
+  "author": "zero-plusplus",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "experimental-autohotkey-testframework": "github:zero-plusplus/experimental-autohotkey-testframework#develop"
+  }
+}
