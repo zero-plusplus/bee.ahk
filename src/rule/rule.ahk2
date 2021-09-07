@@ -1,4 +1,5 @@
 ﻿class rule {
   #Include .PredicateFunc.ahk2
+  #Include .PredicateVariation.ahk2
   #Include .Primitive.ahk2
 }

@@ -1,0 +1,8 @@
+﻿class PredicateVariation extends bee.rule.PredicateFunc {
+  static __CALL(key, params) {
+    if (bee.Predicate.hasProp(key)) {
+      predicate := bee.Predicate.%key%
+      return this.wrapper(predicate, params*)
+    }
+  }
+}

@@ -1,6 +1,9 @@
 ﻿#Include ..\common.ahk2
 
 class PredicateTest {
+  testAll(assert) {
+    assert.ok(bee.Predicate.all("abc", [ bee.Predicate.startsWith ]))
+  }
   testIsObject(assert) {
     assert.ok(bee.Predicate.isObject()({}))
     assert.ok(bee.Predicate.isObject({}))
@@ -10,5 +13,10 @@ class PredicateTest {
 
     startsWithAbc := bee.Predicate.startsWith("abc")
     assert.ok(startsWithAbc("abcdefg"))
+  }
+  class AllTest {
+    testAllIsObject(assert) {
+      assert.ok(bee.Predicate.all.isObject([ {}, [] ]))
+    }
   }
 }
