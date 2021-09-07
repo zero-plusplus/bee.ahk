@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Predicate is collection of static methods that return test results as a boolean.
  * Each method receives the target to be inspected as its first argument, and the second and subsequent arguments receive supplementary data necessary for the inspection.
  *
@@ -9,6 +9,19 @@
  * ```
  */
 class Predicate {
+  /**
+   * Determines whether the object is an object or not.
+   *
+   * Synonymous with [IsObject](https://lexikos.github.io/v2/docs/commands/IsObject.htm), , except that it is curryable.
+   * @method
+   * @param {any} value
+   * @return {boolean}
+   */
+  class isObject extends bee.rule.PredicateFunc {
+    static behavior(value) {
+      return IsObject(value)
+    }
+  }
   /**
    * Determines if the string starts with `prefix` or not.
    * @param {string} str

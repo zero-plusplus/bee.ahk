@@ -1,6 +1,10 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class PredicateTest {
+  testIsObject(assert) {
+    assert.ok(bee.Predicate.isObject()({}))
+    assert.ok(bee.Predicate.isObject({}))
+  }
   testStartsWith(assert) {
     assert.ok(bee.Predicate.startsWith("abcdefg", "abc"))
 
