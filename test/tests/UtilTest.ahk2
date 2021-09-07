@@ -1,6 +1,19 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class UtilTest {
+  testCurry(assert) {
+    curried1 := bee.curry(SubStr)
+    assert.ok(curried1 is BoundFunc)
+
+    curried2 := curried1("abc")
+    assert.ok(curried2 is BoundFunc)
+
+    curried3 := curried2(1)
+    assert.ok(curried3 is BoundFunc)
+
+    assert.equals(curried3(1), "a")
+    assert.equals(curried1("abc", 1, 1), "a")
+  }
   testPartial(assert) {
     getChar := bee.partial(SubStr, bee, bee, 1)
     assert.equals(getChar("abc", 1), "a")

@@ -1,0 +1,56 @@
+﻿/**
+ * Currying the callable object.
+ * Curried callable objects will continue to be partially applied until the arguments are satisfied.
+ *
+ * The following is an example of retrieving a value from a culled SubStr.
+ * ```ahk
+ * a := bee.curry(SubStr)
+ * b := a("abc")
+ * c := b(1)
+ * c(1) ; => "a"
+ * ```
+ * @params {callable} callable
+ * @params {number} arity? - The number of arguments that continue to be curried. Number of arguments for `callable`, can be omitted if it has `maxParams`.
+ */
+static curry(callable, arity := "") {
+  if (!arity) {
+    isTopLevelFunc := StrSplit(callable.name, ".").length == 1
+    arity := isTopLevelFunc ? callable.maxParams : callable.maxParams - 1
+  }
+  return Call.bind(callable, arity, [])
+
+  Call(callable, arity, boundParams, params*) {
+    if (0 < boundParams.length) {
+      params.insertAt(1, boundParams*)
+    }
+
+    count := CountWithoutPlaceHolder(params)
+    if (count < arity) {
+      return Call.bind(callable, arity, params)
+    }
+
+    if (params.length != count) {
+      restParams := []
+
+      Loop params.length - count {
+        value := params.removeAt(count + A_Index)
+        restParams.push(value)
+      }
+      result := bee.partial(callable, params*)(restParams*)
+      return result
+    }
+
+    result := callable(params*)
+    return result
+  }
+  CountWithoutPlaceHolder(params) {
+      count := 0
+      for i, param in params {
+          if (bee == param) {
+              continue
+          }
+          count++
+      }
+      return count
+  }
+}

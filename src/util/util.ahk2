@@ -1,3 +1,4 @@
 ﻿class util {
+  #Include .curry.ahk2
   #Include .partial.ahk2
 }
