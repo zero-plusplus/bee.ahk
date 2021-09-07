@@ -1,4 +1,6 @@
-﻿class bee {
+﻿#Requires AutoHotkey v2.0-beta.1
+
+class bee {
   #Include .String.ahk2
 
   #Include rule\rule.ahk2
