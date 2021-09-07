@@ -1,0 +1,38 @@
+﻿/**
+ * It is almost synonymous with `callable.bind(boundParams*)`, but it allows you to skip the binding of some arguments.
+ * This is called a placeholder. Placeholders can be set by passing a [bee] object.
+ *
+ * This is useful to create more specific functions for existing functions.
+ * The following is an example of using placeholders to convert `SubStr` into a function that extracts only a single character from a string.
+ * ```ahk
+ * getChar := bee.partial(SubStr, bee, bee, 1)
+ * getChar("abc", 2) ; => "b"
+ * ```
+ * @param {callable} callable
+ * @param {any[]} boundParams* - Arguments to bind. Acts as a placeholder if a [bee] object is passed. It will be replaced by the arguments passed at call time.
+ * @return {BoundFunc}
+ */
+static partial(callable, boundParams*) {
+  return Call.bind(callable, boundParams)
+
+  Call(callable, boundParams, params*) {
+    filledPlaceHolder := FillPlaceHolder(boundParams, params)
+    return callable(filledPlaceHolder*)
+  }
+  FillPlaceHolder(boundParams, params) {
+    filledParams := []
+    pos := 1
+
+    for i, boundParam in boundParams {
+      if (boundParam == bee && params.has(pos)) {
+        filledParams.push(params[pos++])
+        continue
+      }
+      filledParams.push(boundParam)
+    }
+    while (pos <= params.length) {
+      filledParams.push(params[pos++])
+    }
+    return filledParams
+  }
+}

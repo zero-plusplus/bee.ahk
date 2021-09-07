@@ -1,0 +1,12 @@
+﻿#Include ..\common.ahk2
+
+class UtilTest {
+  testBoundFunc(assert) {
+    getChar := bee.partial(SubStr, bee, bee, 1)
+    assert.equals(getChar("abc", 1), "a")
+    assert.equals(getChar("abc", 2), "b")
+    assert.equals(getChar("abc", 3), "c")
+
+    assert.ok(getChar is BoundFunc)
+  }
+}

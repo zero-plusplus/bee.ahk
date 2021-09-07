@@ -1,0 +1,3 @@
+﻿class util {
+  #Include .partial.ahk2
+}
