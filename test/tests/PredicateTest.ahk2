@@ -1,0 +1,10 @@
+#Include ..\common.ahk2
+
+class PredicateTest {
+  testStartsWith(assert) {
+    assert.ok(bee.Predicate.startsWith("abcdefg", "abc"))
+
+    startsWithAbc := bee.Predicate.startsWith("abc")
+    assert.ok(startsWithAbc("abcdefg"))
+  }
+}

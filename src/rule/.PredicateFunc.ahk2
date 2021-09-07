@@ -1,0 +1,12 @@
+﻿class PredicateFunc {
+  static call(params*) {
+    maxParams := this.behavior.maxParams - 1
+    if (maxParams <= params.length) {
+      return this.behavior(params*)
+    }
+    if (params.length < maxParams) {
+      params.insertAt(1, bee)
+    }
+    return bee.curry(ObjBindMethod(this, "behavior"), maxParams)(params*)
+  }
+}
