@@ -1,0 +1,9 @@
+﻿#SingleInstance Force
+#Warn All, StdOut
+#Include ..\node_modules\experimental-autohotkey-testframework\external\SuppressErrorDialog.ahk2
+#Include ..\node_modules\experimental-autohotkey-testframework\src\UnitTest\UnitTest.ahk2
+#Include ..\build\bee.ahk2
+
+class BundledAllTest {
+  #Include tests\include.ahk2
+}

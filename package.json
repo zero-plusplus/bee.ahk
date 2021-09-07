@@ -13,9 +13,18 @@
   "license": "MIT",
   "author": "zero-plusplus",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx gulp build",
+    "watch": "npx gulp watch"
   },
   "devDependencies": {
-    "experimental-autohotkey-testframework": "github:zero-plusplus/experimental-autohotkey-testframework#develop"
+    "@types/del": "^4.0.0",
+    "@types/gulp": "^4.0.9",
+    "@types/mkdirp": "^1.0.2",
+    "@zero-plusplus/eslint-my-rules": "^1.0.30",
+    "experimental-autohotkey-testframework": "github:zero-plusplus/experimental-autohotkey-testframework#develop",
+    "gulp": "^4.0.2",
+    "mkdirp": "^1.0.4",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^10.2.1"
   }
 }

@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "subtask:build",
+			"detail": "npx gulp build",
+			"type": "npm",
+			"script": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+		},
+		{
+			"label": "subtask:watch",
+			"type": "shell",
+			"isBackground": true,
+			"command": "npm run watch",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				{
+					"owner": "gulp",
+					"pattern": {
+						"regexp": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] '.+' errored after \\d+(\\.\\d+)? (s|ms|μs)\\s*$",
+						// "file": 1,
+						// "line": 2,
+						// "column": 3,
+						// "severity": 4,
+						// "message": 5,
+					},
+					"background": {
+					  "activeOnStart": true,
+					  "beginsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] Starting 'taskStart'\\.\\.\\.\\s*$",
+					  "endsPattern": "^\\s*\\[\\d{1,2}:\\d{1,2}:\\d{1,2}\\] Finished 'taskDone' after \\d+(\\.\\d+)? (s|ms|μs)\\s*$"
+					}
+				},
+			]
+		},
+	]
+}

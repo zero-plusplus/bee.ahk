@@ -1,5 +1,5 @@
 ﻿#Include common.ahk2
 
 class AllTest {
-  #Include tests\StringTest.ahk2
+  #Include tests\include.ahk2
 }

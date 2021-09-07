@@ -10,10 +10,11 @@
       "useAutoJumpToError": true,
       "useDebugDirective": true,
       "usePerfTips": true,
-      "openFileOnExit": "${file}"
+      "openFileOnExit": "${file}",
+      "preLaunchTask": "subtask:watch",
     },
     {
-      "name": "AutoHotkey AllTest.ahk2 Debug",
+      "name": "AutoHotkey Debug:AllTest.ahk2",
       "type": "autohotkey",
       "request": "launch",
       "program": "${workspaceFolder}/test/AllTest.ahk2",
@@ -21,7 +22,37 @@
       "useAutoJumpToError": true,
       "useDebugDirective": true,
       "usePerfTips": true,
-      "openFileOnExit": "${file}"
-    }
+      "openFileOnExit": "${file}",
+      "preLaunchTask": "subtask:watch",
+    },
+    {
+      "name": "AutoHotkey Debug:BundledAllTest.ahk2",
+      "type": "autohotkey",
+      "request": "launch",
+      "program": "${workspaceFolder}/test/BundledAllTest.ahk2",
+      "args": [],
+      "useAutoJumpToError": true,
+      "useDebugDirective": true,
+      "usePerfTips": true,
+      "openFileOnExit": "${file}",
+      "preLaunchTask": "subtask:watch",
+    },
+    {
+      "name": "Gulp Debug:build",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+      "args": [
+          "build"
+      ],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+          "${workspaceFolder}/**",
+          "!**/node_modules/**"
+      ],
+      "skipFiles": [
+          "<node_internals>/**"
+      ]
+    },
   ]
 }
