@@ -1,6 +1,20 @@
 ﻿#Requires AutoHotkey v2.0-beta.1
 
-class bee extends bee.util {
+class bee {
+  static __CALL(key, params) {
+    for i, cls in [ bee.util, bee.Predicate ] {
+      if (cls.hasProp(key)) {
+        return cls.%key%(params*)
+      }
+    }
+  }
+  static __GET(key, *) {
+    for i, cls in [ bee.Predicate ] {
+      if (cls.hasProp(key)) {
+        return cls.%key%
+      }
+    }
+  }
   #Include .Predicate.ahk2
   #Include .String.ahk2
 

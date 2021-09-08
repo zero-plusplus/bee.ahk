@@ -2,21 +2,21 @@
 
 class PredicateTest {
   testAll(assert) {
-    assert.ok(bee.Predicate.all("abc", [ bee.Predicate.startsWith ]))
+    assert.ok(bee.all("abc", [ bee.Predicate.startsWith ]))
   }
   testIsObject(assert) {
-    assert.ok(bee.Predicate.isObject()({}))
-    assert.ok(bee.Predicate.isObject({}))
+    assert.ok(bee.isObject()({}))
+    assert.ok(bee.isObject({}))
   }
   testStartsWith(assert) {
-    assert.ok(bee.Predicate.startsWith("abcdefg", "abc"))
+    assert.ok(bee.startsWith("abcdefg", "abc"))
 
-    startsWithAbc := bee.Predicate.startsWith("abc")
+    startsWithAbc := bee.startsWith("abc")
     assert.ok(startsWithAbc("abcdefg"))
   }
   class AllTest {
     testAllIsObject(assert) {
-      assert.ok(bee.Predicate.all.isObject([ {}, [] ]))
+      assert.ok(bee.all.isObject([ {}, [] ]))
     }
   }
 }
