@@ -1,0 +1,14 @@
+﻿/**
+ * Determines if the string starts with `prefix` or not.
+ * @param {string} str
+ * @param {string} prefix
+ * @return {boolean}
+ */
+class startsWith extends bee.rule.PredicateFunc {
+  static behavior(str, prefix) {
+    str_prefix := SubStr(str, 1, StrLen(prefix))
+
+    result := str_prefix == prefix
+    return result
+  }
+}

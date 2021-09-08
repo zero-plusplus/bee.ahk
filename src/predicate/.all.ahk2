@@ -1,0 +1,35 @@
+﻿/**
+ * Determine if the target passes all tests.
+ * @method all
+ * @param {any} string
+ * @param {(params*) => boolean} predicates
+ * @return {boolean}
+ */
+/**
+ * It is another variation of the predicate that determines whether or not all targets pass a single test.
+ * It has all the static methods that `bee.Predicate` has.
+ *
+ * Note that the first argument takes an array.
+ */
+class all extends bee.rule.PredicateVariation {
+  static behavior(target, predicates) {
+    for i, predicate in predicates {
+      if (predicate(target) == false) {
+        return false
+      }
+    }
+    return true
+  }
+  static wrapper(predicate, targets, params*) {
+    if (!(targets is Array) || targets.length == 0) {
+      return false
+    }
+
+    for i, target in targets {
+      if (!predicate(target, params*)) {
+        return false
+      }
+    }
+    return true
+  }
+}

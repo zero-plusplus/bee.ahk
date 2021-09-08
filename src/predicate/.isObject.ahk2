@@ -1,0 +1,13 @@
+﻿/**
+ * Determines whether the object is an object or not.
+ *
+ * Synonymous with [IsObject](https://lexikos.github.io/v2/docs/commands/IsObject.htm), , except that it is curryable.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isObject extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return IsObject(value)
+  }
+}
