@@ -1,4 +1,4 @@
-class Primitive {
+﻿class Primitive {
   /**
    * @readonly
    * @type {primitive}
@@ -18,5 +18,23 @@ class Primitive {
       throw TypeError("#1 Must be a primitive value.", -1)
     }
     this._value := primitive
+  }
+  /**
+   * **Note: This method has a side effect: once executed, it will continue to affect the script until it is terminated.**
+   * **Therefore, it should not be used in scripts that are used by many people, such as libraries.**
+   *
+   * Add own method to the primitive value as follows.
+   * ```ahk
+   * bee.String.extendNative()
+   * "abc".length ; => 3
+   * ```
+   */
+  static extendNative() {
+    for key in this.ownProps() {
+      f := this.%key%
+      if (f is Func && !bee.startsWith(key, "__")) {
+        "".base.%key% := ObjBindMethod(this, key)
+      }
+    }
   }
 }

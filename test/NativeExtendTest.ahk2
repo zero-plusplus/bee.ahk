@@ -1,0 +1,10 @@
+﻿#Include common.ahk2
+
+class NativeExtendTest {
+  start() {
+    bee.String.extendNative()
+  }
+  testLength(assert) {
+    assert.equals("abc".length, 3)
+  }
+}
