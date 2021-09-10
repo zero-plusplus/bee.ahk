@@ -5,10 +5,4 @@
    * @return {number}
    */
   static length(str) => StrLen(str)
-  /**
-   * Gets the length of a string.
-   * @param {string} str
-   * @return {number}
-   */
-  length() => bee.String.length(this.value)
 }

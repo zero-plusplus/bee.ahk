@@ -11,7 +11,7 @@ class StringTest {
       assert.equals(bee.String("abc").value, "abc")
     }
     testLength(assert) {
-      assert.equals(bee.String("abc").length(), 3)
+      assert.equals(bee.String("abc").length, 3)
     }
   }
 }

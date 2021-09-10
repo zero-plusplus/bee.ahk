@@ -1,4 +1,15 @@
-﻿class Primitive {
+class Primitive {
+  /**
+   * @readonly
+   * @type {primitive}
+   */
+  _value := ""
+  value => this._value
+  /**
+   * @readonly
+   * @type {number}
+   */
+  length => StrLen(this.value)
   /**
    * @praam {primitive} primitive
    */
@@ -8,5 +19,4 @@
     }
     this._value := primitive
   }
-  value => this._value
 }
