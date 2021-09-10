@@ -4,6 +4,11 @@ class PredicateTest {
   testAll(assert) {
     assert.ok(bee.all("abc", [ bee.Predicate.startsWith ]))
   }
+  testIs(assert) {
+    str := bee.String("")
+    assert.ok(bee.is(str, bee.String))
+    assert.ok(bee.is(str, bee.rule.Primitive))
+  }
   testIsObject(assert) {
     assert.ok(bee.isObject()({}))
     assert.ok(bee.isObject({}))

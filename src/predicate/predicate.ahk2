@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Predicate is collection of static methods that return test results as a boolean.
  * Each method receives the target to be inspected as its first argument, and the second and subsequent arguments receive supplementary data necessary for the inspection.
  *
@@ -27,6 +27,7 @@
  */
 class predicate {
   #Include %A_LineFile%\..\.all.ahk2
+  #Include %A_LineFile%\..\.is.ahk2
   #Include %A_LineFile%\..\.isObject.ahk2
   #Include %A_LineFile%\..\.startsWith.ahk2
 }

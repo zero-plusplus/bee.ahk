@@ -1,0 +1,11 @@
+﻿/**
+ * @method
+ * @param {any} target
+ * @return {boolean}
+ */
+static is := (this, params*) => bee.Predicate._is_(params*)
+class _is_ extends bee.rule.PredicateFunc {
+  static behavior(value, ancestor) {
+    return value is ancestor
+  }
+}
