@@ -1,0 +1,14 @@
+﻿/**
+ * Get the property.
+ * This method absorbs the syntax differences between object types.
+ * @template T
+ * @param {object<any, T>} obj
+ * @param {any} key
+ * @return {T}
+ */
+static getProp(obj, key) {
+  if (obj is Array || obj is Map) {
+    return obj[key]
+  }
+  return obj.%key%
+}

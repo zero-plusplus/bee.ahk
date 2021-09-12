@@ -14,6 +14,11 @@ class UtilTest {
     assert.equals(curried3(1), "a")
     assert.equals(curried1("abc", 1, 1), "a")
   }
+  testGetProp(assert) {
+    assert.equals(bee.getProp({ key: "value" }, "key"), "value")
+    assert.equals(bee.getProp(Map("key", "value"), "key"), "value")
+    assert.equals(bee.getProp([ "value" ], 1), "value")
+  }
   testPartial(assert) {
     getChar := bee.partial(SubStr, bee, bee, 1)
     assert.equals(getChar("abc", 1), "a")
