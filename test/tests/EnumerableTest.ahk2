@@ -71,6 +71,9 @@ class EnumerableTest {
       this.array := ""
       this.map := ""
     }
+    testChars(assert) {
+      assert.deepEquals(bee.Enumerable.chars("abc").toArray(), [ { key: 1, value: "a" }, { key: 2, value: "b" }, { key: 3, value: "c" }])
+    }
     testCombination(assert) {
       assert.deepEquals(bee.Enumerable.ownKeys(this.object).where((value, key, *) => key == 2).toArray(), [ { key: 2, value: "key2" }])
       assert.deepEquals(bee.Enumerable.ownKeys(this.array).where((value, key, *) => key == 2).toArray(), [ { key: 2, value: 2 }])

@@ -11,6 +11,26 @@ class Enumerable {
     return this.toEnumeratorLike()
   }
   /**
+   * Converts a string to a bee.Enumerable that enumerates each character.
+   * @method
+   */
+  class chars extends bee.rule.EnumerableFunc {
+    _init() {
+      this.data := bee.isString(this.data) ? this.data : ""
+      this.current := 1
+    }
+    _next(&key, &value := unset) {
+      if (StrLen(this.data) < this.current) {
+        return false
+      }
+
+      key := this.current
+      value := SubStr(this.data, this.current, 1)
+      this.current++
+      return true
+    }
+  }
+  /**
    * Returns own keys for a `data`.
    * @param {any} data
    * @return {bee.Enumerable}
@@ -165,6 +185,9 @@ class Enumerable {
     }
 
     if (value is bee.Enumerable) {
+      if (bee.isPrimitive(value.data)) {
+        return value
+      }
       if (value.data is bee.Enumerable) {
         return value.data.__Enum(2)
       }
