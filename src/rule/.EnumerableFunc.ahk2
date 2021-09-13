@@ -10,7 +10,6 @@
     this.args := params
   }
   __Enum(numberOfVars) {
-    ; @Debug-Output => {this.__class}
     this._init()
     this.enumerator := this.toEnumeratorLike()
     return Enum.bind(this)
