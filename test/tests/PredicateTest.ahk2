@@ -19,6 +19,14 @@ class PredicateTest {
     assert.ok(bee.isBoolean(1))
     assert.ok(bee.isBoolean(0))
   }
+  testIsFalsy(assert) {
+    assert.Ok(bee.isFalsy(false))
+    assert.Ok(bee.isFalsy(""))
+    assert.Ok(bee.isFalsy(0))
+    assert.notok(bee.isFalsy("a"))
+    assert.notok(bee.isFalsy(true))
+    assert.notok(bee.isFalsy(123))
+  }
   testIsNumber(assert) {
     assert.ok(bee.isNumber(1))
     assert.ok(bee.isNumber(-1))

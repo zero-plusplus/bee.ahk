@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an falsy value or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isFalsy extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return !!value == false
+  }
+}
