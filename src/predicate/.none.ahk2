@@ -1,0 +1,21 @@
+﻿/**
+ * Determine if the target failures all tests.
+ * @method none
+ * @param {any} string
+ * @param {(params*) => boolean} predicates
+ * @return {boolean}
+ */
+/**
+ * This is another variation of predicate, which determines if none of several targets will pass the test.
+ * This has all the static methods that `bee.Predicate` has.
+ *
+ * Note that the first argument takes an array.
+ */
+class none extends bee.rule.PredicateVariation {
+  static behavior(params*) {
+    return !bee.predicate.any.behavior(params*)
+  }
+  static wrapper(params*) {
+    return !bee.predicate.any.wrapper(params*)
+  }
+}
