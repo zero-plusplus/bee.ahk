@@ -1,0 +1,15 @@
+﻿/**
+ * Get the property. If it can' t be got, it returns the `default`.
+ * This method absorbs the syntax differences between object types.
+ * @template T
+ * @param {object<any, T>} obj
+ * @param {any} key
+ * @param {any} [default := ""]
+ * @return {T | any}
+ */
+static tryGetProp(obj, key, default := "") {
+  try {
+    return this.getProp(obj, key)
+  }
+  return default
+}
