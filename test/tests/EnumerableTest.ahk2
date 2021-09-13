@@ -1,6 +1,9 @@
 #Include ..\common.ahk2
 
 class EnumerableTest {
+  testShortHund(assert) {
+    assert.ok(bee.query([ "value" ]).toEnumeratorLike is Enumerator)
+  }
   class InstanceTest {
     startEach() {
       this.object := { key: "value" }

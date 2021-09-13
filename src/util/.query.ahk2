@@ -1,0 +1,8 @@
+﻿/**
+ * Short hand for `bee.Enumerable`
+ * @param {any} data
+ * @return {bee.Enumerable}
+ */
+static query(data) {
+  return bee.Enumerable(data)
+}

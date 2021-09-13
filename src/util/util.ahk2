@@ -2,4 +2,5 @@
   #Include .curry.ahk2
   #Include .getProp.ahk2
   #Include .partial.ahk2
+  #Include .query.ahk2
 }
