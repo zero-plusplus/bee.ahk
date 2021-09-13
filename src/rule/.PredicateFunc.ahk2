@@ -2,7 +2,10 @@
   static call(params*) {
     maxParams := this.behavior.maxParams - 1
     if (maxParams <= params.length) {
-      return this.behavior(params*)
+      try {
+        return this.behavior(params*)
+      }
+      return false
     }
     if (params.length < maxParams) {
       params.insertAt(1, bee)
