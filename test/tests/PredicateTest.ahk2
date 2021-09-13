@@ -13,6 +13,11 @@ class PredicateTest {
     assert.ok(bee.isObject()({}))
     assert.ok(bee.isObject({}))
   }
+  testIsString(assert) {
+    assert.ok(bee.isString(""))
+    assert.notOk(bee.isString(1))
+    assert.notOk(bee.isString({}))
+  }
   testStartsWith(assert) {
     assert.ok(bee.startsWith("abcdefg", "abc"))
 
