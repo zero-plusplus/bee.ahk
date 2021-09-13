@@ -10,9 +10,6 @@
  * This has all the static methods that `bee.Predicate` has.
  *
  * Note that the first argument takes an array.
- * @param {any[]} targets
- * @param {(value) => boolean)} predicate
- * @return {boolean}
  */
 class any extends bee.rule.PredicateVariation {
   static behavior(target, predicates) {
