@@ -1,0 +1,11 @@
+﻿/**
+ * Determines if the two values are equivalent.
+ * @param {any} a
+ * @param {any} b
+ * @return {boolean}
+ */
+class equals extends bee.rule.PredicateFunc {
+  static behavior(a, b) {
+    return a == b
+  }
+}

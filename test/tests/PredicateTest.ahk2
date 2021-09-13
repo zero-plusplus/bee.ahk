@@ -8,6 +8,11 @@ class PredicateTest {
   testAny(assert) {
     assert.ok(bee.any("abc", [ bee.Predicate.startsWith("a"), bee.Predicate.startsWith("b") ]))
   }
+  testEquals(assert) {
+    assert.ok(bee.equals("a", "a"))
+    assert.notOk(bee.equals("a", "A"))
+    assert.notOk(bee.equals({}, {}))
+  }
   testIs(assert) {
     str := bee.String("")
     assert.ok(bee.is(str, bee.String))
