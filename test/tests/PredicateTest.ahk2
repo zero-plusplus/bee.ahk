@@ -29,6 +29,14 @@ class PredicateTest {
     assert.ok(bee.isBoolean(1))
     assert.ok(bee.isBoolean(0))
   }
+  testIsDigit(assert) {
+    assert.ok(bee.isDigit(0))
+    assert.ok(bee.isDigit(5))
+    assert.ok(bee.isDigit(9))
+    assert.notOk(bee.isDigit(10))
+    assert.notOk(bee.isDigit("1"))
+    assert.notOk(bee.isDigit({}))
+  }
   testIsFalsy(assert) {
     assert.Ok(bee.isFalsy(false))
     assert.Ok(bee.isFalsy(""))
