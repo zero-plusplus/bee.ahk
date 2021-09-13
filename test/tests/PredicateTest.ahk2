@@ -22,6 +22,9 @@ class PredicateTest {
     assert.notOk(bee.isString(1))
     assert.notOk(bee.isString({}))
   }
+  testNot(assert) {
+    assert.ok(bee.not(bee.isString(), {}))
+  }
   testStartsWith(assert) {
     assert.ok(bee.startsWith("abcdefg", "abc"))
 
@@ -36,6 +39,12 @@ class PredicateTest {
   class AnyTest {
     testAnyIsObject(assert) {
       assert.ok(bee.any.isObject([ {}, [], "" ]))
+    }
+  }
+  class NotTest {
+    testNotIsObject(assert) {
+      assert.ok(bee.not.isObject(""))
+      assert.notOk(bee.not.isObject({}))
     }
   }
 }

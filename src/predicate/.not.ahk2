@@ -1,0 +1,22 @@
+﻿
+/**
+ * Call the received `predicate` and return the result inverted.
+ * @method not
+ * @param {(params*) => boolean} predicate
+ * @param {any[]} params*
+ * @return {boolean}
+ */
+static not := { base: bee.predicate._not_, call: (dummyThis, this, params*) => bee.predicate._not_(params*) }
+/**
+ * This is another variation of the predicate that inverts the test result.
+ * This has all the static methods that `bee.Predicate` has.
+ * @class not
+ */
+class _not_ extends bee.rule.PredicateVariation {
+  static behavior(predicate, params*) {
+    return !predicate(params*)
+  }
+  static wrapper(predicate, target, params*) {
+    return !predicate(target, params*)
+  }
+}
