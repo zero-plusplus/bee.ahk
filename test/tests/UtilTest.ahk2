@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class UtilTest {
   testCurry(assert) {
@@ -33,6 +33,13 @@ class UtilTest {
     assert.equals(bee.toBoolean(1), true)
     assert.equals(bee.toBoolean(0), false)
     assert.equals(bee.toBoolean({}), true)
+  }
+  testToNumber(assert) {
+    assert.equals(bee.toNumber("1"), 1)
+    assert.equals(bee.toNumber("0x123"), 0x123)
+    assert.equals(bee.toNumber("123e+5"), 123e+5)
+    assert.equals(bee.toNumber("abc"), "")
+    assert.equals(bee.toNumber({}), "")
   }
   testTryGetProp(assert) {
     assert.equals(bee.tryGetProp({ key: "value" }, "unknown", "default"), "default")

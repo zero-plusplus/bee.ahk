@@ -1,0 +1,11 @@
+﻿/**
+ * Convert `value` to a number. If the conversion fails, it returns an blank.
+ * @param {any} value
+ * @return {number | ""}
+ * @throws
+ */
+static toNumber(value) {
+  try {
+    return Number(value)
+  }
+}
