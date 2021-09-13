@@ -48,7 +48,7 @@ class UtilTest {
   }
   testWalk(assert) {
     keys := []
-    bee.walk({ a: { b: { c: { d: "" }, e: "" }, f: "" }, g: "" }, (pair) => keys.push(pair.key))
+    bee.walk({ a: { b: { c: { d: "" }, e: "" }, f: "" }, g: "" }, (value, key, *) => keys.push(key))
     assert.deepEquals(keys, [ "a", "b", "c", "d", "e", "f", "g"])
   }
 }

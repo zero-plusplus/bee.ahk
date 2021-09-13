@@ -4,10 +4,10 @@
  * @param {(pair: { key: any; value: any }) => void}
  */
 static walk(target, callback) {
-  for i, pair in bee.query(target).toArray() {
-    callback(pair)
-    if (bee.isObject(pair.value)) {
-      bee.walk(pair.value, callback)
+  for key, value in bee.Enumerable.toEnumeratorLike(target) {
+    callback(value, key, target)
+    if (bee.isObject(value)) {
+      bee.walk(value, callback)
       continue
     }
   }
