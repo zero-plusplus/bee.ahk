@@ -1,0 +1,18 @@
+﻿#Include ..\common.ahk2
+
+class JsonTest {
+  testArray(assert) {
+    assert.deepEquals(bee.Json.parse('"abc"'), "abc")
+    assert.deepEquals(bee.Json.parse('"\r\n"'), "`r`n")
+    assert.deepEquals(bee.Json.parse('"123"'), "123")
+    assert.deepEquals(bee.Json.parse('123'), 123)
+    assert.deepEquals(bee.Json.parse('123.456'), 123.456)
+    assert.deepEquals(bee.Json.parse('true'), true)
+    assert.deepEquals(bee.Json.parse('false'), false)
+    assert.deepEquals(bee.Json.parse('null'), bee.Json.null)
+    assert.deepEquals(bee.Json.parse('"\u3042\u3044\u3046\u3048\u304a"'), "あいうえお")
+    assert.deepEquals(bee.Json.parse("[ 1, [ 2,3 ] ]"), [ 1, [ 2, 3 ] ])
+    assert.deepEquals(bee.Json.parse('{ "a": { "b": { "c": "" } } }'), { a: { b: { c: "" } } })
+    assert.deepEquals(bee.Json.parse('{ "a": "value", "b": { "c": "value2" } }', (value, key, source) => (source.%key% := "")), { a: "", b: "" } )
+  }
+}

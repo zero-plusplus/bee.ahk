@@ -1,0 +1,230 @@
+﻿class Json {
+  ;; @type {object}
+  static null {
+    get {
+      static null := {}
+      return null
+    }
+  }
+  /**
+   * Parses a JSON string and converts it into an AutoHotkey object.
+   * @param {string} jsonString
+   * @param {(value, key, source) => void} converter?
+   * @return {Object}
+   */
+  class parse {
+    static doubleQuote := Chr(34)
+    static escapeMap := Map(
+      Chr(34), Chr(34),
+      "\", "\\",
+      "/", "/",
+      "b", "b",
+      "f", "`f",
+      "n", "`n",
+      "r", "`r",
+      "t", "`t" ,
+    )
+
+    static call(jsonString, converter := "") {
+      context := { source: jsonString, current: 0, char: " " }
+      result := this.value(context)
+      this.whitespace(context)
+      if (context.char != "") {
+          this.error(context, "Syntax error.")
+      }
+
+      if (converter) {
+        bee.walk(result, converter)
+      }
+      return result
+    }
+    static advance(context, expectedChar := "") {
+      if (expectedChar && expectedChar != context.char) {
+        errorMessage := Format('"{}" instead of "{}".', expectedChar, context.char, context.current)
+        this.error(context, errorMessage)
+      }
+
+      currentChar := context.char
+      context.current++
+      context.char := SubStr(context.source, context.current, 1)
+      return currentChar
+    }
+    static whileAdvance(context, predicate) {
+      advancedChars := ""
+      while (predicate(context)) {
+        advancedChars .= context.char
+        this.advance(context)
+      }
+      return advancedChars
+    }
+    static hasNext(context) {
+      return context.current <= StrLen(context.source)
+    }
+    static error(context, message) {
+      extraMessage := Format('index: {}, char: "{}"', context.current, context.char)
+      throw Error(message, -1, extraMessage)
+    }
+    static value(context) {
+      this.whitespace(context)
+      if (context.char == "{") {
+        return this.object(context)
+      }
+      else if (context.char == "[") {
+        return this.array(context)
+      }
+      else if (context.char == '"') {
+        str := this.string(context)
+        return str
+      }
+      else if (context.char == "-") {
+        return this.number(context)
+      }
+
+      if (bee.isNumberLike(context.char) == true && bee.isDigitLike(context.char)) {
+        return this.number(context)
+      }
+      return this.word(context)
+    }
+    static whitespace(context) {
+      while (true) {
+        if (bee.any.equals([" ", "`t", "`n", "`r`n"], context.char)) {
+          this.advance(context)
+          continue
+        }
+        break
+      }
+    }
+    static word(context) {
+      if (context.char == "t") {
+        this.advance(context, "t")
+        this.advance(context, "r")
+        this.advance(context, "u")
+        this.advance(context, "e")
+        return true
+      }
+      else if (context.char == "f") {
+        this.advance(context, "f")
+        this.advance(context, "a")
+        this.advance(context, "l")
+        this.advance(context, "s")
+        this.advance(context, "e")
+        return false
+      }
+      else if (context.char == "n") {
+        this.advance(context, "n")
+        this.advance(context, "u")
+        this.advance(context, "l")
+        this.advance(context, "l")
+        return bee.Json.null
+      }
+      this.error(context, "Unexpected " . context.char . "")
+    }
+    static string(context) {
+      str := ""
+      if (context.char == '"') {
+        this.advance(context)
+        while (this.hasNext(context)) {
+          if (context.char == '"') {
+            this.advance(context)
+            return str
+          }
+          else if (context.char == "\") {
+            this.advance(context)
+            if (context.char == "u") {
+              this.advance(context)
+
+              ufff := 0
+              Loop 4 {
+                hex := Format("{:i}", "0x" . this.advance(context))
+                ufff := ufff * 16 + hex
+              }
+              str .= Chr(Format("{:i}", ufff))
+              continue
+            }
+            else if (this.escapeMap.has(context.char)) {
+              str .= this.escapeMap[context.char]
+              this.advance(context)
+              continue
+            }
+            break
+          }
+          else {
+            str .= this.advance(context)
+          }
+        }
+      }
+      this.error(context, "String parsing failed.")
+    }
+    static int(context) {
+      return this.whileAdvance(context, (context) => bee.isDigitLike(context.char))
+    }
+    static number(context) {
+      num := ""
+      if (context.char == "-") {
+        num := "-"
+        this.advance(context, "-")
+      }
+      num .= this.int(context)
+
+      if (context.char == ".") {
+        num .= this.advance(context, ".")
+        num .= this.int(context)
+      }
+
+      num := bee.toNumber(num)
+      if (bee.isNumber(num)) {
+        return num
+      }
+      this.error(context, "Number parsing failed.")
+    }
+    static object(context) {
+      obj := {}
+      if (context.char == "{") {
+        this.advance(context, "{")
+        this.whitespace(context)
+        if (context.char == "}") {
+            this.advance(context, "}")
+            return object
+        }
+
+        while (context.char != "") {
+          key := this.string(context)
+          this.whitespace(context)
+          this.advance(context, ":")
+          obj.%key% := this.value(context)
+          this.whitespace(context)
+          if (context.char == "}") {
+            this.advance(context, "}")
+            return obj
+          }
+          this.advance(context, ",")
+          this.whitespace(context)
+        }
+      }
+      this.error(context, "Object parsing failed.")
+    }
+    static array(context) {
+      arr := []
+      if (context.char == "[") {
+        this.advance(context, "[")
+        this.whitespace(context)
+        if (context.char == "]") {
+          this.advance(context, "]")
+          return arr
+        }
+
+        while (context.char != "") {
+          arr.push(this.value(context))
+          this.whitespace(context)
+          if (context.char == "]") {
+              this.advance(context, "]")
+              return arr
+          }
+          this.advance(context, ",")
+          this.whitespace(context)
+        }
+      }
+      this.error(context, "Array parsing failed.")
+    }
+  }
+}
