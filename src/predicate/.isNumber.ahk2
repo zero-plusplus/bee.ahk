@@ -1,0 +1,11 @@
+/**
+ * Determines whether the `value` is an number or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isNumber extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return value is Number
+  }
+}
