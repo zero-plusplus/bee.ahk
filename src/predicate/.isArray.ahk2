@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an array or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isArray extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return value is Array
+  }
+}
