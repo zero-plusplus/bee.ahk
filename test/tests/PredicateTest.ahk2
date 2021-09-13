@@ -1,8 +1,10 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class PredicateTest {
   testAll(assert) {
-    assert.ok(bee.all("abc", [ bee.Predicate.startsWith ]))
+    assert.ok(bee.all("abc", [ bee.Predicate.startsWith("a") ]))
+    assert.notOk(bee.all("abc", [ bee.Predicate.startsWith("a"), bee.Predicate.startsWith("b") ]))
+  }
   }
   testIs(assert) {
     str := bee.String("")
