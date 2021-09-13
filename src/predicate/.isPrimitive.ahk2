@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an primitive or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isPrimitive extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return !IsObject(value)
+  }
+}

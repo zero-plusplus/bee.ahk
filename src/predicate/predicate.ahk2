@@ -32,6 +32,7 @@ class predicate {
   #Include %A_LineFile%\..\.isNumber.ahk2
   #Include %A_LineFile%\..\.isNumberLike.ahk2
   #Include %A_LineFile%\..\.isObject.ahk2
+  #Include %A_LineFile%\..\.isPrimitive.ahk2
   #Include %A_LineFile%\..\.isString.ahk2
   #Include %A_LineFile%\..\.not.ahk2
   #Include %A_LineFile%\..\.none.ahk2

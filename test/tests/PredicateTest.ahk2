@@ -32,6 +32,11 @@ class PredicateTest {
     assert.ok(bee.isObject()({}))
     assert.ok(bee.isObject({}))
   }
+  testIsPrimitive(assert) {
+    assert.ok(bee.isPrimitive("abc"))
+    assert.ok(bee.isPrimitive(123))
+    assert.notOk(bee.isPrimitive({}))
+  }
   testIsString(assert) {
     assert.ok(bee.isString(""))
     assert.notOk(bee.isString(1))
