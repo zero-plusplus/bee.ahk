@@ -1,0 +1,38 @@
+﻿/**
+ * Determine if the target passes any tests.
+ * @method any
+ * @param {any} string
+ * @param {(params*) => boolean} predicates
+ * @return {boolean}
+ */
+/**
+ * This is another variation of predicate, which determines if any one of several targets will pass the test.
+ * This has all the static methods that `bee.Predicate` has.
+ *
+ * Note that the first argument takes an array.
+ * @param {any[]} targets
+ * @param {(value) => boolean)} predicate
+ * @return {boolean}
+ */
+class any extends bee.rule.PredicateVariation {
+  static behavior(target, predicates) {
+    for i, predicate in predicates {
+      if (predicate(target) == true) {
+        return true
+      }
+    }
+    return false
+  }
+  static wrapper(predicate, targets, params*) {
+    if (!(targets is Array) || targets.length == 0) {
+      return false
+    }
+
+    for i, target in targets {
+      if (predicate(target, params*)) {
+        return true
+      }
+    }
+    return false
+  }
+}

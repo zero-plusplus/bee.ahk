@@ -27,6 +27,7 @@
  */
 class predicate {
   #Include %A_LineFile%\..\.all.ahk2
+  #Include %A_LineFile%\..\.any.ahk2
   #Include %A_LineFile%\..\.is.ahk2
   #Include %A_LineFile%\..\.isObject.ahk2
   #Include %A_LineFile%\..\.isString.ahk2
