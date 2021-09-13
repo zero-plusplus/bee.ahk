@@ -1,4 +1,4 @@
-﻿class String extends bee.rule.Primitive{
+﻿class String extends bee.rule.Primitive {
   /**
    * Gets the length of the specified string.
    * @param {string} str
