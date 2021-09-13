@@ -1,0 +1,197 @@
+class Enumerable {
+  ;; @type {object}
+  data := ""
+  /**
+   * @param {any} data
+   */
+  __New(data) {
+    this.data := data
+  }
+  __Enum(*) {
+    return this.toEnumeratorLike()
+  }
+  /**
+   * Returns own keys for a `data`.
+   * @param {any} data
+   * @return {bee.Enumerable}
+   */
+  class ownKeys extends bee.rule.EnumerableFunc {
+    _init() {
+      this.count := 1
+    }
+    _next(&key, &value := unset) {
+      hasNext := this.enumerator.call(&_key, &_value)
+      if (!hasNext) {
+        return false
+      }
+      key := this.count++
+      value := _key
+      return true
+    }
+  }
+  /**
+   * Returns own keys.
+   * @return {bee.Enumerable}
+   */
+  ownKeys() {
+    return bee.Enumerable.ownKeys(this)
+  }
+  /**
+   * Returns own values for a `data`.
+   * @param {any} data
+   * @return {bee.Enumerable}
+   */
+  class ownValues extends bee.rule.EnumerableFunc {
+    _init() {
+      this.count := 1
+    }
+    _next(&key, &value := unset) {
+      hasNext := this.enumerator.call(&_key, &_value)
+      if (!hasNext) {
+        return false
+      }
+      key := this.count++
+      value := _value
+      return true
+    }
+  }
+  /**
+   * Returns own values.
+   * @return {bee.Enumerable}
+   */
+  ownValues() {
+    return bee.Enumerable.ownValues(this)
+  }
+  /**
+   * Convert to an `Array` of objects with key and value fields.
+   * @param {bee.Enumerable}
+   */
+  class toArray extends bee.rule.EnumerableConverter {
+    static behavior(enumerator) {
+      arr := []
+      for key, value in enumerator {
+        arr.push({ key: key, value: value })
+      }
+      return arr
+    }
+  }
+  /**
+   * Convert to an `Array` of objects with key and value fields.
+   */
+  toArray() {
+    return bee.Enumerable.toArray(this)
+  }
+  /**
+   * Convert to `Map`.
+   * @param {any} data
+   * @return {Map}
+   */
+  class toMap extends bee.rule.EnumerableConverter {
+    static behavior(enumerator) {
+      _map := Map()
+      for key, value in enumerator {
+        _map[key] := value
+      }
+      return _map
+    }
+  }
+  /**
+   * Convert to `Map`.
+   * @return {Map}
+   */
+  toMap() {
+    return bee.Enumerable.toMap(this)
+  }
+  /**
+   * Convert to `Object`.
+   * @param {any} data
+   * @return {object}
+   */
+  class toObject extends bee.rule.EnumerableConverter {
+    static behavior(enumerator) {
+      obj := {}
+      for key, value in enumerator {
+        obj.%key% := value
+      }
+      return obj
+    }
+  }
+  /**
+   * Convert to `Object`.
+   * @return {object}
+   */
+  toObject() {
+    return bee.Enumerable.toObject(this)
+  }
+  /**
+   * Returns all elements for which the `predicate` returns `true`.
+   * @method
+   * @param {any} value
+   * @param {(value, key, enumerable) => boolean} predicate
+   */
+  class where extends bee.rule.EnumerableFunc {
+    _init() {
+      this.predicate := this.params[1]
+    }
+    _next(&key, &value) {
+      while (this.enumerator.call(&_key, &_value)) {
+        if (this.predicate.call(_value, _key, this)) {
+          key := _key
+          value := _value
+          return true
+        }
+      }
+      return false
+    }
+  }
+  /**
+   * Returns all elements for which the `predicate` returns `true`.
+   * @param {(value, key, enumerable) => boolean} predicate
+   * @return {bee.Enumerable}
+   */
+  where(predicate) {
+    return bee.Enumerable.where(this, predicate)
+  }
+  /**
+   * `Array` and `Map` are converted to Enumerator, and the rest to improved Enumerator-like function.
+   *
+   * **Note that this means that using the `is` operator does not always return `true`, such as follows.**
+   * @param {any} value
+   * @return {Enumerator | (&key, &value) => boolean}
+   */
+  static toEnumeratorLike(value) {
+    if (value is Enumerator) {
+      return value
+    }
+
+    if (value is bee.Enumerable) {
+      if (value.data is bee.Enumerable) {
+        return value.data.__Enum(2)
+      }
+      return this.toEnumeratorLike(value.data)
+    }
+    if (value is Array || value is Map) {
+      return value.__Enum(2)
+    }
+    return EnumeratorWrapper.bind(value, value.ownProps())
+
+    EnumeratorWrapper(obj, enumerator, &key, &value) {
+      hasNext := enumerator(&_key)
+      if (!hasNext) {
+        return false
+      }
+      key := _key
+      value := obj.%key%
+      return true
+    }
+  }
+  /**
+   * `Array` and `Map` are converted to Enumerator, and the rest to improved Enumerator-like function.
+   *
+   * **Note that this means that using the `is` operator does not always return `true`, such as follows.**
+   * @return {Enumerator | (&key, &value) => boolean}
+   */
+  toEnumeratorLike() {
+    return bee.Enumerable.toEnumeratorLike(this)
+  }
+}

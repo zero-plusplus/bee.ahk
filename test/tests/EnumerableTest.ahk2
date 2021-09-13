@@ -1,0 +1,107 @@
+#Include ..\common.ahk2
+
+class EnumerableTest {
+  class InstanceTest {
+    startEach() {
+      this.object := { key: "value" }
+      this.object.defineProp("key2", { get: (*) => "value2" })
+
+      this.array := [ "value", "value2" ]
+      this.map := Map("key", "value", "key2", "value2")
+    }
+    end() {
+      this.object := ""
+      this.array := ""
+      this.map := ""
+    }
+    testCombination(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).ownKeys().where((value, key, *) => key == 2).toArray(), [ { key: 2, value: "key2" }])
+      assert.deepEquals(bee.Enumerable(this.array).ownKeys().where((value, key, *) => key == 2).toArray(), [ { key: 2, value: 2 }])
+      assert.deepEquals(bee.Enumerable(this.map).ownKeys().where((value, key, *) => key == 2).toArray(), [ { key: 2, value: "key2" }])
+    }
+    testOwnKeys(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).ownKeys().toArray(), [ { key: 1, value: "key" }, { key: 2, value: "key2" } ])
+      assert.deepEquals(bee.Enumerable(this.array).ownKeys().toArray(), [ { key: 1, value: 1 }, { key: 2, value: 2 } ])
+      assert.deepEquals(bee.Enumerable(this.map).ownKeys().toArray(), [ { key: 1, value: "key" }, { key: 2, value: "key2" } ])
+    }
+    testOwnValues(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).ownValues().toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
+      assert.deepEquals(bee.Enumerable(this.array).ownValues().toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
+      assert.deepEquals(bee.Enumerable(this.map).ownValues().toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
+    }
+    testToArray(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
+      assert.deepEquals(bee.Enumerable(this.array).toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
+      assert.deepEquals(bee.Enumerable(this.map).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
+    }
+    testToEnumeratorLike(assert) {
+      assert.notOk(bee.Enumerable(this.object).toEnumeratorLike() is Enumerator)
+      assert.ok(bee.Enumerable(this.array).toEnumeratorLike() is Enumerator)
+      assert.ok(bee.Enumerable(this.map).toEnumeratorLike() is Enumerator)
+    }
+    testToMap(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).toMap(), Map("key", "value", "key2", "value2"))
+      assert.deepEquals(bee.Enumerable(this.array).toMap(), Map(1, "value", 2, "value2"))
+      assert.deepEquals(bee.Enumerable(this.map).toMap(), Map("key", "value", "key2", "value2"))
+    }
+    testToObject(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).toObject(), { key: "value", key2: "value2" })
+      assert.deepEquals(bee.Enumerable(this.array).toObject(), { 1: "value", 2: "value2" })
+      assert.deepEquals(bee.Enumerable(this.map).toObject(), { key: "value", key2: "value2" })
+    }
+    testWhere(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).where((value, *) => InStr(value, "2")).toArray(), [ { key: "key2", value: "value2" } ])
+      assert.deepEquals(bee.Enumerable(this.array).where((value, *) => InStr(value, "2")).toArray(), [ { key: 2, value: "value2" } ])
+      assert.deepEquals(bee.Enumerable(this.map).where((value, *) => InStr(value, "2")).toArray(), [ { key: "key2", value: "value2" } ])
+    }
+  }
+  class StaticTest {
+    startEach() {
+      this.object := { key: "value" }
+      this.object.defineProp("key2", { get: (*) => "value2" })
+
+      this.array := [ "value", "value2" ]
+      this.map := Map("key", "value", "key2", "value2")
+    }
+    end() {
+      this.object := ""
+      this.array := ""
+      this.map := ""
+    }
+    testCombination(assert) {
+      assert.deepEquals(bee.Enumerable.ownKeys(this.object).where((value, key, *) => key == 2).toArray(), [ { key: 2, value: "key2" }])
+      assert.deepEquals(bee.Enumerable.ownKeys(this.array).where((value, key, *) => key == 2).toArray(), [ { key: 2, value: 2 }])
+      assert.deepEquals(bee.Enumerable.ownKeys(this.map).where((value, key, *) => key == 2).toArray(), [ { key: 2, value: "key2" }])
+    }
+    testOwnKeys(assert) {
+      assert.deepEquals(bee.Enumerable.ownKeys(this.map).toArray(), [ { key: 1, value: "key" }, { key: 2, value: "key2" } ])
+      assert.deepEquals(bee.Enumerable.ownKeys(this.object).toArray(), [ { key: 1, value: "key" }, { key: 2, value: "key2" } ])
+    }
+    testOwnValues(assert) {
+      assert.deepEquals(bee.Enumerable.ownValues(this.map).toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
+      assert.deepEquals(bee.Enumerable.ownValues(this.object).toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
+    }
+    testToArray(assert) {
+      assert.deepEquals(bee.Enumerable.toArray(this.map), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
+      assert.deepEquals(bee.Enumerable.toArray(this.object), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
+    }
+    testToEnumeratorLike(assert) {
+      assert.notOk(bee.Enumerable.toEnumeratorLike(this.object) is Enumerator)
+      assert.ok(bee.Enumerable.toEnumeratorLike(this.array) is Enumerator)
+      assert.ok(bee.Enumerable.toEnumeratorLike(this.map) is Enumerator)
+    }
+    testToMap(assert) {
+      assert.deepEquals(bee.Enumerable.toMap(this.object), Map("key", "value", "key2", "value2"))
+      assert.deepEquals(bee.Enumerable.toMap(this.array), Map(1, "value", 2, "value2"))
+      assert.deepEquals(bee.Enumerable.toMap(this.map), Map("key", "value", "key2", "value2"))
+    }
+    testToObject(assert) {
+      assert.deepEquals(bee.Enumerable.toObject(this.map), { key: "value", key2: "value2" })
+    }
+    testWhere(assert) {
+      assert.deepEquals(bee.Enumerable.where(this.object, (value, *) => InStr(value, "2")).toArray(), [ { key: "key2", value: "value2" } ])
+      assert.deepEquals(bee.Enumerable.where(this.array, (value, *) => InStr(value, "2")).toArray(), [ { key: 2, value: "value2" } ])
+      assert.deepEquals(bee.Enumerable.where(this.map, (value, *) => InStr(value, "2")).toArray(), [ { key: "key2", value: "value2" } ])
+    }
+  }
+}

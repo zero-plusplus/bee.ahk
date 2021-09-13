@@ -1,0 +1,9 @@
+﻿class EnumerableConverter {
+  static call(value) {
+    if (value is Enumerator || value is bee.Enumerable) {
+      return this.behavior(value)
+    }
+    unwrapped := bee.Enumerable.toEnumeratorLike(value)
+    return this.behavior(unwrapped)
+  }
+}

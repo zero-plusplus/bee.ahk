@@ -1,3 +1,4 @@
-﻿#Include PredicateTest.ahk2
+﻿#Include EnumerableTest.ahk2
+#Include PredicateTest.ahk2
 #Include StringTest.ahk2
 #Include UtilTest.ahk2
