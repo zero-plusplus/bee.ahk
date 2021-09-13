@@ -32,6 +32,42 @@ class Enumerable {
     }
   }
   /**
+   * Sets a default fields for the `data`.
+   * @method
+   * @param {any} data
+   * @param {object} source
+   * @return {bee.Enumerable}
+   */
+  class defaults extends bee.rule.EnumerableFunc {
+    _init() {
+      this.sourceEnumerator := bee.Enumerable(this.args[1]).toEnumeratorLike()
+    }
+    _next(&key, &value := unset) {
+      hasNext := this.sourceEnumerator.call(&_key, &_value)
+      if (hasNext) {
+        key := _key
+        value := _value
+        return true
+      }
+
+      hasNext := this.enumerator.call(&_key, &_value)
+      if (hasNext) {
+        key := _key
+        value := _value
+        return true
+      }
+    }
+  }
+  /**
+   * Sets a default fields for the `data`.
+   * @method
+   * @param {object} source
+   * @return {bee.Enumerable}
+   */
+  defaults(source) {
+    return bee.Enumerable.defaults(this, source)
+  }
+  /**
    * Returns own keys for a `data`.
    * @param {any} data
    * @return {bee.Enumerable}
