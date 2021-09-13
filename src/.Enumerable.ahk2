@@ -13,6 +13,7 @@ class Enumerable {
   /**
    * Converts a string to a bee.Enumerable that enumerates each character.
    * @method
+   * @return {bee.Enumerable}
    */
   class chars extends bee.rule.EnumerableFunc {
     _init() {
