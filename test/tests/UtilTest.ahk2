@@ -27,6 +27,13 @@ class UtilTest {
 
     assert.ok(getChar is BoundFunc)
   }
+  testToBoolean(assert) {
+    assert.equals(bee.toBoolean("a"), true)
+    assert.equals(bee.toBoolean(""), false)
+    assert.equals(bee.toBoolean(1), true)
+    assert.equals(bee.toBoolean(0), false)
+    assert.equals(bee.toBoolean({}), true)
+  }
   testTryGetProp(assert) {
     assert.equals(bee.tryGetProp({ key: "value" }, "unknown", "default"), "default")
     assert.equals(bee.tryGetProp(Map("key", "value"), "unknown", "default"), "default")

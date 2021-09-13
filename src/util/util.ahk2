@@ -3,5 +3,6 @@
   #Include .getProp.ahk2
   #Include .partial.ahk2
   #Include .query.ahk2
+  #Include .toBoolean.ahk2
   #Include .tryGetProp.ahk2
 }

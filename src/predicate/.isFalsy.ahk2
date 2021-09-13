@@ -6,6 +6,6 @@
  */
 class isFalsy extends bee.rule.PredicateFunc {
   static behavior(value) {
-    return !!value == false
+    return bee.toBoolean(value) == false
   }
 }

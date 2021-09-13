@@ -1,0 +1,8 @@
+﻿/**
+ * Convert `value` to a boolean.
+ * @param {any} value
+ * @return {boolean}
+ */
+static toBoolean(value) {
+  return !!value
+}
