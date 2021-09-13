@@ -22,6 +22,12 @@ class PredicateTest {
     assert.ok(bee.isNumber(false))
     assert.notOk(bee.isNumber({}))
   }
+  testIsNumberLike(assert) {
+    assert.ok(bee.isNumberLike("1"))
+    assert.ok(bee.isNumberLike("-1"))
+    assert.ok(bee.isNumberLike("0x123"))
+    assert.ok(bee.isNumberLike("123e+1"))
+  }
   testIsObject(assert) {
     assert.ok(bee.isObject()({}))
     assert.ok(bee.isObject({}))

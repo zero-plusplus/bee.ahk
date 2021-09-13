@@ -1,0 +1,16 @@
+/**
+ * Determines whether the `value` is an number-like or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isNumberLike extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    if (bee.isString(value)) {
+      value := Number(value)
+    }
+
+    result := bee.isNumber(value)
+    return result
+  }
+}
