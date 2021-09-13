@@ -13,6 +13,12 @@ class PredicateTest {
     assert.ok(bee.is(str, bee.String))
     assert.ok(bee.is(str, bee.rule.Primitive))
   }
+  testIsBoolean(assert) {
+    assert.ok(bee.isBoolean(true))
+    assert.ok(bee.isBoolean(false))
+    assert.ok(bee.isBoolean(1))
+    assert.ok(bee.isBoolean(0))
+  }
   testIsNumber(assert) {
     assert.ok(bee.isNumber(1))
     assert.ok(bee.isNumber(-1))

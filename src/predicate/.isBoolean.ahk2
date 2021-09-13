@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an boolean or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isBoolean extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return value == true || value == false
+  }
+}
