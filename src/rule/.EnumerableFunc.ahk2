@@ -7,7 +7,7 @@
    */
   __New(value, params*) {
     super.__New(value)
-    this.params := params
+    this.args := params
   }
   __Enum(numberOfVars) {
     ; @Debug-Output => {this.__class}

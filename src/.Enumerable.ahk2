@@ -152,7 +152,7 @@ class Enumerable {
    */
   class where extends bee.rule.EnumerableFunc {
     _init() {
-      this.predicate := this.params[1]
+      this.predicate := this.args[1]
     }
     _next(&key, &value) {
       while (this.enumerator.call(&_key, &_value)) {
