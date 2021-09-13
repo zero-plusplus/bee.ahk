@@ -1,0 +1,151 @@
+﻿class RangeLiteral {
+  /**
+   * @typedef {{ index: number; reverse: number}} RangeIndex
+   */
+  ;; @type {RangeIndex}
+  start := { index: 1, reverse: false }
+  ;; @type {RangeIndex}
+  end := { index: 1, reverse: true }
+  ;; @type {boolean}
+  excludeEnd := true
+  ;; @type {number}
+  step := 1
+  ;; @type {boolean}
+  unicodeMode := false
+
+  /**
+   * @param {string} range
+   */
+  /**
+   * @param {number | string | RangeIndex} start
+   * @param {number | string | RangeIndex} end
+   * @param {boolean} [excludeEnd := true]
+   * @param {boolean} [step := 1]
+   */
+  __New(params*) {
+    if (params.length == 1 && bee.isString(params[1])) {
+      parsed := bee.RangeLiteral.parseRangeString(params*)
+      this.start := parsed.start
+      this.end := parsed.end
+      this.excludeEnd := parsed.excludeEnd
+      this.step := parsed.step
+      this.unicodeMode := parsed.unicodeMode
+      return this
+    }
+
+    unicodeMode := !bee.isNumberLike(params[1])
+    for i, key in [ "start", "end" ] {
+      index := bee.tryGetProp(params, i, 1)
+      if (unicodeMode) {
+        index := Ord(index)
+      }
+      this.%key% := bee.isObject(index) ? bee.Enumerable.defaults(index, { index: 1, reverse: false }).toObject() : { index: index, reverse: false }
+      if (bee.RangeLiteral.isReverseMode(this.%key%.index)) {
+        this.%key%.index := Number(bee.RangeLiteral.removeReverseSymbol(this.%key%.index))
+        this.%key%.reverse := true
+      }
+    }
+    this.excludeEnd := bee.toBoolean(bee.tryGetProp(params, 3, true))
+    this.step := bee.tryGetProp(params, 4, 1)
+    this.unicodeMode := unicodeMode
+  }
+  /**
+   * Determines if the reverse mode is set or not.
+   * @param {string} str
+   * @return {boolean}
+   */
+  static isReverseMode(str) => bee.startsWith(str, "^")
+  /**
+   * Remove the symbol that sets the reverse mode.
+   * @param {string} str
+   * @return {string}
+   */
+  static removeReverseSymbol(str) => RegExReplace(str, "^\^", "")
+  /**
+   * @return {string}
+   */
+  static getUnicodeRangePattern() {
+    unicode_double_pattern := '"[^"]+?"'
+    unicode_single_pattern := "'[^']+?'"
+    unicode_start_pattern := Format("(?<start>{}|{})", unicode_double_pattern, unicode_single_pattern)
+    unicode_end_pattern := Format("(?<end>{}|{})", unicode_double_pattern, unicode_single_pattern)
+
+    operator_pattern := "(?<operator>\.\.(\.)?)"
+    step_pattern := "(?:\s+step\s+(?<step>\d+))?"
+
+    unicodeRange_pattern := unicode_start_pattern . operator_pattern . unicode_end_pattern . step_pattern
+    pattern := Format("i)^{}$", unicodeRange_pattern)
+    return pattern
+  }
+  /**
+   * @return {string}
+   */
+  static getNumberRangePattern() {
+    number_pattern := "(\^)?(\d+)"
+    number_start_pattern := Format("(?<start>{})", number_pattern)
+    nunmber_end_pattern := Format("(?<end>({})?)", number_pattern)
+
+    operator_pattern := "(?<operator>\.\.(\.)?)"
+    step_pattern := "(?:\s+step\s+(?<step>\d+))?"
+
+    numberRange_pattern := number_start_pattern . operator_pattern . nunmber_end_pattern . step_pattern
+    pattern := Format("i)^{}$", numberRange_pattern)
+    return pattern
+  }
+  /**
+   * @return {{ start: RangeIndex; end: RangeIndex; excludeEnd: boolean; step: number, unicodeMode: boolean }}
+   */
+  static parseRangeString(str) {
+    parsed := { start: { index: 1, reverse: false}, end: { index: 1, reverse: true }, excludeEnd: false, step: 1}
+
+    RegExMatch(str, this.getUnicodeRangePattern(), &match)
+    if (match) {
+      for i, key in [ "start", "end" ] {
+        index := bee.tryGetProp(match, key, 1)
+        parsed.%key% := bee.isObject(index) ? bee.Enumerable.defaults(index, { index: 1, reverse: false }).toObject() : { index: index, reverse: false }
+        if (bee.RangeLiteral.isReverseMode(parsed.%key%.index)) {
+          parsed.%key%.index := Ord(bee.RangeLiteral.removeReverseSymbol(parsed.%key%.index))
+          parsed.%key%.reverse := true
+        }
+      }
+      if (parsed.start.index == "") {
+        parsed.start := { index: 1, reverse: false }
+      }
+      if (parsed.end.index == "") {
+        parsed.end := { index: 1, reverse: true }
+      }
+      removeQuote := (str) => RegExReplace(str, "(^`"|^'|`"$|'$)")
+      if (bee.isString(parsed.start.index)) {
+        parsed.start.index := Ord(removeQuote(parsed.start.index))
+      }
+      if (bee.isString(parsed.end.index)) {
+        parsed.end.index := Ord(removeQuote(parsed.end.index))
+      }
+
+      parsed.excludeEnd := match.operator == ".." ? true : false
+      parsed.step := match.step ? Number(match.step) : 1
+      parsed.unicodeMode := true
+      return parsed
+    }
+
+    RegExMatch(str, this.getNumberRangePattern(), &match)
+    for i, key in [ "start", "end" ] {
+      index := bee.tryGetProp(match, key, 1)
+      parsed.%key% := bee.isObject(index) ? bee.Enumerable.defaults(index, { index: 1, reverse: false }).toObject() : { index: index, reverse: false }
+      if (bee.RangeLiteral.isReverseMode(parsed.%key%.index)) {
+        parsed.%key%.index := Number(bee.RangeLiteral.removeReverseSymbol(parsed.%key%.index))
+        parsed.%key%.reverse := true
+      }
+    }
+    if (parsed.start.index == "") {
+      parsed.start := { index: 1, reverse: false }
+    }
+    if (parsed.end.index == "") {
+      parsed.end := { index: 1, reverse: true }
+    }
+    parsed.excludeEnd := match.operator == ".." ? true : false
+    parsed.step := match.step ? Number(match.step) : 1
+    parsed.unicodeMode := false
+    return parsed
+  }
+}
