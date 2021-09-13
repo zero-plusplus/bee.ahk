@@ -6,8 +6,8 @@
  * @return {boolean}
  */
 /**
- * It is another variation of the predicate that determines whether or not all targets pass a single test.
- * It has all the static methods that `bee.Predicate` has.
+ * This is another variation of the predicate that determines whether or not all targets pass a single test.
+ * This has all the static methods that `bee.Predicate` has.
  *
  * Note that the first argument takes an array.
  */
