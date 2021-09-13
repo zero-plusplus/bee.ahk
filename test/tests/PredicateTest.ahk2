@@ -48,6 +48,14 @@ class PredicateTest {
     assert.notOk(bee.isString(1))
     assert.notOk(bee.isString({}))
   }
+  testIsTruthy(assert) {
+    assert.ok(bee.isTruthy("a"))
+    assert.ok(bee.isTruthy(true))
+    assert.ok(bee.isTruthy(123))
+    assert.notOk(bee.isTruthy(false))
+    assert.notOk(bee.isTruthy(""))
+    assert.notOk(bee.isTruthy(0))
+  }
   testNot(assert) {
     assert.ok(bee.not(bee.isString(), {}))
   }
