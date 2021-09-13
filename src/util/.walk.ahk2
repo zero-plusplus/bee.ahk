@@ -1,0 +1,14 @@
+﻿/**
+ * Apply `callback` to all fields of `target`, including its children.
+ * @param {any} target
+ * @param {(pair: { key: any; value: any }) => void}
+ */
+static walk(target, callback) {
+  for i, pair in bee.query(target).toArray() {
+    callback(pair)
+    if (bee.isObject(pair.value)) {
+      bee.walk(pair.value, callback)
+      continue
+    }
+  }
+}

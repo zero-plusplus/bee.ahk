@@ -1,4 +1,4 @@
-class util {
+﻿class util {
   #Include .curry.ahk2
   #Include .getProp.ahk2
   #Include .partial.ahk2
@@ -6,4 +6,5 @@ class util {
   #Include .toBoolean.ahk2
   #Include .toNumber.ahk2
   #Include .tryGetProp.ahk2
+  #Include .walk.ahk2
 }

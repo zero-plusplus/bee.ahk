@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class UtilTest {
   testCurry(assert) {
@@ -45,5 +45,10 @@ class UtilTest {
     assert.equals(bee.tryGetProp({ key: "value" }, "unknown", "default"), "default")
     assert.equals(bee.tryGetProp(Map("key", "value"), "unknown", "default"), "default")
     assert.equals(bee.tryGetProp([ "value" ], 5, "default"), "default")
+  }
+  testWalk(assert) {
+    keys := []
+    bee.walk({ a: { b: { c: { d: "" }, e: "" }, f: "" }, g: "" }, (pair) => keys.push(pair.key))
+    assert.deepEquals(keys, [ "a", "b", "c", "d", "e", "f", "g"])
   }
 }
