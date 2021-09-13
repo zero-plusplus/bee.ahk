@@ -2,7 +2,7 @@
 
 class EnumerableTest {
   testShortHund(assert) {
-    assert.ok(bee.query([ "value" ]).toEnumeratorLike is Enumerator)
+    assert.ok(bee.query([ "value" ]).toEnumeratorLike() is Enumerator)
   }
   class InstanceTest {
     startEach() {
