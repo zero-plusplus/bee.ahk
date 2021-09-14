@@ -13,6 +13,12 @@ class PredicateTest {
     assert.notOk(bee.equals("a", "A"))
     assert.notOk(bee.equals({}, {}))
   }
+  testHasKey(assert) {
+    assert.ok(bee.hasKey({ a: "" }, "a"))
+    assert.ok(bee.hasKey(Map("a", ""), "a"))
+    assert.ok(bee.hasKey([ "value" ], 1))
+    assert.notOk(bee.hasKey("a", "a"))
+  }
   testIs(assert) {
     str := bee.String("")
     assert.ok(bee.is(str, bee.String))

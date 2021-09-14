@@ -1,0 +1,17 @@
+﻿/**
+ * Determine whether the specified `key` exists or not.
+ *
+ * This method absorbs the syntax differences between object types.
+ * @method
+ * @param {any} obj
+ * @param {any} key
+ * @return {boolean}
+ */
+class hasKey extends bee.rule.PredicateFunc {
+  static behavior(obj, key) {
+    if (obj is Array || obj is Map) {
+      return obj.has(key)
+    }
+    return obj.hasProp(key)
+  }
+}
