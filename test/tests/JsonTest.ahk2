@@ -1,7 +1,7 @@
 ﻿#Include ..\common.ahk2
 
 class JsonTest {
-  testArray(assert) {
+  testParse(assert) {
     assert.deepEquals(bee.Json.parse('"abc"'), "abc")
     assert.deepEquals(bee.Json.parse('"\r\n"'), "`r`n")
     assert.deepEquals(bee.Json.parse('"123"'), "123")
