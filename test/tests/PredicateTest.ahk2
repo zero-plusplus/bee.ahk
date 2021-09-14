@@ -52,6 +52,16 @@ class PredicateTest {
     assert.notok(bee.isFalsy(true))
     assert.notok(bee.isFalsy(123))
   }
+  testIsFunc(assert) {
+    assert.ok(bee.isFunc(FuncExample))
+    assert.ok(bee.isFunc(() => ""))
+    assert.ok(bee.isFunc(() => FuncExample))
+    assert.ok(bee.isFunc(ObjBindMethod(bee.predicate, "isFunc")))
+    assert.notOk(bee.isFunc({ call: () => "" }))
+
+    FuncExample() {
+    }
+  }
   testIsNumber(assert) {
     assert.ok(bee.isNumber(1))
     assert.ok(bee.isNumber(-1))

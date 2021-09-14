@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an function or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isFunc extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return value is Func
+  }
+}
