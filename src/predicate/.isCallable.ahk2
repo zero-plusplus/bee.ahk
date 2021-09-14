@@ -1,0 +1,14 @@
+﻿/**
+ * Determines whether the `value` has a call method or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isCallable extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    if (bee.isFunc(value)) {
+      return true
+    }
+    return bee.hasKey(value, "call") && bee.isFunc(value.call)
+  }
+}

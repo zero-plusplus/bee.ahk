@@ -35,6 +35,9 @@ class PredicateTest {
     assert.ok(bee.isBoolean(1))
     assert.ok(bee.isBoolean(0))
   }
+  testIsCallable(assert) {
+    assert.ok(bee.isCallable({ call: () => "" }))
+  }
   testIsDigit(assert) {
     assert.ok(bee.isDigit(0))
     assert.ok(bee.isDigit(5))
