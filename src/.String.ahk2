@@ -1,8 +1,2 @@
 ﻿class String extends bee.rule.Primitive {
-  /**
-   * Gets the length of the specified string.
-   * @param {string} str
-   * @return {number}
-   */
-  static length(str) => StrLen(str)
 }

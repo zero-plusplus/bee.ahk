@@ -6,10 +6,11 @@
   _value := ""
   value => this._value
   /**
+   * Gets the length.
    * @readonly
    * @type {number}
    */
-  length => StrLen(this.value)
+  length => bee.rule.Primitive.length(this.value)
   /**
    * @praam {primitive} primitive
    */
@@ -37,4 +38,10 @@
       }
     }
   }
+  /**
+   * Gets the length of the specified string.
+   * @param {string} str
+   * @return {number}
+   */
+  static length(str) => StrLen(str)
 }
