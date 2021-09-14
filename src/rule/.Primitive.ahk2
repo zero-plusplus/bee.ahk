@@ -1,4 +1,4 @@
-class Primitive {
+﻿class Primitive {
   /**
    * @readonly
    * @type {primitive}
@@ -45,6 +45,26 @@ class Primitive {
         return StrLen(str)
       }
     }
+  }
+  /**
+   * Returns a new string after repeating `str` for the `count` of times.
+   * @param {string} str
+   * @param {number} count
+   */
+  static repeat(str, count) {
+    repeated := ""
+    Loop count {
+      repeated .= str
+    }
+    return repeated
+  }
+  /**
+   * Returns a new string after repeating for the `count` of times.
+   * @param {string} str
+   * @param {number} count
+   */
+  repeat(count) {
+    return bee.rule.Primitive.repeat(this.value, count)
   }
   /**
    * Gets the length of the specified string.

@@ -2,11 +2,17 @@
 
 class StringTest {
   class StaticTest {
+    testRepeat(assert) {
+      assert.equals(bee.String.repeat("abc", 3), "abcabcabc")
+    }
     testLength(assert) {
       assert.equals(bee.String.length("abc"), 3)
     }
   }
   class InstanceTest {
+    testRepeat(assert) {
+      assert.equals(bee.String("abc").repeat(3), "abcabcabc")
+    }
     testValue(assert) {
       assert.equals(bee.String("abc").value, "abc")
     }
