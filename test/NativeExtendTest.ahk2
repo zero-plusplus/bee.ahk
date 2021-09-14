@@ -2,7 +2,7 @@
 
 class NativeExtendTest {
   start() {
-    bee.String.extendNative()
+    bee.rule.Primitive.extendNative()
   }
   testLength(assert) {
     assert.equals("abc".length, 3)

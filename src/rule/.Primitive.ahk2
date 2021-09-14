@@ -1,4 +1,4 @@
-﻿class Primitive {
+class Primitive {
   /**
    * @readonly
    * @type {primitive}
@@ -31,10 +31,18 @@
    * ```
    */
   static extendNative() {
-    for key in this.ownProps() {
-      f := this.%key%
-      if (f is Func && !bee.startsWith(key, "__")) {
-        "".base.%key% := ObjBindMethod(this, key)
+    Primitive.prototype.__Get := Get
+    ; for key in this.ownProps() {
+    ;   f := this.%key%
+    ;   if (f is Func && !bee.startsWith(key, "__")) {
+    ;     Primitive.prototype.%key% := ObjBindMethod(this, key)
+    ;   }
+    ; }
+    return
+
+    Get(str, key, *) {
+      if (key = "length") {
+        return StrLen(str)
       }
     }
   }
