@@ -38,6 +38,18 @@
       "preLaunchTask": "subtask:watch",
     },
     {
+      "name": "AutoHotkey Debug:LogTest.ahk2",
+      "type": "autohotkey",
+      "request": "launch",
+      "program": "${workspaceFolder}/test/LogTest.ahk2",
+      "args": [],
+      "port": "9002-9010",
+      "useAutoJumpToError": true,
+      "useDebugDirective": true,
+      "usePerfTips": true,
+      "openFileOnExit": "${file}",
+    },
+    {
       "name": "AutoHotkey Debug:NativeExtendTest.ahk2",
       "type": "autohotkey",
       "request": "launch",
