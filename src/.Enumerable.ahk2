@@ -37,15 +37,15 @@ class Enumerable {
    * Sets a default fields for the `data`.
    * @template KEY, VALUE
    * @method
-   * @param {object<KEY, VALUE>} data
-   * @param {object<KEY, VALUE>[]} sources*
+   * @param {object<KEY, VALUE>} source
+   * @param {object<KEY, VALUE>[]} defaultSources*
    * @return {bee.Enumerable<KEY, VALUE>}
    */
   class defaults extends bee.rule.EnumerableFunc {
     _init() {
-      this.sources := this.args
-      this.current := this.sources.length
-      this.sourceEnumerator := bee.Enumerable.toEnumeratorLike(bee.tryGetProp(this.sources, this.current, {}))
+      this.defaultSources := this.args
+      this.current := this.defaultSources.length
+      this.defaultSourceEnumerator := bee.Enumerable.toEnumeratorLike(bee.tryGetProp(this.defaultSources, this.current, {}))
       this.keys := []
     }
     _next(&key, &value := unset) {
@@ -57,7 +57,7 @@ class Enumerable {
         return true
       }
 
-      while (this.sourceEnumerator.call(&_key, &_value)) {
+      while (this.defaultSourceEnumerator.call(&_key, &_value)) {
         if (bee.any.equals(this.keys, _key)) {
           continue
         }
@@ -69,21 +69,21 @@ class Enumerable {
       }
       this.current--
 
-      if (!bee.hasKey(this.sources, this.current)) {
+      if (!bee.hasKey(this.defaultSources, this.current)) {
         return false
       }
-      this.sourceEnumerator := bee.Enumerable.toEnumeratorLike(this.sources[this.current])
+      this.defaultSourceEnumerator := bee.Enumerable.toEnumeratorLike(this.defaultSources[this.current])
       this._next(&key, &value)
     }
   }
   /**
    * Sets a default fields for the `data`.
    * @method
-   * @param {object<KEY, VALUE>[]} sources*
+   * @param {object<KEY, VALUE>[]} defaultSources*
    * @return {bee.Enumerable<KEY, VALUE>}
    */
-  defaults(sources*) {
-    return bee.Enumerable.defaults(this, sources*)
+  defaults(defaultSources*) {
+    return bee.Enumerable.defaults(this, defaultSources*)
   }
   /**
    * Replace the value with the value returned by the specified `selector`.
