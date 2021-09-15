@@ -89,8 +89,8 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable.where(this.map, (key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
     }
     testDefaults(assert) {
-      assert.deepEquals(bee.Enumerable.defaults(this.object , { added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
-      assert.deepEquals(bee.Enumerable.defaults(this.map , { added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
+      assert.deepEquals(bee.Enumerable.defaults(this.object, { added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
+      assert.deepEquals(bee.Enumerable.defaults(this.map, { added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
     }
     testSelect(assert) {
       assert.deepEquals(bee.Enumerable.select(this.object, (key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
