@@ -38,12 +38,14 @@ class Enumerable {
    * @template KEY, VALUE
    * @method
    * @param {object<KEY, VALUE>} data
-   * @param {object} source
+   * @param {object<KEY, VALUE>[]} sources*
    * @return {bee.Enumerable<KEY, VALUE>}
    */
   class defaults extends bee.rule.EnumerableFunc {
     _init() {
-      this.sourceEnumerator := bee.Enumerable(this.args[1]).toEnumeratorLike()
+      this.sources := this.args
+      this.current := this.sources.length
+      this.sourceEnumerator := bee.Enumerable.toEnumeratorLike(bee.tryGetProp(this.sources, this.current, {}))
       this.keys := []
     }
     _next(&key, &value := unset) {
@@ -62,18 +64,26 @@ class Enumerable {
 
         key := _key
         value := _value
+        this.keys.push(key)
         return true
       }
-      return false
+      this.current--
+
+      if (!bee.hasKey(this.sources, this.current)) {
+        return false
+      }
+      this.sourceEnumerator := bee.Enumerable.toEnumeratorLike(this.sources[this.current])
+      this._next(&key, &value)
     }
   }
   /**
    * Sets a default fields for the `data`.
    * @method
+   * @param {object<KEY, VALUE>[]} sources*
    * @return {bee.Enumerable<KEY, VALUE>}
    */
-  defaults(source) {
-    return bee.Enumerable.defaults(this, source)
+  defaults(sources*) {
+    return bee.Enumerable.defaults(this, sources*)
   }
   /**
    * Replace the value with the value returned by the specified `selector`.
