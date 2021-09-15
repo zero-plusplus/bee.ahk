@@ -1,0 +1,13 @@
+﻿static log(formatString, variables*) {
+  global A_DebuggerName
+  static stringify := bee.partial(ObjBindMethod(bee.Json, "stringify"), bee, { space: true})
+
+  message := bee.isObject(formatString) ? stringify(formatString) : formatString
+  if (variables.length == 0) {
+    FileAppend(message "`n", "*")
+    return
+  }
+
+  stringifiedVariables := bee.query(variables).select((key, value) => bee.Json.stringify(value, { space: true })).toValues()
+  this.log(Format(message, stringifiedVariables*))
+}

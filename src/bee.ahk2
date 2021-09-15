@@ -1,8 +1,8 @@
-#Requires AutoHotkey v2.0-beta.1
+﻿#Requires AutoHotkey v2.0-beta.1
 
 class bee {
   static __CALL(key, params) {
-    for i, cls in [ bee.util, bee.predicate ] {
+    for i, cls in [ bee.console, bee.predicate, bee.util ] {
       if (cls.hasProp(key)) {
         return cls.%key%(params*)
       }
@@ -20,6 +20,7 @@ class bee {
   #Include %A_LineFile%\..\.RangeLiteral.ahk2
   #Include %A_LineFile%\..\.String.ahk2
 
+  #Include %A_LineFile%\..\console\console.ahk2
   #Include %A_LineFile%\..\debug\debug.ahk2
   #Include %A_LineFile%\..\predicate\predicate.ahk2
   #Include %A_LineFile%\..\rule\rule.ahk2

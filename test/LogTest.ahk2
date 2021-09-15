@@ -1,9 +1,13 @@
-#Include common.ahk2
+﻿#Include common.ahk2
 
 
 class LogTest {
   testDebugLog(assert) {
     bee.debug.log({ a: [ { b: "" } ] })
     bee.debug.log("test")
+  }
+  testLog(assert) {
+    bee.log({ a: [ { b: "" } ] })
+    bee.log("test")
   }
 }

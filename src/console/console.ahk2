@@ -1,0 +1,3 @@
+﻿class console {
+  #Include %A_LineFile%\..\.log.ahk2
+}
