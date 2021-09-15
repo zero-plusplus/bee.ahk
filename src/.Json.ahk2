@@ -227,4 +227,115 @@
       this.error(context, "Array parsing failed.")
     }
   }
+  /**
+   * Converts to a `value` JSON string.
+   * @method
+   * @param {any} value
+   * @param {string | number} indent
+   * @return {string}
+   */
+  /**
+   * Converts to a `value` JSON string.
+   * @method
+   * @param {any} value
+   * @param {object} config
+   * @param {(value, key, source) => string | bee.Json.null)} config.replacer - Replace it with the result of the function. If it returns bee.Json.null, it will ignore the field.
+   * @param {string[]} config.pick - A list of field names to be stringified. All other fields will be ignored
+   * @param {string | number} config.indent
+   * @return {string}
+   */
+  /**
+   * @method
+   * @param {any} value
+   * @param {string[]} pickFieldNames
+   * @param {string | number} indent
+   * @return {string}
+   */
+  class stringify
+  {
+    static call(value, indentOrConfig := "")
+    {
+      config := bee.query(bee.isPrimitive(indentOrConfig) ? { indent: indentOrConfig } : indentOrConfig).defaults({ indent: "", space: false, replacer: "", pick: "", _currentIndent: "" }).toObject()
+      if (bee.isNumber(config.indent)) {
+        config.indent := bee.String.repeat(" ", config.indent)
+        config._currentIndent := "`n"
+      }
+
+      if (value == bee.Json.null) {
+        return "null"
+      }
+      if (bee.isNumber(value)) {
+        return this.number(value, config)
+      }
+      if (bee.isString(value)) {
+        return this.string(value, config)
+      }
+      if (bee.isArray(value)) {
+        return this.array(value, config)
+      }
+      return this.object(value, config)
+    }
+    static string(value, config) {
+      return Format('"{}"', value)
+    }
+    static number(value, config) {
+      return value
+    }
+    static object(obj, config) {
+      obj := bee.Enumerable.toObject(obj)
+      colon := config.indent || config.space ? ": " : ":"
+      comma := config.space ? ", " : ","
+      prevIndent := config._currentIndent
+      if (config.indent) {
+        config._currentIndent .= config.indent
+      }
+
+      str := config.space ? "{ " : "{"
+      for key, value in bee.query(obj) {
+        if (config.pick && bee.none.equals(config.pick, key)) {
+          continue
+        }
+        if (config.replacer) {
+          value := config.replacer.call(value, key, obj)
+        }
+        str .= config._currentIndent
+        str .= key
+        str .= colon
+        str .= bee.Json.stringify(value, config)
+        str .= config.space ? ", " : ","
+      }
+      str := RTrim(str, comma)
+      str .= prevIndent
+      str .= config.space ? " }" : "}"
+
+      config._currentIndent := prevIndent
+      return str
+    }
+    static array(arr, config) {
+      comma := config.space ? ", " : ","
+      prevIndent := config._currentIndent
+      if (config.indent) {
+        config._currentIndent .= config.indent
+      }
+
+      str := config.space ? "[ " : "["
+      for i, value in arr {
+        if (config.pick && bee.none.equals(config.pick, i)) {
+          continue
+        }
+        if (config.replacer) {
+          value := config.replacer.call(value, i, arr)
+        }
+        str .= config._currentIndent
+        str .= bee.Json.stringify(value, config)
+        str .= config.space ? ", " : ","
+      }
+      str := RTrim(str, comma)
+      str .= prevIndent
+      str .= config.space ? " ]" : "]"
+
+      config._currentIndent := prevIndent
+      return str
+    }
+  }
 }
