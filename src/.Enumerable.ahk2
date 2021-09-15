@@ -86,6 +86,37 @@ class Enumerable {
     return bee.Enumerable.defaults(this, defaultSources*)
   }
   /**
+   * Reverse the direction of the sequence.
+   * @template KEY, VALUE
+   * @method
+   * @param {object<KEY, VALUE>} source
+   * @return {bee.Enumerable<KEY, VALUE>}
+   */
+  class reverse extends bee.rule.EnumerableFunc {
+    _init() {
+      this.pairs := bee.query(this.source).toArray()
+      this.current := this.pairs.length
+    }
+    _next(&key, &value := unset) {
+      if (!bee.hasKey(this.pairs, this.current)) {
+        return false
+      }
+
+      pair := this.pairs[this.current]
+      key := pair.key
+      value := pair.value
+      this.current--
+      return true
+    }
+  }
+  /**
+   * Reverse the direction of the sequence.
+   * @return {bee.Enumerable<KEY, VALUE>}
+   */
+  reverse() {
+    return bee.Enumerable.reverse(this)
+  }
+  /**
    * Replace the value with the value returned by the specified `selector`.
    * @template KEY, VALUE, TRemapValue
    * @param {object<KEY, VALUE>} source
