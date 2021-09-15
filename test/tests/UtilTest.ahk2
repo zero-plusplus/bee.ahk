@@ -1,6 +1,9 @@
 ﻿#Include ..\common.ahk2
 
 class UtilTest {
+  testCallback(assert) {
+    assert.equals(bee.callback((value) => value)("a", "b", "c"), "a")
+  }
   testCurry(assert) {
     curried1 := bee.curry(SubStr)
     assert.ok(curried1 is BoundFunc)

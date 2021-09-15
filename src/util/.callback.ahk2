@@ -1,0 +1,18 @@
+﻿/**
+ * Convert the specified `callable` to a callback object.
+ *
+ * The callback object is passed as many real arguments as the number of arguments of `callable`.
+ * @param {(params*) => any} callable
+ * @return {(params*) => any}
+ */
+static callback(callable) {
+  return Call.bind(callable)
+
+  Call(callable, params*) {
+    args := []
+    Loop callable.maxParams {
+      args.push(params[A_Index])
+    }
+    return callable.call(args*)
+  }
+}
