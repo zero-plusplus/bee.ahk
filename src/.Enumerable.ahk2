@@ -1,11 +1,13 @@
 class Enumerable {
   ;; @type {object}
-  data := ""
+  source := ""
   /**
-   * @param {any} data
+   * @template KEY, VALUE
+   * @param {object<KEY, VALUE>} source
+   * @return {bee.Enumerable<object<KEY, VALUE>}
    */
-  __New(data) {
-    this.data := data
+  __New(source) {
+    this.source := source
   }
   __Enum(*) {
     return this.toEnumeratorLike()
@@ -13,30 +15,31 @@ class Enumerable {
   /**
    * Converts a string to a bee.Enumerable that enumerates each character.
    * @method
-   * @return {bee.Enumerable}
+   * @return {bee.Enumerable<object<number, string>}
    */
   class chars extends bee.rule.EnumerableFunc {
     _init() {
-      this.data := bee.isString(this.data) ? this.data : ""
+      this.source := bee.isString(this.source) ? this.source : ""
       this.current := 1
     }
     _next(&key, &value := unset) {
-      if (StrLen(this.data) < this.current) {
+      if (StrLen(this.source) < this.current) {
         return false
       }
 
       key := this.current
-      value := SubStr(this.data, this.current, 1)
+      value := SubStr(this.source, this.current, 1)
       this.current++
       return true
     }
   }
   /**
    * Sets a default fields for the `data`.
+   * @template KEY, VALUE
    * @method
-   * @param {any} data
+   * @param {object<KEY, VALUE>} data
    * @param {object} source
-   * @return {bee.Enumerable}
+   * @return {bee.Enumerable<KEY, VALUE>}
    */
   class defaults extends bee.rule.EnumerableFunc {
     _init() {
@@ -67,67 +70,16 @@ class Enumerable {
   /**
    * Sets a default fields for the `data`.
    * @method
-   * @param {object} source
-   * @return {bee.Enumerable}
+   * @return {bee.Enumerable<KEY, VALUE>}
    */
   defaults(source) {
     return bee.Enumerable.defaults(this, source)
   }
   /**
-   * Returns own keys for a `data`.
-   * @param {any} data
-   * @return {bee.Enumerable}
-   */
-  class ownKeys extends bee.rule.EnumerableFunc {
-    _init() {
-      this.count := 1
-    }
-    _next(&key, &value := unset) {
-      hasNext := this.enumerator.call(&_key, &_value)
-      if (!hasNext) {
-        return false
-      }
-      key := this.count++
-      value := _key
-      return true
-    }
-  }
-  /**
-   * Returns own keys.
-   * @return {bee.Enumerable}
-   */
-  ownKeys() {
-    return bee.Enumerable.ownKeys(this)
-  }
-  /**
-   * Returns own values for a `data`.
-   * @param {any} data
-   * @return {bee.Enumerable}
-   */
-  class ownValues extends bee.rule.EnumerableFunc {
-    _init() {
-      this.count := 1
-    }
-    _next(&key, &value := unset) {
-      hasNext := this.enumerator.call(&_key, &_value)
-      if (!hasNext) {
-        return false
-      }
-      key := this.count++
-      value := _value
-      return true
-    }
-  }
-  /**
-   * Returns own values.
-   * @return {bee.Enumerable}
-   */
-  ownValues() {
-    return bee.Enumerable.ownValues(this)
-  }
-  /**
    * Convert to an `Array` of objects with key and value fields.
-   * @param {bee.Enumerable}
+   * @template KEY, VALUE
+   * @param {object<KEY, VALUE>} source
+   * @return {bee.Enumerable<KEY, VALUE>}
    */
   class toArray extends bee.rule.EnumerableConverter {
     static behavior(enumerator) {
@@ -140,14 +92,37 @@ class Enumerable {
   }
   /**
    * Convert to an `Array` of objects with key and value fields.
+   * @return
    */
   toArray() {
     return bee.Enumerable.toArray(this)
   }
   /**
+   * Converts `source` to an `Array` of keys.
+   * @method
+   * @param {bee.Enumerable}
+   * @return {Array<KEY>}
+   */
+  class toKeys extends bee.rule.EnumerableConverter {
+    static behavior(enumerator) {
+      arr := []
+      for key, value in enumerator {
+        arr.push(key)
+      }
+      return arr
+    }
+  }
+  /**
+   * Converts to an `Array` of keys.
+   */
+  toKeys() {
+    return bee.Enumerable.toKeys(this)
+  }
+  /**
    * Convert to `Map`.
-   * @param {any} data
-   * @return {Map}
+   * @template KEY, VALUE
+   * @param {object<KEY, VALUE>} source
+   * @return {Map<KEY, VALUE>}
    */
   class toMap extends bee.rule.EnumerableConverter {
     static behavior(enumerator) {
@@ -160,15 +135,15 @@ class Enumerable {
   }
   /**
    * Convert to `Map`.
-   * @return {Map}
+   * @return {Map<KEY, VALUE>}
    */
   toMap() {
     return bee.Enumerable.toMap(this)
   }
   /**
    * Convert to `Object`.
-   * @param {any} data
-   * @return {object}
+   * @param {object<KEY, VALUE>} source
+   * @return {Object<KEY, VALUE>}
    */
   class toObject extends bee.rule.EnumerableConverter {
     static behavior(enumerator) {
@@ -181,10 +156,31 @@ class Enumerable {
   }
   /**
    * Convert to `Object`.
-   * @return {object}
+   * @return {Object<KEY, VALUE>}
    */
   toObject() {
     return bee.Enumerable.toObject(this)
+  }
+  /**
+   * Converts `source` to an `Array` of values.
+   * @method
+   * @param {bee.Enumerable}
+   * @return {Array<VALUE>}
+   */
+  class toValues extends bee.rule.EnumerableConverter {
+    static behavior(enumerator) {
+      arr := []
+      for key, value in enumerator {
+        arr.push(value)
+      }
+      return arr
+    }
+  }
+  /**
+   * Convert to an `Array` of values.
+   */
+  toValues() {
+    return bee.Enumerable.toValues(this)
   }
   /**
    * Returns all elements for which the `predicate` returns `true`.
@@ -194,11 +190,11 @@ class Enumerable {
    */
   class where extends bee.rule.EnumerableFunc {
     _init() {
-      this.predicate := this.args[1]
+      this.predicate := bee.callback(this.args[1])
     }
     _next(&key, &value) {
       while (this.enumerator.call(&_key, &_value)) {
-        if (this.predicate.call(_value, _key, this)) {
+        if (this.predicate.call(_key, _value)) {
           key := _key
           value := _value
           return true
@@ -209,8 +205,8 @@ class Enumerable {
   }
   /**
    * Returns all elements for which the `predicate` returns `true`.
-   * @param {(value, key, enumerable) => boolean} predicate
-   * @return {bee.Enumerable}
+   * @param {(key, value) => boolean} predicate
+   * @return {bee.Enumerable<KEY, VALUE}
    */
   where(predicate) {
     return bee.Enumerable.where(this, predicate)
@@ -218,28 +214,29 @@ class Enumerable {
   /**
    * `Array` and `Map` are converted to Enumerator, and the rest to improved Enumerator-like function.
    *
-   * **Note that this means that using the `is` operator does not always return `true`, such as follows.**
-   * @param {any} value
-   * @return {Enumerator | (&key, &value) => boolean}
+   * **Note that this means that using the `is` operator does not always return `true`, such as follows.*
+   * @template KEY, VALUE
+   * @param {object<KEY, VALUE.} source
+   * @return {Enumerator | (&key: KEY, &value?: VALUE) => boolean}
    */
-  static toEnumeratorLike(value) {
-    if (value is Enumerator) {
-      return value
+  static toEnumeratorLike(source) {
+    if (source is Enumerator) {
+      return source
     }
 
-    if (value is bee.Enumerable) {
-      if (bee.isPrimitive(value.data)) {
-        return value
+    if (source is bee.Enumerable) {
+      if (bee.isPrimitive(source.source)) {
+        return source
       }
-      if (value.data is bee.Enumerable) {
-        return value.data.__Enum(2)
+      if (source.source is bee.Enumerable) {
+        return source.source.__Enum(2)
       }
-      return this.toEnumeratorLike(value.data)
+      return this.toEnumeratorLike(source.source)
     }
-    if (value is Array || value is Map) {
-      return value.__Enum(2)
+    if (source is Array || source is Map) {
+      return source.__Enum(2)
     }
-    return EnumeratorWrapper.bind(value, value.ownProps())
+    return EnumeratorWrapper.bind(source, source.ownProps())
 
     EnumeratorWrapper(obj, enumerator, &key, &value) {
       hasNext := enumerator(&_key)
@@ -255,7 +252,7 @@ class Enumerable {
    * `Array` and `Map` are converted to Enumerator, and the rest to improved Enumerator-like function.
    *
    * **Note that this means that using the `is` operator does not always return `true`, such as follows.**
-   * @return {Enumerator | (&key, &value) => boolean}
+   * @return {Enumerator | (&key: KEY, &value?: VALUE) => boolean}
    */
   toEnumeratorLike() {
     return bee.Enumerable.toEnumeratorLike(this)

@@ -2,11 +2,12 @@
   ;; @type {any[]}
   params := ""
   /**
-   * @param {any} value
+   * @template KEY, VALUE
+   * @param {object<KEY, VALUE>} source
    * @param {any[]} params*
    */
-  __New(value, params*) {
-    super.__New(value)
+  __New(source, params*) {
+    super.__New(source)
     this.args := params
   }
   __Enum(numberOfVars) {
