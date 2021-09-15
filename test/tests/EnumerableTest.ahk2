@@ -25,6 +25,11 @@ class EnumerableTest {
     testDefaults(assert) {
       assert.deepEquals(bee.Enumerable(this.object).defaults({ added: "default", key: "not overwrite" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
     }
+    testSelect(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).select((key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable(this.array).select((key, value) => (value . value)).toArray(), [ { key: 1, value: "valuevalue" }, { key: 2, value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable(this.map).select((key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+    }
     testToArray(assert) {
       assert.deepEquals(bee.Enumerable(this.object).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
       assert.deepEquals(bee.Enumerable(this.array).toArray(), [ { key: 1, value: "value" }, { key: 2, value: "value2" } ])
@@ -84,6 +89,11 @@ class EnumerableTest {
     }
     testDefaults(assert) {
       assert.deepEquals(bee.Enumerable.defaults(this.object ,{ added: "default", key: "not overwrite" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
+    }
+    testSelect(assert) {
+      assert.deepEquals(bee.Enumerable.select(this.object, (key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable.select(this.array, (key, value) => (value . value)).toArray(), [ { key: 1, value: "valuevalue" }, { key: 2, value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable.select(this.map, (key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
     }
     testToArray(assert) {
       assert.deepEquals(bee.Enumerable.toArray(this.map), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
