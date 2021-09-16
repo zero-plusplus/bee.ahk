@@ -108,7 +108,7 @@ class Enumerable {
         return false
       }
       this.defaultSourceEnumerator := bee.Enumerable.toEnumeratorLike(this.defaultSources[this.current])
-      this._next(&key, &value)
+      return this._next(&key, &value)
     }
   }
   /**
