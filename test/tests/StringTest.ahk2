@@ -1,9 +1,16 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class StringTest {
   class StaticTest {
     testRepeat(assert) {
       assert.equals(bee.String.repeat("abc", 3), "abcabcabc")
+    }
+    testSlice(assert) {
+      assert.equals(bee.String.slice("12345", 1, 5), "1234")
+      assert.equals(bee.String.slice("12345", "1..5"), "1234")
+
+      assert.equals(bee.String.slice("12345", "^2..^1"), "4")
+      assert.equals(bee.String.slice("12345", "1..^1"), "1234")
     }
     testLength(assert) {
       assert.equals(bee.String.length("abc"), 3)
@@ -18,6 +25,13 @@ class StringTest {
     }
     testLength(assert) {
       assert.equals(bee.String("abc").length, 3)
+    }
+    testSlice(assert) {
+      assert.equals(bee.String("12345").slice(1, 5).value, "1234")
+      assert.equals(bee.String("12345").slice("1..5").value, "1234")
+
+      assert.equals(bee.String("12345").slice("^2..^1").value, "4")
+      assert.equals(bee.String("12345").slice("1..^1").value, "1234")
     }
   }
 }

@@ -1,2 +1,26 @@
-﻿class String extends bee.rule.Primitive {
+class String extends bee.rule.Primitive {
+  /**
+   * Returns a new string with the specified range of the string sliced.
+   * @param {string} str
+   * @param {Parameters<bee.RangeLiteral>} rangeLiteralParams
+   * @return {string}
+   */
+  static slice(str, rangeLiteralParams*) {
+    range := bee.RangeLiteral(rangeLiteralParams*)
+    str_len := this.length(str)
+    start := range.start.reverse ? str_len - (range.start.index - 1) : range.start.index
+    end := (range.end.reverse ? str_len - (range.end.index - 1) : range.end.index) - range.excludeEnd
+
+    sliced := SubStr(str, start, end - (start - 1))
+    return sliced
+  }
+  /**
+   * Returns a new string with the specified range of the string sliced.
+   * @param {Parameters<bee.RangeLiteral>} rangeLiteralParams
+   * @return {string}
+   */
+  slice(rangeLiteralParams*) {
+    sliced := bee.String.slice(this.value, rangeLiteralParams*)
+    return bee.String(sliced)
+  }
 }
