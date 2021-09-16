@@ -1,0 +1,8 @@
+﻿/**
+ * Wraps non-array values in an array. If an array is passed, it will return itself.
+ * @param {T} value
+ * @return {T | T[]}
+ */
+static toArray(value) {
+  return bee.isArray(value) ? value : [ value ]
+}

@@ -30,6 +30,15 @@ class UtilTest {
 
     assert.ok(getChar is BoundFunc)
   }
+  testToArray(assert) {
+    arr := []
+    assert.equals(bee.toArray(arr), arr)
+
+    assert.deepEquals(bee.toArray("a"), [ "a" ])
+    assert.deepEquals(bee.toArray(123), [ 123 ])
+    assert.deepEquals(bee.toArray({ key: "value" }), [ { key: "value"} ])
+    assert.deepEquals(bee.toArray(Map("key", "value")), [ Map("key", "value") ])
+  }
   testToBoolean(assert) {
     assert.equals(bee.toBoolean("a"), true)
     assert.equals(bee.toBoolean(""), false)
