@@ -143,6 +143,8 @@
     if (parsed.end.index == "") {
       parsed.end := { index: 1, reverse: true }
     }
+    parsed.start.index := Number(parsed.start.index)
+    parsed.end.index := Number(parsed.end.index)
     parsed.excludeEnd := match.operator == ".." ? true : false
     parsed.step := match.step ? Number(match.step) : 1
     parsed.unicodeMode := false
