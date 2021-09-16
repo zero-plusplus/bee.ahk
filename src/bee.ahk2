@@ -1,4 +1,4 @@
-﻿#Requires AutoHotkey v2.0-beta.1
+#Requires AutoHotkey v2.0-beta.1
 
 class bee {
   static __CALL(key, params) {
@@ -15,6 +15,7 @@ class bee {
       }
     }
   }
+  #Include %A_LineFile%\..\.Array.ahk2
   #Include %A_LineFile%\..\.Enumerable.ahk2
   #Include %A_LineFile%\..\.Json.ahk2
   #Include %A_LineFile%\..\.RangeLiteral.ahk2

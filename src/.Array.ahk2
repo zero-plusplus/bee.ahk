@@ -1,0 +1,25 @@
+﻿class Array extends Array {
+  /**
+   * Join each element with `delimiter`.
+   * @param {string[] | bee.Enumerable} arr
+   * @param {string} delimiter
+   * @return {string}
+   */
+  static join(arr, delimiter) {
+    str := ""
+    for i, value in bee.query(arr) {
+      str .= value . delimiter
+    }
+    str := RTrim(str, delimiter)
+
+    return str
+  }
+  /**
+   * Join each element with `delimiter`.
+   * @param {string} delimiter
+   * @return {string}
+   */
+  join(delimiter) {
+    return bee.Array.join(this, delimiter)
+  }
+}
