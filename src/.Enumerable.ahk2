@@ -36,6 +36,36 @@ class Enumerable {
       return true
     }
   }
+  /**
+   * Builds a `bee.Enumerable` that enumerates the specified range.
+   * @method
+   * @param {Parameters<bee.RangeLiteral.__New>} rangeLiteralParams*
+   * @return {bee.Enumerable<object<number, number>}
+   */
+  class range extends bee.rule.EnumerableFunc {
+    __New(params*) {
+      this.range := bee.RangeLiteral(params*)
+    }
+    _init() {
+      this.current := 1
+      this.start := this.range.start.index
+      this.end := (this.range.end.index - (this.start - 1)) - this.range.excludeEnd
+      this.step := this.range.step
+      this.unicodeMode := this.range.unicodeMode
+    }
+    _next(&key, &value) {
+      if (this.end < this.current) {
+        return false
+      }
+      key := this.current
+
+      _value := this.start + (this.current - 1)
+      value := this.unicodeMode ? Chr(_value) : _value
+
+      this.current += this.step
+      return true
+    }
+  }
 ; #endregion Building
 ; #region Projection
   /**
