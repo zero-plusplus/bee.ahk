@@ -9,6 +9,11 @@ class EnumerableTest {
   testShortHund(assert) {
     assert.ok(bee.query([ "value" ]).toEnumeratorLike() is Enumerator)
   }
+  class BuildingTest {
+    testChars(assert) {
+      assert.deepEquals(bee.Enumerable.chars("abc").toArray(), [ { key: 1, value: "a" }, { key: 2, value: "b" }, { key: 3, value: "c" }])
+    }
+  }
   class InstanceTest {
     startEach() {
       this.object := { key: "value" }
@@ -89,9 +94,6 @@ class EnumerableTest {
       this.object := ""
       this.array := ""
       this.map := ""
-    }
-    testChars(assert) {
-      assert.deepEquals(bee.Enumerable.chars("abc").toArray(), [ { key: 1, value: "a" }, { key: 2, value: "b" }, { key: 3, value: "c" }])
     }
     testCombination(assert) {
       assert.deepEquals(bee.Enumerable.where(this.object, (key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
