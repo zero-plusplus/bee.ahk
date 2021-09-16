@@ -69,6 +69,44 @@ class Enumerable {
 ; #endregion Building
 ; #region Projection
   /**
+   * Concatenate the current sequence with one or more additional sequences.
+   * @template KEY, VALUE
+   * @param {object<KEY, VALUE>} source
+   * @param {Array<object<KEY, VALUE>>} additionalSources*
+   * @return {bee.Enumerable<object<KEY, VALUE>>}
+   */
+  class concat extends bee.rule.EnumerableFunc {
+    _init() {
+      this.current := 1
+      this.additionalSources := this.args
+      this.additonalSequence := bee.Enumerable.toEnumeratorLike(this.additionalSources[this.current])
+    }
+    _next(&key, &value := unset) {
+      if (this.enumerator.call(&key, &value)) {
+        return true
+      }
+      if (this.additonalSequence.call(&key, &value)) {
+        return true
+      }
+
+      this.current++
+      if (!bee.hasKey(this.additionalSources, this.current)) {
+        return false
+      }
+
+      this.additonalSequence := bee.Enumerable.toEnumeratorLike(this.additionalSources[this.current])
+      return this._next(&key, &value)
+    }
+  }
+  /**
+   * Concatenate the current sequence with one or more additional sequences.
+   * @param {Array<object<KEY, VALUE>>} additionalSources*
+   * @return {bee.Enumerable<object<KEY, VALUE>>}
+   */
+  concat(additionalSources*) {
+    return bee.Enumerable.concat(this, additionalSources*)
+  }
+  /**
    * Sets a default fields for the `data`.
    * @template KEY, VALUE
    * @method

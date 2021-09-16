@@ -44,6 +44,9 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable(this.array).where((key) => key == 2).toArray(), [ { key: 2, value: "value2" }])
       assert.deepEquals(bee.Enumerable(this.map).where((key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
     }
+    testConcat(assert) {
+      assert.deepEquals(bee.Enumerable(this.object).concat({ added: "value3" }).toObject(), { added: "value3", key: "value", key2: "value2" })
+    }
     testDefaults(assert) {
       assert.deepEquals(bee.Enumerable(this.object).defaults({ added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
       assert.deepEquals(bee.Enumerable(this.map).defaults({ added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
@@ -111,6 +114,9 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable.where(this.object, (key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
       assert.deepEquals(bee.Enumerable.where(this.array, (key) => key == 2).toArray(), [ { key: 2, value: "value2" }])
       assert.deepEquals(bee.Enumerable.where(this.map, (key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
+    }
+    testConcat(assert) {
+      assert.deepEquals(bee.Enumerable.concat(this.object, { added: "value3" }).toObject(), { added: "value3", key: "value", key2: "value2" })
     }
     testDefaults(assert) {
       assert.deepEquals(bee.Enumerable.defaults(this.object, { added: "not overwrite" }, { key: "not overwrite", added: "default" }).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" }, { key: "added", value: "default" } ])
