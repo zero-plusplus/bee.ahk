@@ -12,6 +12,7 @@ class Enumerable {
   __Enum(*) {
     return this.toEnumeratorLike()
   }
+; #region Building
   /**
    * Converts a string to a bee.Enumerable that enumerates each character.
    * @method
@@ -35,6 +36,8 @@ class Enumerable {
       return true
     }
   }
+; #endregion Building
+; #region Projection
   /**
    * Sets a default fields for the `data`.
    * @template KEY, VALUE
@@ -88,6 +91,67 @@ class Enumerable {
     return bee.Enumerable.defaults(this, defaultSources*)
   }
   /**
+   * Replace the value with the value returned by the specified `selector`.
+   * @template KEY, VALUE, TRemapValue
+   * @param {object<KEY, VALUE>} source
+   * @param {() => TRemapValue} selector
+   * @return {bee.Enumerable<KEY, TRemapValue>}
+   */
+  class select extends bee.rule.EnumerableFunc {
+    _init() {
+      this.selector := bee.callback(this.args[1])
+    }
+    _next(&key, &value) {
+      if (!this.enumerator.call(&_key, &_value)){
+        return false
+      }
+      key := _key
+      value := this.selector.call(_key, _value)
+      return true
+    }
+  }
+  /**
+   * Replace the value with the value returned by the specified `selector`.
+   * @param {() => TRemapValue} selector
+   * @return {bee.Enumerable<KEY, TRemapValue>}
+   */
+  select(selector) {
+    return bee.Enumerable.select(this, selector)
+  }
+; #endregion Projection
+; #region Filtering
+  /**
+   * Returns all elements for which the `predicate` returns `true`.
+   * @method
+   * @param {any} value
+   * @param {(value, key, enumerable) => boolean} predicate
+   */
+  class where extends bee.rule.EnumerableFunc {
+    _init() {
+      this.predicate := bee.callback(this.args[1])
+    }
+    _next(&key, &value) {
+      while (this.enumerator.call(&_key, &_value)) {
+        if (this.predicate.call(_key, _value)) {
+          key := _key
+          value := _value
+          return true
+        }
+      }
+      return false
+    }
+  }
+  /**
+   * Returns all elements for which the `predicate` returns `true`.
+   * @param {(key, value) => boolean} predicate
+   * @return {bee.Enumerable<KEY, VALUE}
+   */
+  where(predicate) {
+    return bee.Enumerable.where(this, predicate)
+  }
+; #endregion Filtering
+; #region Ordering
+  /**
    * Reverse the direction of the sequence.
    * @template KEY, VALUE
    * @method
@@ -118,34 +182,8 @@ class Enumerable {
   reverse() {
     return bee.Enumerable.reverse(this)
   }
-  /**
-   * Replace the value with the value returned by the specified `selector`.
-   * @template KEY, VALUE, TRemapValue
-   * @param {object<KEY, VALUE>} source
-   * @param {() => TRemapValue} selector
-   * @return {bee.Enumerable<KEY, TRemapValue>}
-   */
-  class select extends bee.rule.EnumerableFunc {
-    _init() {
-      this.selector := bee.callback(this.args[1])
-    }
-    _next(&key, &value) {
-      if (!this.enumerator.call(&_key, &_value)){
-        return false
-      }
-      key := _key
-      value := this.selector.call(_key, _value)
-      return true
-    }
-  }
-  /**
-   * Replace the value with the value returned by the specified `selector`.
-   * @param {() => TRemapValue} selector
-   * @return {bee.Enumerable<KEY, TRemapValue>}
-   */
-  select(selector) {
-    return bee.Enumerable.select(this, selector)
-  }
+; #endregion Ordering
+; #region Converting
   /**
    * Convert to an `Array` of objects with key and value fields.
    * @template KEY, VALUE
@@ -253,35 +291,7 @@ class Enumerable {
   toValues() {
     return bee.Enumerable.toValues(this)
   }
-  /**
-   * Returns all elements for which the `predicate` returns `true`.
-   * @method
-   * @param {any} value
-   * @param {(value, key, enumerable) => boolean} predicate
-   */
-  class where extends bee.rule.EnumerableFunc {
-    _init() {
-      this.predicate := bee.callback(this.args[1])
-    }
-    _next(&key, &value) {
-      while (this.enumerator.call(&_key, &_value)) {
-        if (this.predicate.call(_key, _value)) {
-          key := _key
-          value := _value
-          return true
-        }
-      }
-      return false
-    }
-  }
-  /**
-   * Returns all elements for which the `predicate` returns `true`.
-   * @param {(key, value) => boolean} predicate
-   * @return {bee.Enumerable<KEY, VALUE}
-   */
-  where(predicate) {
-    return bee.Enumerable.where(this, predicate)
-  }
+
   /**
    * `Array` and `Map` are converted to Enumerator, and the rest to improved Enumerator-like function.
    *
@@ -328,4 +338,5 @@ class Enumerable {
   toEnumeratorLike() {
     return bee.Enumerable.toEnumeratorLike(this)
   }
+; #endregion Converting
 }
