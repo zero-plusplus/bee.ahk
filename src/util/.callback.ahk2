@@ -11,7 +11,14 @@ static callback(callable) {
   Call(callable, params*) {
     args := []
     Loop callable.maxParams {
-      args.push(params[A_Index])
+      if (0 < params.length) {
+        args.push(params.removeAt(1))
+        continue
+      }
+      break
+    }
+    if (callable.isVariadic && 0 < params.length) {
+      args.push(params*)
     }
     return callable.call(args*)
   }
