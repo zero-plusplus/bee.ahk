@@ -17,14 +17,17 @@
    * @param {string} range
    */
   /**
+   * @param {bee.RangeLiteral} rangeLiteral
+   */
+  /**
    * @param {number | string | RangeIndex} start
    * @param {number | string | RangeIndex} end
    * @param {boolean} [excludeEnd := true]
    * @param {boolean} [step := 1]
    */
   __New(params*) {
-    if (params.length == 1 && bee.isString(params[1])) {
-      parsed := bee.RangeLiteral.parseRangeString(params*)
+    if (params.length == 1) {
+      parsed := bee.is(params[1], bee.RangeLiteral) ? params[1] : bee.RangeLiteral.parseRangeString(params[1])
       this.start := parsed.start
       this.end := parsed.end
       this.excludeEnd := parsed.excludeEnd
