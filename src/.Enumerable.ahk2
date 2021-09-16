@@ -3,11 +3,11 @@ class Enumerable {
   source := ""
   /**
    * @template KEY, VALUE
-   * @param {object<KEY, VALUE>} source
+   * @param {primitive | object<KEY, VALUE>} source - If a primitive value is specified, it will be wrapped in an array.
    * @return {bee.Enumerable<object<KEY, VALUE>}
    */
   __New(source) {
-    this.source := source
+    this.source := bee.isPrimitive(source) ? [ source ] : source
   }
   __Enum(*) {
     return this.toEnumeratorLike()
@@ -18,8 +18,10 @@ class Enumerable {
    * @return {bee.Enumerable<object<number, string>}
    */
   class chars extends bee.rule.EnumerableFunc {
+    __New(source) {
+      this.source := bee.isString(source) ? source : ""
+    }
     _init() {
-      this.source := bee.isString(this.source) ? this.source : ""
       this.current := 1
     }
     _next(&key, &value := unset) {

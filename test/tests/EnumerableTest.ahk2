@@ -1,6 +1,11 @@
 #Include ..\common.ahk2
 
 class EnumerableTest {
+  testConstructor(assert) {
+    assert.deepEquals(bee.Enumerable("string").toValues(), [ "string" ])
+    assert.deepEquals(bee.Enumerable(123).toValues(), [ 123 ])
+    assert.deepEquals(bee.Enumerable(true).toValues(), [ true ])
+  }
   testShortHund(assert) {
     assert.ok(bee.query([ "value" ]).toEnumeratorLike() is Enumerator)
   }
