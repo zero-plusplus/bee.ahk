@@ -1,0 +1,28 @@
+﻿#Include ..\common.ahk2
+
+class RegExTest {
+  testConstructor(assert) {
+    assert.deepEquals(bee.RegEx("i)source", "m").value, "m)source")
+    assert.deepEquals(bee.RegEx("i)source").addFlag("m").value, "im)source")
+  }
+  class InstanceTest {
+    testAddFlag(assert) {
+      assert.deepEquals(bee.RegEx("", [ "i", "m" ]).addFlag("i", "x", "S").flags, [ "i", "m", "x", "S" ])
+    }
+    testRemoveFlag(assert) {
+      assert.deepEquals(bee.RegEx("", [ "i", "m" ]).removeFlag("i").flags, [ "m" ])
+    }
+    testReplace(assert) {
+      assert.equals(bee.RegEx("([^\s])").replace("a b c", "$"), "$ $ $")
+      assert.equals(bee.RegEx("([^\s])").replace("a b c", "$", 1), "$ b c")
+      assert.equals(bee.RegEx("([^\s])").replace("a b c", (match) => match[1] == "b" ? "$" : match[1]), "a $ c")
+    }
+  }
+  class StaticTest {
+    testReplace(assert) {
+      assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$"), "$ $ $")
+      assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$", 1), "$ b c")
+      assert.equals(bee.RegEx.replace("([^\s])", "a b c", (match) => match[1] == "b" ? "$" : match[1]), "a $ c")
+    }
+  }
+}

@@ -1,6 +1,7 @@
 ﻿class rule {
   #Include %A_LineFile%\..\.EnumerableConverter.ahk2
   #Include %A_LineFile%\..\.EnumerableFunc.ahk2
+  #Include %A_LineFile%\..\.PcreCalloutable.ahk2
   #Include %A_LineFile%\..\.PredicateFunc.ahk2
   #Include %A_LineFile%\..\.PredicateVariation.ahk2
   #Include %A_LineFile%\..\.Primitive.ahk2

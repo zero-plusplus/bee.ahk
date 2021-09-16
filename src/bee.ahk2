@@ -19,6 +19,7 @@ class bee {
   #Include %A_LineFile%\..\.Enumerable.ahk2
   #Include %A_LineFile%\..\.Json.ahk2
   #Include %A_LineFile%\..\.RangeLiteral.ahk2
+  #Include %A_LineFile%\..\.RegEx.ahk2
   #Include %A_LineFile%\..\.String.ahk2
 
   #Include %A_LineFile%\..\console\console.ahk2

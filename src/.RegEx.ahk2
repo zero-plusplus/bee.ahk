@@ -1,0 +1,122 @@
+class RegEx {
+  /**
+   * @readonly
+   * @type {string<regex>}
+   */
+  value {
+    get {
+      if (0 < this.flags.length) {
+        return bee.Array.join(this.flags, "") ")" this.source
+      }
+      return this.source
+    }
+  }
+  ;; @type {string}
+  source := ""
+  ;; @type {string[]}
+  flags := []
+  /**
+   * @param {string} source
+   * @param {string | string[]} newFlags?
+   */
+  __New(source, newFlags := "") {
+    normalizedNewFlags := bee.isString(newFlags) ? StrSplit(newFlags, "") : newFlags
+
+    if (bee.PatternLiteral.isRegExPatternLiteral(source)) {
+      literal := bee.PatternLiteral(source)
+      this.source := literal.text
+      this.flags := bee.query(flags).concat(StrSplit(literal.flags, "")*).toValues()
+      return this
+    }
+
+    this.source := source
+    this.flags := normalizedNewFlags
+    RegExMatch(source, "^((?<flags>[imsxADJUXPOSC`n`r`a]*)\))?(?<source>.+)$", &match)
+    if (!match) {
+      return this
+    }
+    this.source := match.source
+    this.flags := newFlags ? normalizedNewFlags : StrSplit(match.flags, "")
+  }
+  /**
+   * Replaces a string with a regular expression.
+   * @param {string<regex>} regex
+   * @param {string} str
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @param {number} [limit := -1] - Limit the number of times to replace. `-1` indicates unlimited
+   */
+  class replace extends bee.rule.PcreCalloutable {
+    static callout := ""
+    static call(regex, str, replacement, limit := -1) {
+      if (bee.isCallable(replacement)) {
+        regex := bee.RegEx(regex).addFlag("C").value
+        pcre_callout_bk := this.callout
+        context := { callout: replacement, result: str, limit: limit, count: 1 }
+        this.callout := ObjBindMethod(this, "pcre_callout", context)
+        RegExReplace(str, regex, , , limit)
+        this.callout := pcre_callout_bk
+        return context.result
+      }
+
+      return RegExReplace(str, regex, replacement, , limit)
+    }
+    static pcre_callout(context, match, calloutNumber, offset, str, pattern) {
+      if (-1 < context.limit && context.limit < context.count) {
+        return -1
+      }
+
+      str := context.result
+      pattern := bee.RegEx(pattern).removeFlag("C").value
+      callback := bee.callback(context.callout)
+
+      RegExMatch(context.result, pattern, &match, offset)
+      if (!match) {
+        return -1
+      }
+
+
+      extra := this.getCalloutExtraInfo()
+      replacement := callback(match, pattern, extra)
+
+      a := SubStr(str, 1, match.pos - 1)
+      b := SubStr(str, match.pos + StrLen(match[0]))
+      result := a . replacement . b
+
+      context.result := result
+      context.count++
+      return str == result ? 1 : 0
+    }
+  }
+  /**
+   * Replaces a string with a regular expression.
+   * @param {string} str
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @param {number} [limit := -1] - Limit the number of times to replace. `-1` indicates unlimited
+   */
+  replace(str, replacement, limit := -1) {
+    return bee.RegEx.replace(this.value, str, replacement, limit)
+  }
+  /**
+   * Adds one or more flags.
+   * @param {string[]} flags*
+   * @chainable
+   */
+  addFlag(flags*) {
+    for i, flag in flags {
+      if (bee.any.equals(this.flags, flag)) {
+        continue
+      }
+      this.flags.push(flag)
+    }
+    return this
+  }
+  /**
+   * Removes one or more flags.
+   * @param {string[]} flags*
+   * @chainable
+   */
+  removeFlag(flags*) {
+    this.flags := bee.query(this.flags).where((i, flag) => bee.none.equals(flags, flag)).toValues()
+    return this
+  }
+}

@@ -1,0 +1,41 @@
+﻿class PcreCalloutable {
+  /**
+   * Get/set the default PCRE callout.
+   */
+  static callout {
+    get {
+      global pcre_callout
+      return IsSet(pcre_callout) ? pcre_callout : ""
+    }
+    set {
+      global pcre_callout
+      pcre_callout := value
+    }
+  }
+  /**
+   * **Note that this method needs to be called within the function set to pcre_callout.**
+   *
+   * Get callout extras information.
+   */
+  static getCalloutExtraInfo() {
+    ; https://lexikos.github.io/v2/docs/misc/RegExCallout.htm#EventInfo
+    pad := A_PtrSize == 8 ? 4 : 0  ; Compensate for 64-bit data alignment
+    return {
+      version:          NumGet(A_EventInfo,  0, "Int"),
+      calloutNumber:    NumGet(A_EventInfo,  4, "Int"),
+      offsetVector:     NumGet(A_EventInfo,  8, "Ptr"),
+      subject:          NumGet(A_EventInfo,  8 + A_PtrSize, "Ptr"),
+      subjectLength:    NumGet(A_EventInfo,  8 + A_PtrSize * 2, "Int"),
+      startMatch:       NumGet(A_EventInfo, 12 + A_PtrSize * 2, "Int"),
+      currentPosition:  NumGet(A_EventInfo, 16 + A_PtrSize * 2, "Int"),
+      captureTop:       NumGet(A_EventInfo, 20 + A_PtrSize * 2, "Int"),
+      captureLast:      NumGet(A_EventInfo, 24 + A_PtrSize * 2, "Int"),
+      calloutData:      NumGet(A_EventInfo, 28 + pad + A_PtrSize * 2, "Ptr"),
+      patternPosition:  NumGet(A_EventInfo, 28 + pad + A_PtrSize * 3, "Int"),
+      nextItemLength:   NumGet(A_EventInfo, 32 + pad + A_PtrSize * 3, "Int"),
+      pad:              pad,
+      ; The following are disabled because they generate errors
+      ; mark :             2 <= version ? StrGet(NumGet(A_EventInfo, 36 + pad + A_PtrSize * 3, "Int"), , "UTF-8") : ""
+    }
+  }
+}
