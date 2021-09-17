@@ -1,0 +1,14 @@
+﻿/**
+ * Get the nested property.
+ * This method absorbs the syntax differences between object types.
+ * @param {object} obj
+ * @param {any[]} keys*
+ * @return {any}
+ */
+static getNestedProp(obj, keys*) {
+  prop := obj
+  for i, key in keys {
+    prop := this.getProp(prop, key)
+  }
+  return prop
+}

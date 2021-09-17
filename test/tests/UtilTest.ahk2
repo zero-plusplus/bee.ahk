@@ -17,6 +17,9 @@ class UtilTest {
     assert.equals(curried3(1), "a")
     assert.equals(curried1("abc", 1, 1), "a")
   }
+  testGetNestedProp(assert) {
+    assert.equals(bee.getNestedProp({ key: Map("nest-key", [ "nested-value"]) }, "key", "nest-key", "1"), "nested-value")
+  }
   testGetProp(assert) {
     assert.equals(bee.getProp({ key: "value" }, "key"), "value")
     assert.equals(bee.getProp(Map("key", "value"), "key"), "value")
