@@ -1,5 +1,63 @@
 class String extends bee.rule.Primitive {
   /**
+   * @param {string} str
+   * @param {string | { text: string, type: "text" } | { text: string, type: "ignorecase" }} str
+   * @param {string | (pattern: string, offset: number, str: string) => string} replacement - A string to replace or a callable object to output it
+   * @param {number} [limit := -1]
+   * @return {string}
+   */
+  /**
+   * @param {string} str
+   * @param {string<regex> | { text: string, type: "regex" }} pattern
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @param {number} [limit := -1]
+   * @return {string}
+   */
+  static replace(str, pattern, replacement, limit := -1) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      return bee.RegEx.fromRegExLiteral(pattern).replace(str, replacement, limit)
+    }
+
+    caseSensitive := pattern.type == "ignorecase" ? false : true
+    if (!bee.isCallable(replacement)) {
+      return StrReplace(str, pattern.text, replacement, caseSensitive, , limit)
+    }
+
+    replaced := str
+    callback := bee.callback(replacement)
+    count := 1
+    while (true) {
+      if (-1 < limit && limit < count) {
+        break
+      }
+      offset := InStr(replaced, pattern.text, caseSensitive)
+      if (offset == 0) {
+        break
+      }
+      replacement := callback(pattern.text, offset, replaced)
+      replaced := StrReplace(replaced, pattern.text, replacement, caseSensitive, , 1)
+      count++
+    }
+    return replaced
+  }
+  /**
+   * @param {string | { text: string, type: "text" } | { text: string, type: "ignorecase" }} str
+   * @param {string | (pattern: string, offset: number, str: string) => string} replacement - A string to replace or a callable object to output it
+   * @param {number} [limit := -1]
+   * @return {string}
+   */
+  /**
+   * @param {string<regex> | { text: string, type: "regex" }} pattern
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @param {number} [limit := -1]
+   * @return {string}
+   */
+  replace(pattern, replacement, limit := -1) {
+    replaced := bee.String.replace(this.value, pattern, replacement, limit)
+    return bee.String(replaced)
+  }
+  /**
    * Returns a new string with the specified range of the string sliced.
    * @param {string} str
    * @param {Parameters<bee.RangeLiteral>} rangeLiteralParams
