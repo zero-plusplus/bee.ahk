@@ -1,4 +1,4 @@
-class RangeLiteral {
+﻿class RangeLiteral {
   /**
    * @typedef {{ index: number; reverse: number}} RangeIndex
    */
@@ -163,5 +163,19 @@ class RangeLiteral {
     parsed.step := match.step ? Number(match.step) : 1
     parsed.unicodeMode := false
     return parsed
+  }
+  /**
+   * @param {number} length?
+   * @return {bee.Enumerable}
+   */
+  toRange(length := unset) {
+    startIndex := this.start.index
+    endIndex := this.end.index
+
+    if (IsSet(length)) {
+      startIndex := this.start.reverse ? length - (startIndex - 1) : startIndex
+      endIndex := this.end.reverse ? length - (endIndex - 1) : endIndex
+    }
+    return bee.Enumerable.range(startIndex, endIndex, this.excludeEnd, this.step)
   }
 }
