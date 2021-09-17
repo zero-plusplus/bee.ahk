@@ -1,4 +1,4 @@
-﻿class RangeLiteral {
+class RangeLiteral {
   /**
    * @typedef {{ index: number; reverse: number}} RangeIndex
    */
@@ -14,6 +14,9 @@
   unicodeMode := false
 
   /**
+   * @param {number} startIndex
+   */
+  /**
    * @param {string} range
    */
   /**
@@ -27,6 +30,14 @@
    */
   __New(params*) {
     if (params.length == 1) {
+      if (bee.isNumberLike(params[1])) {
+        this.start := { index: 1, reverse: false }
+        this.end := { index: 1, reverse: true }
+        this.excludeEnd := false
+        this.step := 1
+        this.unicodeMode := false
+        return this
+      }
       parsed := bee.is(params[1], bee.RangeLiteral) ? params[1] : bee.RangeLiteral.parseRangeString(params[1])
       this.start := parsed.start
       this.end := parsed.end
