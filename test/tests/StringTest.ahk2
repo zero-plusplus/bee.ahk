@@ -2,6 +2,11 @@
 
 class StringTest {
   class StaticTest {
+    testCount(assert) {
+      assert.equals(bee.String.count("a b a", "a"), 2)
+      assert.equals(bee.String.count("a b a", "/(?<=b\s)a/"), 1)
+      assert.equals(bee.String.count("a b a", { text: "A", type: "ignorecase" }), 2)
+    }
     testRepeat(assert) {
       assert.equals(bee.String.repeat("abc", 3), "abcabcabc")
     }
@@ -36,6 +41,11 @@ class StringTest {
     }
   }
   class InstanceTest {
+    testCount(assert) {
+      assert.equals(bee.String("a b a").count("a"), 2)
+      assert.equals(bee.String("a b a").count("/(?<=b\s)a/"), 1)
+      assert.equals(bee.String("a b a").count({ text: "A", type: "ignorecase" }), 2)
+    }
     testRepeat(assert) {
       assert.equals(bee.String("abc").repeat(3), "abcabcabc")
     }

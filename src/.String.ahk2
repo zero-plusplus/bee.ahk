@@ -1,5 +1,29 @@
 class String extends bee.rule.Primitive {
   /**
+   * Returns the number of times the specified `pattern` is matched.
+   * @param {string} str
+   * @param {string | bee.PatternLiteral} pattern
+   * @return {number}
+   */
+  static count(str, pattern) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      RegExReplace(str, bee.RegEx.fromRegExLiteral(pattern).value, "", &count)
+      return count
+    }
+    caseSensitive := pattern.type == "ignorecase" ? false : true
+    StrReplace(str, pattern.text, "", caseSensitive, &count)
+    return count
+  }
+  /**
+   * Returns the number of times the specified `pattern` is matched.
+   * @param {string | bee.PatternLiteral} pattern
+   * @return {number}
+   */
+  count(pattern) {
+    return bee.String.count(this.value, pattern)
+  }
+  /**
    * @param {string} str
    * @param {string | { text: string, type: "text" } | { text: string, type: "ignorecase" }} str
    * @param {string | (pattern: string, offset: number, str: string) => string} replacement - A string to replace or a callable object to output it
