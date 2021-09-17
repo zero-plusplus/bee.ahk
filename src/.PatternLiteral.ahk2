@@ -1,0 +1,68 @@
+﻿class PatternLiteral {
+  static regexPatternRegEx := "^/(?<pattern>.+)/(?<flags>[imsxADJUXPOSC`n`r`a]*)$"
+  /**
+   * @typedef {"text" | "ignorecase" | "regex" | "wildcard"} PatternType
+   */
+  ;; @type {string}
+  text := ""
+  ;; @type {PatternType}
+  type := "text"
+  /**
+   * @param {string} text
+   * @param {PatternType} patternType
+   */
+  __New(text, patternType := unset) {
+    if (IsSet(patternType)) {
+      if (bee.isObject(text)) {
+        literal := text
+        text := literal.text
+        patternType := literal.type
+      }
+
+      this.text := text
+      this.type := patternType
+      return this
+    }
+
+    if (bee.is(text, bee.PatternLiteral) || (bee.hasKey(text, "text") && bee.hasKey(text, "type"))) {
+      literal := text
+      this.text := literal.text
+      this.type := literal.type
+      return this
+    }
+
+    this.text := text
+    RegExMatch(text, bee.PatternLiteral.regexPatternRegEx, &isRegexPatternMatch)
+    if (isRegexPatternMatch) {
+      this.type := "regex"
+    }
+  }
+  /**
+   * @param {string} str
+   * @return {boolean}
+   */
+  static isRegExPatternLiteral(str) {
+    return 0 < RegExMatch(str, this.regexPatternRegEx)
+  }
+  /**
+   * @param {string<regex> | { text: string, type: string; }} pattern
+   * @return {bee.RegEx}
+   */
+  static toRegEx(pattern) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      RegExMatch(pattern.text, bee.PatternLiteral.regexPatternRegEx, &match)
+      return bee.RegEx(match.pattern, match.flags)
+    }
+    if (pattern.type == "ignorecase") {
+      return bee.RegEx(pattern.text, [ "i" ])
+    }
+    return bee.RegEx(pattern.text)
+  }
+  /**
+   * @return {bee.RegEx}
+   */
+  toRegEx() {
+    return bee.PatternLiteral.toRegEx(this)
+  }
+}

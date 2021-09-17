@@ -1,0 +1,24 @@
+﻿#Include ..\common.ahk2
+
+class PatternLiteralTest {
+  testConstructor(assert) {
+    assert.deepEquals(bee.PatternLiteral("text"), { text: "text", type: "text" })
+    assert.deepEquals(bee.PatternLiteral("text", "ignorecase"), { text: "text", type: "ignorecase" })
+    assert.deepEquals(bee.PatternLiteral({ text: "text", type: "text" }), { text: "text", type: "text" })
+    assert.deepEquals(bee.PatternLiteral(bee.PatternLiteral("text", "text")), { text: "text", type: "text" })
+    assert.deepEquals(bee.PatternLiteral("/source/im"), { text: "/source/im", type: "regex" })
+  }
+  class InstanceTest {
+    testToRegEx(assert) {
+      assert.ok(bee.PatternLiteral("/source/im").toRegEx() is bee.RegEx)
+    }
+  }
+  class StaticTest {
+    testIsRegExPatternLiteral(assert) {
+      assert.ok(bee.PatternLiteral.isRegExPatternLiteral("/source/im"))
+    }
+    testToRegEx(assert) {
+      assert.ok(bee.PatternLiteral.toRegEx("/source/im") is bee.RegEx)
+    }
+  }
+}
