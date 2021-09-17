@@ -1,0 +1,11 @@
+﻿/**
+ * The two strings are compared and a `-1` is returned if the left string is larger, a `1` if the right string is larger, and `0` if they are the same.
+ * @param {primitive} left
+ * @param {primitive} right
+ * @param {boolean} [descending := false]
+ * @param {boolean | "Locale" | "Logical"} [caseSensitive := true]
+ */
+static compare(left, right, descending := false, caseSensitive := true) {
+  result := bee.all.isNumberLike([ left, right ]) ? left - right : StrCompare(left, right, caseSensitive)
+  return bee.Number.clamp(descending ? -result : result, -1, 1)
+}
