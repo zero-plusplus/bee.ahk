@@ -1,4 +1,4 @@
-class Array extends Array {
+﻿class Array extends Array {
   /**
    * Join each element with `delimiter`.
    * @param {string[] | bee.Enumerable} arr
@@ -44,5 +44,69 @@ class Array extends Array {
    */
   slice(rangeLiteralParams*) {
     return bee.Array.slice(this, rangeLiteralParams*)
+  }
+  /**
+   * Returns a new array sorted by stable merge sort.
+   * @template TElement
+   * @method
+   * @param {TElement[]} arr
+   * @param {(a, b) => number} comparer?
+   * @return {TElement[]}
+   */
+  class sort {
+    static call(arr, comparer := "") {
+      comparer := comparer || (a, b) => bee.compare(a, b)
+      return this.mutable(arr.clone(), comparer)
+    }
+    class mutable {
+      static call(arr, comparer) {
+        return this.haifdividing(arr, comparer)
+      }
+      static haifdividing(arr, comparer) {
+        dividingPoint := Ceil(arr.length / 2)
+        left := bee.Array.slice(arr, 1, dividingPoint)
+        right := bee.Array.slice(arr, dividingPoint + 1)
+        if (1 < dividingPoint) {
+          left := this.haifdividing(left, comparer)
+          right := this.haifdividing(right, comparer)
+        }
+        return this.merge(left, right, comparer)
+      }
+      static merge(left, right, comparer) {
+        hasFirstElement := bee.hasKey(1)
+
+        merged := []
+        while (0 < left.length || 0 < right.length) {
+          if (hasFirstElement(left) && !hasFirstElement(right)) {
+            merged.push(left.removeAt(1))
+            continue
+          }
+          if (!hasFirstElement(left) && hasFirstElement(right)) {
+            merged.push(right.removeAt(1))
+            continue
+          }
+          if (!hasFirstElement(left) && !hasFirstElement(right)) {
+            break
+          }
+
+          switch (bee.Number.clamp(comparer(left[1], right[1]), -1, 1)) {
+            case 0: merged.push(left.removeAt(1))
+            case 1: merged.push(right.removeAt(1))
+            case -1: merged.push(left.removeAt(1))
+          }
+        }
+        return merged
+      }
+    }
+    /**
+     * Returns a new array sorted by stable merge sort.
+     * @method
+     * @param {(a, b) => number} comparer?
+     * @return {bee.Array<TElement>}
+     */
+    sort(comparer) {
+      arr := bee.Array.sort(this, comparer)
+      return bee.Array(arr*)
+    }
   }
 }

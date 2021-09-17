@@ -1,10 +1,16 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class ArrayTest {
   class InstanceTest {
     testJoin(assert) {
       assert.equals(bee.Array("a", "b", "c").join(""), "abc")
       assert.equals(bee.Array("a", "b", "c").join(", "), "a, b, c")
+    }
+    testSort(assert) {
+      assert.deepEquals(bee.Array.sort([ 3, 1, 2 ]), [ 1, 2, 3 ])
+      assert.deepEquals(bee.Array.sort([ { id: 3 }, { id: 1 }, { id: 2 } ], (a, b) => bee.compare(a.id, b.id, true)), [ { id: 3 }, { id: 2 }, { id: 1 } ])
+
+      assert.deepEquals(bee.Array.sort([ { id: 1, key: "A" }, { id: 1, key: "B" }, { id: 1, key: "C" } ], (a, b) => bee.compare(a.id, b.id, true)), [ { id: 1, key: "A" }, { id: 1, key: "B" }, { id: 1, key: "C" } ])
     }
     testSlice(assert) {
       assert.deepEquals(bee.Array(1, 2, 3, 4, 5).slice(1), [ 1, 2, 3, 4, 5 ])
