@@ -47,6 +47,7 @@ class Enumerable {
       this.range := bee.RangeLiteral(params*)
     }
     _init() {
+      this.increment := 1
       this.current := 1
       this.start := this.range.start.index
       this.end := (this.range.end.index - (this.start - 1)) - this.range.excludeEnd
@@ -57,11 +58,12 @@ class Enumerable {
       if (this.end < this.current) {
         return false
       }
-      key := this.current
+      key := this.increment
 
       _value := this.start + (this.current - 1)
       value := this.unicodeMode ? Chr(_value) : _value
 
+      this.increment++
       this.current += this.step
       return true
     }
