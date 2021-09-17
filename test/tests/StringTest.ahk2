@@ -15,6 +15,10 @@ class StringTest {
       assert.equals(bee.String.replace("a b a", "a", () => "$"), "$ b $")
       assert.equals(bee.String.replace("a b a", "a", () => "$", 1), "$ b a")
     }
+    testReplaceFirst(assert) {
+      assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
+      assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
+    }
     testSlice(assert) {
       assert.equals(bee.String.slice("12345", 1, 5), "1234")
       assert.equals(bee.String.slice("12345", "1..5"), "1234")
@@ -45,6 +49,10 @@ class StringTest {
 
       assert.equals(bee.String("a b a").replace("a", () => "$").value, "$ b $")
       assert.equals(bee.String("a b a").replace("a", () => "$", 1).value, "$ b a")
+    }
+    testReplaceFirst(assert) {
+      assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
+      assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
     }
     testSlice(assert) {
       assert.equals(bee.String("12345").slice(1, 5).value, "1234")
