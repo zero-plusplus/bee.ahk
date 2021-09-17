@@ -1,6 +1,7 @@
 ﻿class util {
   #Include .callback.ahk2
   #Include .compare.ahk2
+  #Include .compareIgnoreCase.ahk2
   #Include .curry.ahk2
   #Include .getNestedProp.ahk2
   #Include .getProp.ahk2

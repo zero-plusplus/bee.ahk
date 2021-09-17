@@ -1,0 +1,11 @@
+﻿/**
+ * The two strings are compared and a `-1` is returned if the left string is larger, a `1` if the right string is larger, and `0` if they are the same.
+ *
+ * If a string is specified, it will be compared in a case-insensitive.
+ * @param {primitive} left
+ * @param {primitive} right
+ * @param {boolean} [descending := false]
+ */
+static compareIgnoreCase(left, right, descending := false) {
+  return bee.compare(left, right, descending, false)
+}

@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class UtilTest {
   testCallback(assert) {
@@ -17,6 +17,9 @@ class UtilTest {
     assert.equals(bee.compare("a", "a"), 0)
     assert.equals(bee.compare("a", "A", false, false), 0)
     assert.notEquals(bee.compare("a", "A"), 0)
+  }
+  testCompareIgnoreCase(assert) {
+    assert.equals(bee.compareIgnoreCase("a", "A"), 0)
   }
   testCurry(assert) {
     curried1 := bee.curry(SubStr)
