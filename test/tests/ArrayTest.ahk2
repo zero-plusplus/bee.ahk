@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class ArrayTest {
   class InstanceTest {
@@ -6,11 +6,21 @@ class ArrayTest {
       assert.equals(bee.Array("a", "b", "c").join(""), "abc")
       assert.equals(bee.Array("a", "b", "c").join(", "), "a, b, c")
     }
+    testSlice(assert) {
+      assert.deepEquals(bee.Array(1, 2, 3, 4, 5).slice(1), [ 1, 2, 3, 4, 5 ])
+      assert.deepEquals(bee.Array(1, 2, 3, 4, 5).slice("1..5"), [ 1, 2, 3, 4 ])
+      assert.deepEquals(bee.Array(1, 2, 3, 4, 5).slice("2...4 step 2"), [ 2, 4 ])
+    }
   }
   class StaticTest {
     testJoin(assert) {
       assert.equals(bee.Array.join([ "a", "b", "c" ], ""), "abc")
       assert.equals(bee.Array.join({ a: "a", b: "b", c: "c" }, ", "), "a, b, c")
+    }
+    testSlice(assert) {
+      assert.deepEquals(bee.Array.slice([ 1, 2, 3, 4, 5 ], 1), [ 1, 2, 3, 4, 5 ])
+      assert.deepEquals(bee.Array.slice([ 1, 2, 3, 4, 5 ], "1..5"), [ 1, 2, 3, 4 ])
+      assert.deepEquals(bee.Array.slice([ 1, 2, 3, 4, 5 ], "2...4 step 2"), [ 2, 4 ])
     }
   }
 }
