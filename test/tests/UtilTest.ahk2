@@ -56,6 +56,9 @@ class UtilTest {
     assert.equals(bee.toNumber("abc"), "")
     assert.equals(bee.toNumber({}), "")
   }
+  testTryGetNestedProp(assert) {
+    assert.equals(bee.tryGetNestedProp({ key: Map("nest-key", [ "nested-value"]) }, [ "key", "nest-key", "unknown" ], "default"), "default")
+  }
   testTryGetProp(assert) {
     assert.equals(bee.tryGetProp({ key: "value" }, "unknown", "default"), "default")
     assert.equals(bee.tryGetProp(Map("key", "value"), "unknown", "default"), "default")

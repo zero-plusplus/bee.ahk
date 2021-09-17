@@ -8,6 +8,7 @@
   #Include .toArray.ahk2
   #Include .toBoolean.ahk2
   #Include .toNumber.ahk2
+  #Include .tryGetNestedProp.ahk2
   #Include .tryGetProp.ahk2
   #Include .walk.ahk2
 }

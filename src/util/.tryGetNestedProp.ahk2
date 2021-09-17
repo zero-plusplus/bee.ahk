@@ -1,0 +1,15 @@
+﻿/**
+ * Get the nested property. If it can' t be got, it returns the `default`.
+ * This method absorbs the syntax differences between object types.
+ * @param {object} obj
+ * @param {any[]} keys
+ * @param {any} [default := ""]
+ * @return {any}
+ */
+static tryGetNestedProp(obj, keys, default := "") {
+  prop := obj
+  for i, key in keys {
+    prop := this.tryGetProp(prop, keys, default)
+  }
+  return prop
+}
