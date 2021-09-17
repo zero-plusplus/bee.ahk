@@ -31,7 +31,7 @@
   __New(params*) {
     if (params.length == 1) {
       if (bee.isNumberLike(params[1])) {
-        this.start := { index: 1, reverse: false }
+        this.start := { index: params[1], reverse: false }
         this.end := { index: 1, reverse: true }
         this.unicodeMode := false
         return this
