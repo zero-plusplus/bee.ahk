@@ -1,4 +1,4 @@
-class String extends bee.rule.Primitive {
+﻿class String extends bee.rule.Primitive {
   /**
    * Returns the number of times the specified `pattern` is matched.
    * @param {string} str
@@ -22,6 +22,9 @@ class String extends bee.rule.Primitive {
    */
   count(pattern) {
     return bee.String.count(this.value, pattern)
+  }
+  static format(str, params*) {
+    return Format(str, params*)
   }
   /**
    * @param {string} str
@@ -162,5 +165,116 @@ class String extends bee.rule.Primitive {
   slice(rangeLiteralParams*) {
     sliced := bee.String.slice(this.value, rangeLiteralParams*)
     return bee.String(sliced)
+  }
+  /**
+   * Embeds the value of a variable in a string.
+   *
+   * You can determine the value to embed in the format `${key_or_index}` as shown in the following example.
+   * ```ahk2
+   * bee.String.template("${key}", { key: "value" }) ; => "value"
+   * ```
+   *
+   * If you want to get nested properties, connect them with dots.
+   * ```ahk2
+   * bee.String.template("${key.nest}", { key: { nest: "value" } }) ; => "value"
+   * ```
+   *
+   * If you pass an array to `variable`, specify a index.
+   * ```ahk2
+   * bee.String.template("${1}, ${2.nest}", [ "value", { nest: "value2" }]) ;=> "value, value2"
+   * ```
+   *
+   * If you omit the index, the index will be incremented by the number of repetitions.
+   * ```ahk2
+   * bee.String.template("${}, ${}, ${}", [ 1, 2, 3 ]) ;=> "1, 2, 3"
+   * ```
+   *
+   * If you do not want to embed the value, prefix the `$` with `\`.
+   * ```ahk2
+   * bee.String.template("\${1}, ${1}", "value") ;=> "${1}, value"
+   * ```
+   *
+   * If you pass `variable` followed by an argument, it will have the same meaning as if you had passed an array.
+   * In other words, the following will be the same.
+   * ```ahk
+   * bee.String.template("${}, ${}, ${}", [ "a", "b", "c" ]) ;=> "a, b, c"
+   * bee.String.template("\${1}, ${1}", "a", "b", "c") ;=> "a, b, c"
+   * ```
+   * @param {string} str
+   * @param {any} variable
+   * @param {any[]} variables*
+   * @return {string}
+   */
+  static template(str, variables*) {
+    source := variables.length == 1 ? variables[1] : variables
+    if (bee.isPrimitive(source)) {
+      source := [ source ]
+    }
+
+    formatted := bee.String.replaceAll(str, "/(?<!\\)\$\{(?<key>[^\s\{\}]*)?\}/i", Template.bind({ source: source, count: 1 }))
+    formatted := bee.String.replaceAll(formatted, "/\\(\$\{[^\s\{\}]*\})/i", "$1")
+    return formatted
+
+    Template(context, match, str, *) {
+      if (bee.toNumber(match.key) == 0) {
+        value := context.source
+      }
+      else {
+        keys := StrSplit(match.key ? match.key : context.count, ".")
+        if (bee.hasNestedKey(context.source, keys*)) {
+          value := bee.getNestedProp(context.source, keys*)
+        }
+      }
+      context.count++
+      if (!IsSet(value)) {
+        return match[0]
+      }
+      if (bee.isPrimitive(value)) {
+        return value
+      }
+      return bee.Json.stringify(value, { space: true })
+    }
+  }
+  /**
+   * Embeds the value of a variable in a string.
+   *
+   * You can determine the value to embed in the format `${key_or_index}` as shown in the following example.
+   * ```ahk2
+   * bee.String.template("${key}", { key: "value" }) ; => "value"
+   * ```
+   *
+   * If you want to get nested properties, connect them with dots.
+   * ```ahk2
+   * bee.String.template("${key.nest}", { key: { nest: "value" } }) ; => "value"
+   * ```
+   *
+   * If you pass an array to `variable`, specify a index.
+   * ```ahk2
+   * bee.String.template("${1}, ${2.nest}", [ "value", { nest: "value2" }]) ;=> "value, value2"
+   * ```
+   *
+   * If you omit the index, the index will be incremented by the number of repetitions.
+   * ```ahk2
+   * bee.String.template("${}, ${}, ${}", [ 1, 2, 3 ]) ;=> "1, 2, 3"
+   * ```
+   *
+   * If you do not want to embed the value, prefix the `$` with `\`.
+   * ```ahk2
+   * bee.String.template("\${1}, ${1}", "value") ;=> "${1}, value"
+   * ```
+   *
+   * If you pass `variable` followed by an argument, it will have the same meaning as if you had passed an array.
+   * In other words, the following will be the same.
+   * ```ahk
+   * bee.String.template("${}, ${}, ${}", [ "a", "b", "c" ]) ;=> "a, b, c"
+   * bee.String.template("\${1}, ${1}", "a", "b", "c") ;=> "a, b, c"
+   * ```
+   * @param {any} variable
+   * @param {any[]} variables*
+   * @return {bee.String}
+   */
+  template(variables*) {
+    templated := bee.String.template(this.value, variables*)
+    return bee.String(templated)
   }
 }

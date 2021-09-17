@@ -42,6 +42,22 @@ class StringTest {
       assert.equals(bee.String("12345").slice("^2..^1").value, "4")
       assert.equals(bee.String("12345").slice("1..^1").value, "1234")
     }
+    testTemplate(assert) {
+      assert.equals(bee.String("${1}").template("abc").value, 'abc')
+      assert.equals(bee.String("${}").template("abc").value, 'abc')
+      assert.equals(bee.String("${1}, ${1}").template("abc").value, 'abc, abc')
+      assert.equals(bee.String("\${1}, ${1}").template("abc").value, '${1}, abc')
+
+      assert.equals(bee.String("${0}").template({ a: { b: "b" }, c: "c" }).value, '{ a: { b: "b" }, c: "c" }')
+
+      assert.equals(bee.String("${}, ${}, ${}").template(1, 2, 3).value, '1, 2, 3')
+      assert.equals(bee.String("${}, ${}, ${}").template([ 1, 2, 3 ]).value, '1, 2, 3')
+
+      assert.equals(bee.String("${a.b}: ${c} ${a}").template({ a: { b: "b" }, c: "c" }).value, 'b: c { b: "b" }')
+      assert.equals(bee.String("${1}: ${2.key}").template([ "value", { key: "value2" } ]).value, "value: value2")
+      assert.equals(bee.String("${1}: ${2.key}").template("value", { key: "value2" }).value, "value: value2")
+      assert.equals(bee.String("${1.key}, ${2.key}").template({ key: "value" }, { key: "value2" }).value, 'value, value2')
+    }
   }
   class StaticTest {
     testCount(assert) {
@@ -80,6 +96,22 @@ class StringTest {
 
       assert.equals(bee.String.slice("12345", "^2..^1"), "4")
       assert.equals(bee.String.slice("12345", "1..^1"), "1234")
+    }
+    testTemplate(assert) {
+      assert.equals(bee.String.template("${1}", "abc"), 'abc')
+      assert.equals(bee.String.template("${}", "abc"), 'abc')
+      assert.equals(bee.String.template("${1}, ${1}", "abc"), 'abc, abc')
+      assert.equals(bee.String.template("\${1}, ${1}", "abc"), '${1}, abc')
+
+      assert.equals(bee.String.template("${0}", { a: { b: "b" }, c: "c" }), '{ a: { b: "b" }, c: "c" }')
+
+      assert.equals(bee.String.template("${}, ${}, ${}", 1, 2, 3), '1, 2, 3')
+      assert.equals(bee.String.template("${}, ${}, ${}", [ 1, 2, 3 ]), '1, 2, 3')
+
+      assert.equals(bee.String.template("${a.b}: ${c} ${a}", { a: { b: "b" }, c: "c" }), 'b: c { b: "b" }')
+      assert.equals(bee.String.template("${1}: ${2.key}", [ "value", { key: "value2" } ]), "value: value2")
+      assert.equals(bee.String.template("${1}: ${2.key}", "value", { key: "value2" }), "value: value2")
+      assert.equals(bee.String.template("${1.key}, ${2.key}", { key: "value" }, { key: "value2" }), 'value, value2')
     }
   }
 }
