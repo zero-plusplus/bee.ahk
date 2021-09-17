@@ -69,6 +69,35 @@ class String extends bee.rule.Primitive {
    * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
    * @return {string}
    */
+  static replaceAll(str, pattern, replacement) {
+    return bee.String.replace(str, pattern, replacement, -1)
+  }
+  /**
+   * @param {string | { text: string, type: "text" } | { text: string, type: "ignorecase" }} str
+   * @param {string | (pattern: string, offset: number, str: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
+   */
+  /**
+   * @param {string<regex> | { text: string, type: "regex" }} pattern
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
+   */
+  replaceAll(pattern, replacement) {
+    replaced := bee.String.replaceAll(this.value, pattern, replacement)
+    return bee.String(replaced)
+  }
+  /**
+   * @param {string} str
+   * @param {string | { text: string, type: "text" } | { text: string, type: "ignorecase" }} str
+   * @param {string | (pattern: string, offset: number, str: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
+   */
+  /**
+   * @param {string} str
+   * @param {string<regex> | { text: string, type: "regex" }} pattern
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
+   */
   static replaceFirst(str, pattern, replacement) {
     return bee.String.replace(str, pattern, replacement, 1)
   }

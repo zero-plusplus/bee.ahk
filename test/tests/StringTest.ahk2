@@ -15,6 +15,11 @@ class StringTest {
       assert.equals(bee.String.replace("a b a", "a", () => "$"), "$ b $")
       assert.equals(bee.String.replace("a b a", "a", () => "$", 1), "$ b a")
     }
+    testReplaceAll(assert) {
+      assert.equals(bee.String.replaceAll("a b a", "a", "$"), "$ b $")
+      assert.equals(bee.String.replaceAll("a b a", "/(?<=b\s)(a)/", "$"), "a b $")
+      assert.equals(bee.String.replaceAll("a b a", "a", () => "$"), "$ b $")
+    }
     testReplaceFirst(assert) {
       assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
       assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
@@ -49,6 +54,11 @@ class StringTest {
 
       assert.equals(bee.String("a b a").replace("a", () => "$").value, "$ b $")
       assert.equals(bee.String("a b a").replace("a", () => "$", 1).value, "$ b a")
+    }
+    testReplaceAll(assert) {
+      assert.equals(bee.String("a b a").replaceAll("a", "$").value, "$ b $")
+      assert.equals(bee.String("a b a").replaceAll("/(?<=b\s)(a)/", "$").value, "a b $")
+      assert.equals(bee.String("a b a").replaceAll("a", () => "$").value, "$ b $")
     }
     testReplaceFirst(assert) {
       assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
