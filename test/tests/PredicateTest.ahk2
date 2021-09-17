@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class PredicateTest {
   testAll(assert) {
@@ -73,6 +73,11 @@ class PredicateTest {
 
     FuncExample() {
     }
+  }
+  testIsNegative(assert) {
+    assert.ok(bee.isNegative(-1))
+    assert.notOk(bee.isNegative(0))
+    assert.notOk(bee.isNegative(1))
   }
   testIsNumber(assert) {
     assert.ok(bee.isNumber(1))

@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is negative or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isNegative extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return value < 0
+  }
+}
