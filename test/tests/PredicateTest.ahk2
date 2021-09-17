@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class PredicateTest {
   testAll(assert) {
@@ -92,6 +92,11 @@ class PredicateTest {
   testIsObject(assert) {
     assert.ok(bee.isObject()({}))
     assert.ok(bee.isObject({}))
+  }
+  testIsPositive(assert) {
+    assert.ok(bee.isPositive(1))
+    assert.notOk(bee.isPositive(0))
+    assert.notOk(bee.isPositive(-1))
   }
   testIsPrimitive(assert) {
     assert.ok(bee.isPrimitive("abc"))
