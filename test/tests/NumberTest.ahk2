@@ -1,0 +1,18 @@
+﻿#Include ..\common.ahk2
+
+class NumberTest {
+  class InstanceTest {
+    testClamp(assert) {
+      assert.equals(bee.Number(100).clamp(0, 150).value, 100)
+      assert.equals(bee.Number(100).clamp(150, 300).value, 150)
+      assert.equals(bee.Number(100).clamp(0, 50).value, 50)
+    }
+  }
+  class StaticTest {
+    testClamp(assert) {
+      assert.equals(bee.Number.clamp(100, 0, 150), 100)
+      assert.equals(bee.Number.clamp(100, 150, 300), 150)
+      assert.equals(bee.Number.clamp(100, 0, 50), 50)
+    }
+  }
+}

@@ -1,0 +1,18 @@
+﻿class Number extends bee.rule.Primitive {
+  /**
+   * @param {number} num
+   * @param {Parmeters<bee.RangeLiteral>} rangeLiteralParams*
+   * @return number
+   */
+  static clamp(num, rangeLiteralParams*) {
+    rangeLiteral := bee.RangeLiteral(rangeLiteralParams*)
+    _min := rangeLiteral.start.index
+    _max := rangeLiteral.end.index - rangeLiteral.excludeEnd
+
+    return Min(Max(num, _min), _max)
+  }
+  clamp(rangeLiteralParams*) {
+    clamped := bee.Number.clamp(this.value, rangeLiteralParams*)
+    return bee.Number(clamped)
+  }
+}
