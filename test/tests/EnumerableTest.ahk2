@@ -14,7 +14,7 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable.chars("abc").toArray(), [ { key: 1, value: "a" }, { key: 2, value: "b" }, { key: 3, value: "c" }])
     }
     testRange(assert) {
-      assert.deepEquals(bee.Enumerable.range(1, 5).toValues(), [ 1, 2, 3, 4 ])
+      assert.deepEquals(bee.Enumerable.range(1, 5).toValues(), [ 1, 2, 3, 4, 5 ])
       assert.deepEquals(bee.Enumerable.range("1..5").toValues(), [ 1, 2, 3, 4 ])
 
       assert.deepEquals(bee.Enumerable.range(1, 5, false).toValues(), [ 1, 2, 3, 4, 5 ])
