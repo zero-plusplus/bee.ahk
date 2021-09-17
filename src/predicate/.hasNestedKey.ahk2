@@ -1,0 +1,14 @@
+﻿/**
+ * Determines whether the specified nested key exists or not.
+ *
+ * This method absorbs the syntax differences between object types.
+ * @method
+ * @param {any} obj
+ * @param {any} keys*
+ * @return {boolean}
+ */
+class hasNestedKey extends bee.rule.PredicateFunc {
+  static behavior(obj, keys*) {
+    return bee.toBoolean(bee.getNestedProp(obj, keys*))
+  }
+}

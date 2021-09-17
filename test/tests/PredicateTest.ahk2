@@ -19,6 +19,9 @@ class PredicateTest {
     assert.ok(bee.hasKey([ "value" ], 1))
     assert.notOk(bee.hasKey("a", "a"))
   }
+  testHasNestedKey(assert) {
+    assert.ok(bee.hasNestedKey({ key: Map("nest-key", [ "nested-value" ]) }, "key", "nest-key", 1))
+  }
   testIs(assert) {
     str := bee.String("")
     assert.ok(bee.is(str, bee.String))
