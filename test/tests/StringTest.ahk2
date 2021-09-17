@@ -1,11 +1,56 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class StringTest {
+  testValue(assert) {
+    assert.equals(bee.String("abc").value, "abc")
+  }
+  class InstanceTest {
+    testCount(assert) {
+      assert.equals(bee.String("a b a").count("a"), 2)
+      assert.equals(bee.String("a b a").count("/(?<=b\s)a/"), 1)
+      assert.equals(bee.String("a b a").count({ text: "A", type: "ignorecase" }), 2)
+    }
+    testLength(assert) {
+      assert.equals(bee.String("abc").length, 3)
+    }
+    testRepeat(assert) {
+      assert.equals(bee.String("abc").repeat(3), "abcabcabc")
+    }
+    testReplace(assert) {
+      assert.equals(bee.String("a b a").replace("a", "$").value, "$ b $")
+      assert.equals(bee.String("a b a").replace("a", "$", 1).value, "$ b a")
+      assert.equals(bee.String("a b a").replace("a", "$", 1).value, "$ b a")
+
+      assert.equals(bee.String("a b a").replace("/(?<=b\s)(a)/", "$").value, "a b $")
+
+      assert.equals(bee.String("a b a").replace("a", () => "$").value, "$ b $")
+      assert.equals(bee.String("a b a").replace("a", () => "$", 1).value, "$ b a")
+    }
+    testReplaceAll(assert) {
+      assert.equals(bee.String("a b a").replaceAll("a", "$").value, "$ b $")
+      assert.equals(bee.String("a b a").replaceAll("/(?<=b\s)(a)/", "$").value, "a b $")
+      assert.equals(bee.String("a b a").replaceAll("a", () => "$").value, "$ b $")
+    }
+    testReplaceFirst(assert) {
+      assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
+      assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
+    }
+    testSlice(assert) {
+      assert.equals(bee.String("12345").slice(1, 5).value, "1234")
+      assert.equals(bee.String("12345").slice("1..5").value, "1234")
+
+      assert.equals(bee.String("12345").slice("^2..^1").value, "4")
+      assert.equals(bee.String("12345").slice("1..^1").value, "1234")
+    }
+  }
   class StaticTest {
     testCount(assert) {
       assert.equals(bee.String.count("a b a", "a"), 2)
       assert.equals(bee.String.count("a b a", "/(?<=b\s)a/"), 1)
       assert.equals(bee.String.count("a b a", { text: "A", type: "ignorecase" }), 2)
+    }
+    testLength(assert) {
+      assert.equals(bee.String.length("abc"), 3)
     }
     testRepeat(assert) {
       assert.equals(bee.String.repeat("abc", 3), "abcabcabc")
@@ -35,51 +80,6 @@ class StringTest {
 
       assert.equals(bee.String.slice("12345", "^2..^1"), "4")
       assert.equals(bee.String.slice("12345", "1..^1"), "1234")
-    }
-    testLength(assert) {
-      assert.equals(bee.String.length("abc"), 3)
-    }
-  }
-  class InstanceTest {
-    testCount(assert) {
-      assert.equals(bee.String("a b a").count("a"), 2)
-      assert.equals(bee.String("a b a").count("/(?<=b\s)a/"), 1)
-      assert.equals(bee.String("a b a").count({ text: "A", type: "ignorecase" }), 2)
-    }
-    testRepeat(assert) {
-      assert.equals(bee.String("abc").repeat(3), "abcabcabc")
-    }
-    testValue(assert) {
-      assert.equals(bee.String("abc").value, "abc")
-    }
-    testLength(assert) {
-      assert.equals(bee.String("abc").length, 3)
-    }
-    testReplace(assert) {
-      assert.equals(bee.String("a b a").replace("a", "$").value, "$ b $")
-      assert.equals(bee.String("a b a").replace("a", "$", 1).value, "$ b a")
-      assert.equals(bee.String("a b a").replace("a", "$", 1).value, "$ b a")
-
-      assert.equals(bee.String("a b a").replace("/(?<=b\s)(a)/", "$").value, "a b $")
-
-      assert.equals(bee.String("a b a").replace("a", () => "$").value, "$ b $")
-      assert.equals(bee.String("a b a").replace("a", () => "$", 1).value, "$ b a")
-    }
-    testReplaceAll(assert) {
-      assert.equals(bee.String("a b a").replaceAll("a", "$").value, "$ b $")
-      assert.equals(bee.String("a b a").replaceAll("/(?<=b\s)(a)/", "$").value, "a b $")
-      assert.equals(bee.String("a b a").replaceAll("a", () => "$").value, "$ b $")
-    }
-    testReplaceFirst(assert) {
-      assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
-      assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
-    }
-    testSlice(assert) {
-      assert.equals(bee.String("12345").slice(1, 5).value, "1234")
-      assert.equals(bee.String("12345").slice("1..5").value, "1234")
-
-      assert.equals(bee.String("12345").slice("^2..^1").value, "4")
-      assert.equals(bee.String("12345").slice("1..^1").value, "1234")
     }
   }
 }
