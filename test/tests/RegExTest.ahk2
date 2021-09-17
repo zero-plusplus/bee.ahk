@@ -19,6 +19,9 @@ class RegExTest {
     }
   }
   class StaticTest {
+    testFromRegExLiteral(assert) {
+      assert.deepEquals(bee.RegEx.fromRegExLiteral(bee.PatternLiteral("/source/im")), { flags: [ "i", "m" ], source: "source" })
+    }
     testReplace(assert) {
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$"), "$ $ $")
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$", 1), "$ b c")

@@ -1,4 +1,4 @@
-class RegEx {
+﻿class RegEx {
   /**
    * @readonly
    * @type {string<regex>}
@@ -37,6 +37,20 @@ class RegEx {
     }
     this.source := match.source
     this.flags := newFlags ? normalizedNewFlags : StrSplit(match.flags, "")
+  }
+  /**
+   * @param {bee.PatternLiteral} pattern
+   * @return {bee.RegEx}
+   */
+  static fromRegExLiteral(pattern) {
+    if (pattern.type == "regex") {
+      RegExMatch(pattern.text, bee.PatternLiteral.regexPatternRegEx, &match)
+      return bee.RegEx(match.pattern, match.flags)
+    }
+    if (pattern.type == "ignorecase") {
+      return bee.RegEx(pattern.text, [ "i" ])
+    }
+    return bee.RegEx(pattern.text)
   }
   /**
    * Replaces a string with a regular expression.
