@@ -96,6 +96,17 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable(this.array).where((value, *) => InStr(value, "2")).toArray(), [ { key: 2, value: "value2" } ])
       assert.deepEquals(bee.Enumerable(this.map).where((value, *) => InStr(value, "2")).toArray(), [ { key: "key2", value: "value2" } ])
     }
+    testOrderBy(assert) {
+      assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy().toArray(), [ { key: 3, value: 1 }, { key: 2, value: 2 }, { key: 1, value: 3 }, { key: 4, value: 4 }])
+      assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy(true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
+      assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy((key, value) => value, true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
+
+      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }]).orderBy((key, value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 4, name: "B" }, { id: 1, name: "C" }, { id: 2, name: "D" }])
+      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }]).orderBy((key, value) => value.name, (a, b) => bee.compare(a, b, true)).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" }])
+
+      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((key, value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 2, name: "A" }, { id: 1, name: "B" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((key, value) => value.name).thenBy((key, value) => value.id).toValues(), [ { id: 2, name: "A" }, { id: 3, name: "A" }, { id: 1, name: "B" } ])
+    }
   }
   class StaticTest {
     startEach() {
