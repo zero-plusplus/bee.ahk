@@ -124,6 +124,7 @@ class PredicateTest {
   testMatchPattern(assert) {
     assert.ok(bee.matchPattern("example text", "e"))
     assert.ok(bee.matchPattern("example text", { text: "E", type: "ignorecase" }))
+    assert.ok(bee.matchPattern("example text", [ "E", "ignorecase" ]))
     assert.ok(bee.matchPattern("example text", "/(?<=l)e/"))
   }
   testNot(assert) {

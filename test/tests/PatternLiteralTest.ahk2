@@ -4,6 +4,7 @@ class PatternLiteralTest {
   testConstructor(assert) {
     assert.deepEquals(bee.PatternLiteral("text"), { text: "text", type: "text" })
     assert.deepEquals(bee.PatternLiteral("text", "ignorecase"), { text: "text", type: "ignorecase" })
+    assert.deepEquals(bee.PatternLiteral([ "text", "ignorecase" ]), { text: "text", type: "ignorecase" })
     assert.deepEquals(bee.PatternLiteral({ text: "text", type: "text" }), { text: "text", type: "text" })
     assert.deepEquals(bee.PatternLiteral(bee.PatternLiteral("text", "text")), { text: "text", type: "text" })
     assert.deepEquals(bee.PatternLiteral("/source/im"), { text: "/source/im", type: "regex" })

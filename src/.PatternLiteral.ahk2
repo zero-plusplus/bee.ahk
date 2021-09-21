@@ -13,17 +13,23 @@
    */
   __New(text, patternType := unset) {
     if (IsSet(patternType)) {
-      if (bee.isObject(text)) {
-        literal := text
-        text := literal.text
-        patternType := literal.type
-      }
-
       this.text := text
       this.type := patternType
       return this
     }
 
+    if (bee.isArray(text)) {
+      params := text
+      this.text := params[1]
+      this.type := params[2]
+      return this
+    }
+    if (bee.isObject(text)) {
+      literal := text
+      this.text := literal.text
+      this.type := literal.type
+      return this
+    }
     if (bee.is(text, bee.PatternLiteral) || (bee.hasKey(text, "text") && bee.hasKey(text, "type"))) {
       literal := text
       this.text := literal.text
