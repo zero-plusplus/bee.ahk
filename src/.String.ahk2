@@ -1,5 +1,24 @@
 class String extends bee.rule.Primitive {
   /**
+   * Get the character at the specified `index`.
+   * @param {string} str
+   * @param {number} index
+   * @return {bee.String}
+   */
+  static charAt(str, index) {
+    return bee.String.substr(str, index, 1)
+  }
+  /**
+   * Get the character at the specified `index`.
+   * @param {string} str
+   * @param {number} index
+   * @return {bee.String}
+   */
+  charAt(index) {
+    char := bee.String.charAt(this.value, index)
+    return bee.String(char)
+  }
+  /**
    * Returns the number of times the specified `pattern` is matched.
    * @param {string} str
    * @param {string | bee.PatternLiteral} pattern
