@@ -9,7 +9,6 @@ class RangeLiteralTest {
     assert.deepEquals(bee.RangeLiteral("1...3"), { start: { index: 1, reverse: false }, end: { index: 3, reverse: false }, excludeEnd: false, step: 1, unicodeMode: false })
 
     assert.deepEquals(bee.RangeLiteral(1, "^1"), { start: { index: 1, reverse: false }, end: { index: 1, reverse: true }, excludeEnd: false, step: 1, unicodeMode: false })
-    assert.deepEquals(bee.RangeLiteral(1, -1), { start: { index: 1, reverse: false }, end: { index: 1, reverse: true }, excludeEnd: false, step: 1, unicodeMode: false })
     assert.deepEquals(bee.RangeLiteral(1, { index: 1, reverse: true }), { start: { index: 1, reverse: false }, end: { index: 1, reverse: true }, excludeEnd: false, step: 1, unicodeMode: false })
     assert.deepEquals(bee.RangeLiteral("1.."), { start: { index: 1, reverse: false }, end: { index: 1, reverse: true }, excludeEnd: true, step: 1, unicodeMode: false })
 
