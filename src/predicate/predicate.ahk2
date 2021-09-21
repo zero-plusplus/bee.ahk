@@ -47,6 +47,7 @@ class predicate {
   #Include %A_LineFile%\..\.isPrimitive.ahk2
   #Include %A_LineFile%\..\.isString.ahk2
   #Include %A_LineFile%\..\.isTruthy.ahk2
+  #Include %A_LineFile%\..\.matchPattern.ahk2
   #Include %A_LineFile%\..\.not.ahk2
   #Include %A_LineFile%\..\.none.ahk2
   #Include %A_LineFile%\..\.startsWith.ahk2

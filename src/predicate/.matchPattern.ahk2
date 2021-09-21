@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether a `pattern` matches or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class matchPattern extends bee.rule.PredicateFunc {
+  static behavior(value, pattern) {
+    return bee.toBoolean(bee.String.search(value, pattern))
+  }
+}
