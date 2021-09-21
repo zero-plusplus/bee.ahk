@@ -23,8 +23,23 @@
   count(pattern) {
     return bee.String.count(this.value, pattern)
   }
-  static format(str, params*) {
-    return Format(str, params*)
+  /**
+   * Synonymous with [Format](https://lexikos.github.io/v2/docs/commands/Format.htm).
+   * @param {string} str
+   * @param {string[]} variables*
+   * @return {string}
+   */
+  static format(str, variables*) {
+    return Format(str, variables*)
+  }
+  /**
+   * Synonymous with [Format](https://lexikos.github.io/v2/docs/commands/Format.htm).
+   * @param {string[]} variables*
+   * @return {string}
+   */
+  format(variables*) {
+    formatted := bee.String.format(this.value, variables*)
+    return bee.String(formatted)
   }
   /**
    * @param {string} str

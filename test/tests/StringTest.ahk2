@@ -10,6 +10,9 @@ class StringTest {
       assert.equals(bee.String("a b a").count("/(?<=b\s)a/"), 1)
       assert.equals(bee.String("a b a").count({ text: "A", type: "ignorecase" }), 2)
     }
+    testFormat(assert) {
+      assert.equals(bee.String("{}: {}").format("a", "b").value, "a: b")
+    }
     testLength(assert) {
       assert.equals(bee.String("abc").length, 3)
     }
@@ -64,6 +67,9 @@ class StringTest {
       assert.equals(bee.String.count("a b a", "a"), 2)
       assert.equals(bee.String.count("a b a", "/(?<=b\s)a/"), 1)
       assert.equals(bee.String.count("a b a", { text: "A", type: "ignorecase" }), 2)
+    }
+    testFormat(assert) {
+      assert.equals(bee.String.format("{}: {}", "a", "b"), "a: b")
     }
     testLength(assert) {
       assert.equals(bee.String.length("abc"), 3)
