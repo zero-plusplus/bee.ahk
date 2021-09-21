@@ -1,4 +1,4 @@
-﻿class RegEx {
+class RegEx {
   /**
    * @readonly
    * @type {string<regex>}
@@ -137,18 +137,46 @@
    * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
    * @retrun {RegExMatchInfo}
    */
+  /**
+   * Matches `str` by regular expression.
+   * @param {string} regex
+   * @param {string} str
+   * @param {number} fromIndex
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo}
+   */
   class match extends bee.rule.PcreCalloutable {
-    static call(regex, str, callout := "") {
+    static call(regex, str, params*) {
+      fromIndex := 1
+      callout := ""
+      if (0 < params.length) {
+        if (bee.isCallable(params[1])) {
+          callout := params[1]
+        }
+        else {
+          fromIndex := params[1]
+          if (params.length == 2) {
+            callout := params[2]
+          }
+        }
+      }
+
       if (bee.isCallable(callout)) {
         regex := bee.RegEx(regex).addFlag("C").value
         pcre_callout_bk := this.callout
         this.callout := ObjBindMethod(this, "pcre_callout", bee.callback(callout))
-        RegExMatch(str, regex, &match)
+        RegExMatch(str, regex, &match, fromIndex)
         this.callout := pcre_callout_bk
         return match
       }
 
-      RegExMatch(str, regex, &match)
+      RegExMatch(str, regex, &match, fromIndex)
       return match
     }
     static pcre_callout(callback, match, calloutNumber, offset, str, regex) {
@@ -167,10 +195,23 @@
    * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
    * * If `-1` is specified, matching will be terminated immediately
    * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   */
+  /**
+   * Matches `str` by regular expression.
+   * @param {string} str
+   * @param {number} fromIndex
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
    * @retrun {RegExMatchInfo}
    */
-  match(str, callout := "") {
-    return bee.RegEx.match(this.value, str, callout)
+  match(str, params*) {
+    return bee.RegEx.match(this.value, str, params*)
+  }
   }
   /**
    * Removes one or more flags.
