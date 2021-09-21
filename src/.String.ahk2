@@ -1,4 +1,4 @@
-class String extends bee.rule.Primitive {
+﻿class String extends bee.rule.Primitive {
   /**
    * Get the character at the specified `index`.
    * @param {string} str
@@ -17,6 +17,24 @@ class String extends bee.rule.Primitive {
   charAt(index) {
     char := bee.String.charAt(this.value, index)
     return bee.String(char)
+  }
+  /**
+   * Concatenates all specified strings.
+   * @param {string} str
+   * @param {string[]} additionalStrings*
+   * @return {string}
+   */
+  static concat(str, additionalStrings*) {
+    return bee.Array.join(Array(str, additionalStrings*), "")
+  }
+  /**
+   * Concatenates all specified strings.
+   * @param {string[]} additionalStrings*
+   * @return {bee.String}
+   */
+  concat(additionalStrings*) {
+    concatenated := bee.String.concat(this.value, additionalStrings*)
+    return bee.String(concatenated)
   }
   /**
    * Returns the number of times the specified `pattern` is matched.

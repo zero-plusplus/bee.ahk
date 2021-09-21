@@ -9,6 +9,9 @@ class StringTest {
       assert.equals(bee.String("123456").charAt(5).value, "5")
       assert.equals(bee.String("123456").charAt(-1).value, "6")
     }
+    testConcat(assert) {
+      assert.equals(bee.String("123").concat("4", "5", "6").value, "123456")
+    }
     testCount(assert) {
       assert.equals(bee.String("a b a").count("a"), 2)
       assert.equals(bee.String("a b a").count("/(?<=b\s)a/"), 1)
@@ -82,6 +85,9 @@ class StringTest {
     testCharAt(assert) {
       assert.equals(bee.String.charAt("123456", 5), "5")
       assert.equals(bee.String.charAt("123456", -1), "6")
+    }
+    testConcat(assert) {
+      assert.equals(bee.String.concat("123", "4", "5", "6"), "123456")
     }
     testCount(assert) {
       assert.equals(bee.String.count("a b a", "a"), 2)
