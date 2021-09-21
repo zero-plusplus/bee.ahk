@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class RegExTest {
   testConstructor(assert) {
@@ -13,6 +13,9 @@ class RegExTest {
       assert.deepEquals(bee.RegEx("(\s)").match("a b c")[1], " ")
       assert.deepEquals(bee.RegEx("(\s)").match("a b c", 3).pos, 4)
       assert.deepEquals(bee.RegEx("(\s)").match("a b c", (match) => 2 < match.pos ? 0 : 1).pos, 4)
+    }
+    testMatchAll(assert) {
+      assert.deepEquals(bee.RegEx("(\s)").matchAll("a b c").length, 2)
     }
     testRemoveFlag(assert) {
       assert.deepEquals(bee.RegEx("", [ "i", "m" ]).removeFlag("i").flags, [ "m" ])
@@ -31,6 +34,9 @@ class RegExTest {
       assert.deepEquals(bee.RegEx.match("(\s)", "a b c")[1], " ")
       assert.deepEquals(bee.RegEx.match("(\s)", "a b c", 3).pos, 4)
       assert.deepEquals(bee.RegEx.match("(\s)", "a b c", (match) => 2 < match.pos ? 0 : 1).pos, 4)
+    }
+    testMatchAll(assert) {
+      assert.deepEquals(bee.RegEx.matchAll("(\s)", "a b c").length, 2)
     }
     testReplace(assert) {
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$"), "$ $ $")

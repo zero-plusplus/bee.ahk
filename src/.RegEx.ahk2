@@ -1,4 +1,4 @@
-class RegEx {
+﻿class RegEx {
   /**
    * @readonly
    * @type {string<regex>}
@@ -212,6 +212,90 @@ class RegEx {
   match(str, params*) {
     return bee.RegEx.match(this.value, str, params*)
   }
+  /**
+   * Returns an array of the results of all matching matches.
+   * @param {string} regex
+   * @param {string} str
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo[]}
+   */
+  /**
+   * Returns an array of the results of all matching matches.
+   * @param {string} regex
+   * @param {string} str
+   * @param {number} [limit := -1]
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo[]}
+   */
+  static matchAll(regex, str, params*) {
+    limit := -1
+    callout := ""
+    if (0 < params.length) {
+      if (bee.isCallable(params[1])) {
+        callout := params[1]
+      }
+      else {
+        limit := params[1]
+        if (params.length == 2) {
+          callout := params[2]
+        }
+      }
+    }
+
+    lastIndex := 1
+    matches := []
+    while (limit == -1 || A_Index < limit) {
+      match := bee.isCallable(callout) ? bee.RegEx.match(regex, str, lastIndex, callout) : bee.RegEx.match(regex, str, lastIndex)
+      if (!match) {
+        break
+      }
+      if (lastIndex == match.pos) {
+        break
+      }
+      matches.push(match)
+      lastIndex := match.pos + match.len
+    }
+    return matches
+  }
+  /**
+   * Returns an array of the results of all matching matches.
+   * @param {string} str
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo[]}
+   */
+  /**
+   * Returns an array of the results of all matching matches.
+   * @param {string} str
+   * @param {number} limit
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo[]}
+   */
+  matchAll(str, params*) {
+    return bee.RegEx.matchAll(this.value, str, params*)
   }
   /**
    * Removes one or more flags.
