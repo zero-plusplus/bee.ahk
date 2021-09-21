@@ -9,6 +9,10 @@ class RegExTest {
     testAddFlag(assert) {
       assert.deepEquals(bee.RegEx("", [ "i", "m" ]).addFlag("i", "x", "S").flags, [ "i", "m", "x", "S" ])
     }
+    testMatch(assert) {
+      assert.deepEquals(bee.RegEx("(\s)").match("a b c")[1], " ")
+      assert.deepEquals(bee.RegEx("(\s)").match("a b c", (match) => 2 < match.pos ? 0 : 1).pos, 4)
+    }
     testRemoveFlag(assert) {
       assert.deepEquals(bee.RegEx("", [ "i", "m" ]).removeFlag("i").flags, [ "m" ])
     }
@@ -21,6 +25,10 @@ class RegExTest {
   class StaticTest {
     testFromRegExLiteral(assert) {
       assert.deepEquals(bee.RegEx.fromRegExLiteral(bee.PatternLiteral("/source/im")), { flags: [ "i", "m" ], source: "source" })
+    }
+    testMatch(assert) {
+      assert.deepEquals(bee.RegEx.match("(\s)", "a b c")[1], " ")
+      assert.deepEquals(bee.RegEx.match("(\s)", "a b c", (match) => 2 < match.pos ? 0 : 1).pos, 4)
     }
     testReplace(assert) {
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$"), "$ $ $")
