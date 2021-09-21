@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class StringTest {
   testValue(assert) {
@@ -37,6 +37,12 @@ class StringTest {
     testReplaceFirst(assert) {
       assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
       assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
+    }
+    testSearch(assert) {
+      assert.equals(bee.String("example text").search("e"), 1)
+      assert.equals(bee.String("example text").search("unknown"), 0)
+      assert.equals(bee.String("example text").search({ text: "E", type: "ignorecase" }), 1)
+      assert.equals(bee.String("example text").search("/(?<=l)e/"), 7)
     }
     testSlice(assert) {
       assert.equals(bee.String("12345").slice(1, 5).value, "12345")
@@ -95,6 +101,12 @@ class StringTest {
     testReplaceFirst(assert) {
       assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
       assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
+    }
+    testSearch(assert) {
+      assert.equals(bee.String.search("example text", "e"), 1)
+      assert.equals(bee.String.search("example text", "unknown"), 0)
+      assert.equals(bee.String.search("example text", { text: "E", type: "ignorecase" }), 1)
+      assert.equals(bee.String.search("example text", "/(?<=l)e/"), 7)
     }
     testSlice(assert) {
       assert.equals(bee.String.slice("12345", 1, 5), "12345")

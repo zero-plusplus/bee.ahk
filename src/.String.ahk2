@@ -1,4 +1,4 @@
-﻿class String extends bee.rule.Primitive {
+class String extends bee.rule.Primitive {
   /**
    * Returns the number of times the specified `pattern` is matched.
    * @param {string} str
@@ -156,6 +156,30 @@
   replaceFirst(pattern, replacement) {
     replaced := bee.String.replaceFirst(this.value, pattern, replacement)
     return bee.String(replaced)
+  }
+  /**
+   * Returns the index (1-base) of the text matching the `pattern`.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  static search(str, pattern) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      regex := bee.RegEx.fromRegExLiteral(pattern)
+      return RegExMatch(str, regex.value)
+    }
+
+    caseSensitive := pattern.type == "ignorecase" ? false : true
+    return InStr(str, pattern.text, caseSensitive)
+  }
+  /**
+   * Returns the index (1-base) of the text matching the `pattern`.
+   * @param {pattern} pattern
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  search(pattern) {
+    return bee.String.search(this.value, pattern)
   }
   /**
    * Returns a new string with the specified range of the string sliced.
