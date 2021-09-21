@@ -44,6 +44,12 @@ class StringTest {
       assert.equals(bee.String("example text").search({ text: "E", type: "ignorecase" }), 1)
       assert.equals(bee.String("example text").search("/(?<=l)e/"), 7)
     }
+    testSubStr(assert) {
+      assert.equals(bee.String("123456").substr(1).value, "123456")
+      assert.equals(bee.String("123456").substr(0).value, "")
+      assert.equals(bee.String("123456").substr(1, 1).value, "1")
+      assert.equals(bee.String("123456").substr(-1, 1).value, "6")
+    }
     testSlice(assert) {
       assert.equals(bee.String("12345").slice(1, 5).value, "12345")
       assert.equals(bee.String("12345").slice("1..5").value, "1234")
@@ -107,6 +113,12 @@ class StringTest {
       assert.equals(bee.String.search("example text", "unknown"), 0)
       assert.equals(bee.String.search("example text", { text: "E", type: "ignorecase" }), 1)
       assert.equals(bee.String.search("example text", "/(?<=l)e/"), 7)
+    }
+    testSubStr(assert) {
+      assert.equals(bee.String.substr("123456", 1), "123456")
+      assert.equals(bee.String.substr("123456", 0), "")
+      assert.equals(bee.String.substr("123456", 1, 1), "1")
+      assert.equals(bee.String.substr("123456", -1, 1), "6")
     }
     testSlice(assert) {
       assert.equals(bee.String.slice("12345", 1, 5), "12345")

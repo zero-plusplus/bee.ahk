@@ -206,6 +206,26 @@ class String extends bee.rule.Primitive {
     return bee.String(sliced)
   }
   /**
+   * Synonymous with [SubStr](https://lexikos.github.io/v2/docs/commands/SubStr.htm).
+   * @param {string} str
+   * @param {number} fromIndex
+   * @param {number} length?
+   * @return {bee.String}
+   */
+  static substr(str, params*) {
+    return SubStr(str, params*)
+  }
+  /**
+   * Synonymous with [SubStr](https://lexikos.github.io/v2/docs/commands/SubStr.htm).
+   * @param {number} fromIndex
+   * @param {number} length?
+   * @return {string}
+   */
+  substr(params*) {
+    str := bee.String.substr(this.value, params*)
+    return bee.String(str)
+  }
+  /**
    * Embeds the value of a variable in a string.
    *
    * You can determine the value to embed in the format `${key_or_index}` as shown in the following example.
