@@ -61,6 +61,36 @@
     return bee.String.count(this.value, pattern)
   }
   /**
+   * Encloses the string with the specified `encloser`.
+   * @param {string} str
+   * @param {string} encloser
+   */
+  /**
+   * Encloses the string with the specified `prefix` and `suffix`.
+   * @param {string} str
+   * @param {string} prefix
+   * @param {string} suffix
+   */
+  static enclose(str, prefix, suffix := "") {
+    if (!suffix) {
+      suffix := prefix
+    }
+    return bee.String.concat(prefix, str, suffix)
+  }
+  /**
+   * Encloses the string with the specified `encloser`.
+   * @param {string} encloser
+   */
+  /**
+   * Encloses the string with the specified `prefix` and `suffix`.
+   * @param {string} prefix
+   * @param {string} suffix
+   */
+  enclose(prefix, suffix := "") {
+    enclosed := bee.String.enclose(this.value, prefix, suffix)
+    return bee.String(enclosed)
+  }
+  /**
    * Synonymous with [Format](https://lexikos.github.io/v2/docs/commands/Format.htm).
    * @param {string} str
    * @param {string[]} variables*

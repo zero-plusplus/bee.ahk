@@ -17,6 +17,10 @@ class StringTest {
       assert.equals(bee.String("a b a").count("/(?<=b\s)a/"), 1)
       assert.equals(bee.String("a b a").count({ text: "A", type: "ignorecase" }), 2)
     }
+    testEnclose(assert) {
+      assert.equals(bee.String("abc").enclose("%").value, "%abc%")
+      assert.equals(bee.String("abc").enclose("[", "]").value, "[abc]")
+    }
     testFormat(assert) {
       assert.equals(bee.String("{}: {}").format("a", "b").value, "a: b")
     }
@@ -93,6 +97,10 @@ class StringTest {
       assert.equals(bee.String.count("a b a", "a"), 2)
       assert.equals(bee.String.count("a b a", "/(?<=b\s)a/"), 1)
       assert.equals(bee.String.count("a b a", { text: "A", type: "ignorecase" }), 2)
+    }
+    testEnclose(assert) {
+      assert.equals(bee.String.enclose("abc", "%"), "%abc%")
+      assert.equals(bee.String.enclose("abc", "[", "]"), "[abc]")
     }
     testFormat(assert) {
       assert.equals(bee.String.format("{}: {}", "a", "b"), "a: b")
