@@ -46,6 +46,8 @@ class RegExTest {
     }
     testMatchAll(assert) {
       assert.deepEquals(bee.RegEx.matchAll("(\s)", "a b c").length, 2)
+      assert.deepEquals(bee.RegEx.matchAll("(\s)", "a b c", 3).length, 1)
+      assert.deepEquals(bee.RegEx.matchAll("(\s)", "a b c", 1, 1).length, 1)
     }
     testReplace(assert) {
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$"), "$ $ $")
