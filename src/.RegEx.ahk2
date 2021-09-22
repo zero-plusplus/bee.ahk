@@ -1,4 +1,4 @@
-﻿class RegEx {
+class RegEx {
   /**
    * @readonly
    * @type {string<regex>}
@@ -109,6 +109,23 @@
    */
   replace(str, replacement, limit := -1) {
     return bee.RegEx.replace(this.value, str, replacement, limit)
+  }
+  /**
+   * Replaces all strings that match the regular expression.
+   * @param {string} regex
+   * @param {string} str
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   */
+  static replaceAll(regex, str, replacement) {
+    return bee.RegEx.replace(regex, str, replacement)
+  }
+  /**
+   * Replaces all strings that match the regular expression.
+   * @param {string} str
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   */
+  replaceAll(str, replacement) {
+    return bee.RegEx.replaceAll(this.value, str, replacement)
   }
   /**
    * Adds one or more flags.

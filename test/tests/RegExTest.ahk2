@@ -25,6 +25,9 @@ class RegExTest {
       assert.equals(bee.RegEx("([^\s])").replace("a b c", "$", 1), "$ b c")
       assert.equals(bee.RegEx("([^\s])").replace("a b c", (match) => match[1] == "b" ? "$" : match[1]), "a $ c")
     }
+    testReplaceAll(assert) {
+      assert.equals(bee.RegEx("([^\s])").replaceAll("a b c", "$"), "$ $ $")
+    }
   }
   class StaticTest {
     testFromRegExLiteral(assert) {
@@ -42,6 +45,9 @@ class RegExTest {
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$"), "$ $ $")
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", "$", 1), "$ b c")
       assert.equals(bee.RegEx.replace("([^\s])", "a b c", (match) => match[1] == "b" ? "$" : match[1]), "a $ c")
+    }
+    testReplaceAll(assert) {
+      assert.equals(bee.RegEx.replaceAll("([^\s])", "a b c", "$"), "$ $ $")
     }
   }
 }
