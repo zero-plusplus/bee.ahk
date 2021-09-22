@@ -1,4 +1,6 @@
-class RegEx {
+﻿class RegEx {
+  ;; @type {string[]}
+  static SPECIAL_CHARS => [ "\\", ".", "*", "?", "+", "[", "{", "(", ")", "^", "$" ]
   /**
    * @readonly
    * @type {string<regex>}
@@ -44,7 +46,7 @@ class RegEx {
    * @return {string}
    */
   static escape(regex) {
-    specialCharsRegex := bee.Array.join(["([", "\\", ".", "*", "?", "+", "[", "{", "(", ")", "^", "$", "])"], "")
+    specialCharsRegex := "([" . bee.Array.join(bee.RegEx.SPECIAL_CHARS, "") . "])"
     escaped := this.replaceAll(specialCharsRegex, regex, "\$1")
     return escaped
   }
@@ -54,7 +56,7 @@ class RegEx {
    * @return {string}
    */
   static unescape(regex) {
-    specialCharsRegex := bee.Array.join(["\\([", "\\", ".", "*", "?", "+", "[", "{", "(", ")", "^", "$", "])"], "")
+    specialCharsRegex := "\\([" . bee.Array.join(bee.RegEx.SPECIAL_CHARS, "") . "])"
     escaped := this.replaceAll(specialCharsRegex, regex, "$1")
     return escaped
   }
