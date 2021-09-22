@@ -1,4 +1,4 @@
-class String extends bee.rule.Primitive {
+﻿class String extends bee.rule.Primitive {
   /**
    * Get the character at the specified `index`.
    * @param {string} str
@@ -126,6 +126,36 @@ class String extends bee.rule.Primitive {
    */
   indexOf(pattern, times := 1) {
     return bee.String.indexOf(this.value, pattern, times)
+  }
+  /**
+   * Searches text in the reverse direction and returns the index of the matching string.
+   * @param {pattern} str
+   * @param {pattern} pattern
+   * @param {pattern} [fromIndex := 1]
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  static lastIndexOf(str, pattern, times := 1) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type !== "regex") {
+      return bee.String.search(str, pattern, -1, Abs(times) * -1)
+    }
+
+    regex := bee.RegEx.fromRegExLiteral(pattern)
+    matches := regex.matchAll(str)
+    index := matches.length - (times - 1)
+    if (matches.length < index) {
+      return 0
+    }
+    return matches[index].pos
+  }
+  /**
+   * Searches text in the reverse direction and returns the index of the matching string.
+   * @param {pattern} pattern
+   * @param {pattern} [fromIndex := 1]
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  lastIndexOf(pattern, times := 1) {
+    return bee.String.lastIndexOf(this.value, pattern, times)
   }
   /**
    * Returns the result of regular expression matching.
@@ -395,7 +425,7 @@ class String extends bee.rule.Primitive {
         return match.pos
       }
 
-      times := params[2]
+      times := Abs(params[2])
       matches := regex.matchAll(str, params*)
       if (!matches || matches.length < times) {
         return 0

@@ -31,6 +31,13 @@ class StringTest {
       assert.equals(bee.String("example text").indexOf({ text: "E", type: "ignorecase" }), 1)
       assert.equals(bee.String("example text").indexOf("/(?<=l)e/"), 7)
     }
+    testLastIndexOf(assert) {
+      assert.equals(bee.String("example text").lastIndexOf("e"), 10)
+      assert.equals(bee.String("example text").lastIndexOf("e", 2), 7)
+      assert.equals(bee.String("example text").lastIndexOf("unknown"), 0)
+      assert.equals(bee.String("example text").lastIndexOf({ text: "E", type: "ignorecase" }), 10)
+      assert.equals(bee.String("example text").lastIndexOf("/(?<=l)e/"), 7)
+    }
     testLength(assert) {
       assert.equals(bee.String("abc").length, 3)
     }
@@ -131,6 +138,13 @@ class StringTest {
       assert.equals(bee.String.indexOf("example text", "unknown"), 0)
       assert.equals(bee.String.indexOf("example text", { text: "E", type: "ignorecase" }), 1)
       assert.equals(bee.String.indexOf("example text", "/(?<=l)e/"), 7)
+    }
+    testLastIndexOf(assert) {
+      assert.equals(bee.String.lastIndexOf("example text", "e"), 10)
+      assert.equals(bee.String.lastIndexOf("example text", "e", 2), 7)
+      assert.equals(bee.String.lastIndexOf("example text", "unknown"), 0)
+      assert.equals(bee.String.lastIndexOf("example text", { text: "E", type: "ignorecase" }), 10)
+      assert.equals(bee.String.lastIndexOf("example text", "/(?<=l)e/"), 7)
     }
     testLength(assert) {
       assert.equals(bee.String.length("abc"), 3)
