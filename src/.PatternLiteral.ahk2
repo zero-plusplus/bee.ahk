@@ -1,5 +1,5 @@
 ﻿class PatternLiteral {
-  static regexPatternRegEx := "^/(?<pattern>.+)/(?<flags>[imsxADJUXPOSC`n`r`a]*)$"
+  static regexPatternRegEx := "^/(?<pattern>(.|`r`n|`n)+)/(?<flags>[imsxADJUXPOSC`n`r`a]*)$"
   /**
    * @typedef {"text" | "ignorecase" | "regex" | "wildcard"} PatternType
    */
