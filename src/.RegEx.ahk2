@@ -1,4 +1,4 @@
-class RegEx {
+﻿class RegEx {
   /**
    * @readonly
    * @type {string<regex>}
@@ -37,6 +37,16 @@ class RegEx {
     }
     this.source := match.source
     this.flags := newFlags ? normalizedNewFlags : StrSplit(match.flags, "")
+  }
+  /**
+   * Escapes all special characters in regular expressions.
+   * @param {string} regex
+   * @return {string}
+   */
+  static escape(regex) {
+    specialCharsRegex := bee.Array.join(["([", "\\", ".", "*", "?", "+", "[", "{", "(", ")", "^", "$", "])"], "")
+    escaped := this.replaceAll(specialCharsRegex, regex, "\$1")
+    return escaped
   }
   /**
    * @param {bee.PatternLiteral} pattern

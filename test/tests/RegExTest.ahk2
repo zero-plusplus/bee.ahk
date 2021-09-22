@@ -33,6 +33,9 @@ class RegExTest {
     }
   }
   class StaticTest {
+    testEscape(assert) {
+      assert.equals(bee.RegEx.escape("^(\s)$"), "\^\(\\s\)\$")
+    }
     testFromRegExLiteral(assert) {
       assert.deepEquals(bee.RegEx.fromRegExLiteral(bee.PatternLiteral("/source/im")), { flags: [ "i", "m" ], source: "source" })
     }
