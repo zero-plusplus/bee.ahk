@@ -88,6 +88,12 @@ class StringTest {
       assert.equals(bee.String("123456").substr(1, 1).value, "1")
       assert.equals(bee.String("123456").substr(-1, 1).value, "6")
     }
+    testSplit(assert) {
+      assert.deepEquals(bee.String("1,2,3,4").split(","), [ "1", "2", "3", "4" ])
+      assert.deepEquals(bee.String("1,2,3,4").split("/,/"), [ "1", "2", "3", "4" ])
+      assert.deepEquals(bee.String("a`r`nb`nc").split([ "`r`n", "`n" ]), [ "a", "b", "c" ])
+      assert.deepEquals(bee.String("a`r`nb`nc").split("/`r`n|`n/"), [ "a", "b", "c" ])
+    }
     testSlice(assert) {
       assert.equals(bee.String("12345").slice(1, 5).value, "12345")
       assert.equals(bee.String("12345").slice("1..5").value, "1234")
@@ -195,6 +201,12 @@ class StringTest {
       assert.equals(bee.String.substr("123456", 0), "")
       assert.equals(bee.String.substr("123456", 1, 1), "1")
       assert.equals(bee.String.substr("123456", -1, 1), "6")
+    }
+    testSplit(assert) {
+      assert.deepEquals(bee.String.split("1,2,3,4", ","), [ "1", "2", "3", "4" ])
+      assert.deepEquals(bee.String.split("1,2,3,4", "/,/"), [ "1", "2", "3", "4" ])
+      assert.deepEquals(bee.String.split("a`r`nb`nc", [ "`r`n", "`n" ]), [ "a", "b", "c" ])
+      assert.deepEquals(bee.String.split("a`r`nb`nc", "/`r`n|`n/"), [ "a", "b", "c" ])
     }
     testSlice(assert) {
       assert.equals(bee.String.slice("12345", 1, 5), "12345")

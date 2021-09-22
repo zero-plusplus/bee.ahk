@@ -470,6 +470,40 @@
     return bee.String(sliced)
   }
   /**
+   * Returns an array of strings that have been split using `delimiter`.
+   * @param {string} str
+   * @param {pattern | string[]} delimiter
+   * @param {string} [omitChars := " `t"]
+   * @param {number} [maxParts := -1]
+   * @return {string[]}
+   */
+  static split(str, delimiter, omitChars := " `t", maxParts := -1) {
+    if (bee.all.isString(delimiter)) {
+      return StrSplit(str, delimiter, omitChars, maxParts)
+    }
+
+    pattern := bee.PatternLiteral(delimiter)
+    if (pattern.type == "regex") {
+      regex := bee.RegEx.fromRegExLiteral(pattern)
+      return regex.split(str, omitChars, maxParts)
+    }
+    if (pattern.type == "text") {
+      return StrSplit(str, pattern.text, omitChars, maxParts)
+    }
+    regex := bee.RegEx(bee.RegEx.escape(pattern.text), "i")
+    return regex.split(str, omitChars, maxParts)
+  }
+  /**
+   * Returns an array of strings that have been split using `delimiter`.
+   * @param {pattern | string[]} delimiter
+   * @param {string} [omitChars := " `t"]
+   * @param {number} [maxParts := -1]
+   * @return {string[]}
+   */
+  split(params*) {
+    return bee.String.split(this.value, params*)
+  }
+  /**
    * Synonymous with [SubStr](https://lexikos.github.io/v2/docs/commands/SubStr.htm).
    * @param {string} str
    * @param {number} fromIndex
