@@ -1,4 +1,4 @@
-﻿class String extends bee.rule.Primitive {
+class String extends bee.rule.Primitive {
   /**
    * Get the character at the specified `index`.
    * @param {string} str
@@ -112,7 +112,7 @@
    * Returns the index (1-base) of the text matching the `pattern`.
    * @param {string} str
    * @param {pattern} pattern
-   * @param {pattern} [fromIndex := 1]
+   * @param {pattern} [times := 1]
    * @return {number} - The index of searched text. If not found, returns `0`.
    */
   static indexOf(str, pattern, times := 1) {
@@ -121,7 +121,7 @@
   /**
    * Returns the index (1-base) of the text matching the `pattern`.
    * @param {pattern} pattern
-   * @param {pattern} [fromIndex := 1]
+   * @param {pattern} [times := 1]
    * @return {number} - The index of searched text. If not found, returns `0`.
    */
   indexOf(pattern, times := 1) {
