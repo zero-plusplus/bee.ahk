@@ -1,4 +1,4 @@
-﻿class String extends bee.rule.Primitive {
+class String extends bee.rule.Primitive {
   /**
    * Get the character at the specified `index`.
    * @param {string} str
@@ -107,6 +107,60 @@
   format(variables*) {
     formatted := bee.String.format(this.value, variables*)
     return bee.String(formatted)
+  }
+  /**
+   * Matches `str` by regular expression.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {number} fromIndex
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo | ""}
+   */
+  static match(str, pattern, params*) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      regex := bee.RegEx.fromRegExLiteral(pattern)
+      return regex.match(str, params*)
+    }
+
+    regex := bee.RegEx(bee.RegEx.escape(pattern.text), pattern.type == "ignorecase" ? "i" : "")
+    return regex.match(str, params*)
+  }
+  /**
+   * Returns the result of regular expression matching.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo | ""}
+   */
+  /**
+   * Returns the result of regular expression matching.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {number} fromIndex
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo | ""}
+   */
+  match(pattern, params*) {
+    return bee.String.match(this.value, pattern, params*)
   }
   /**
    * @param {string} str

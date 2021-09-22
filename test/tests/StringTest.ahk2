@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class StringTest {
   testValue(assert) {
@@ -26,6 +26,12 @@ class StringTest {
     }
     testLength(assert) {
       assert.equals(bee.String("abc").length, 3)
+    }
+    testMatch(assert) {
+      assert.equals(bee.String("a b c").match("b").pos, 3)
+      assert.equals(bee.String("a b c").match([ "B", "ignorecase" ]).pos, 3)
+
+      assert.equals(bee.String("i)^(\s)$").match("i)^(\s)$").pos, 1)
     }
     testRepeat(assert) {
       assert.equals(bee.String("abc").repeat(3), "abcabcabc")
@@ -107,6 +113,12 @@ class StringTest {
     }
     testLength(assert) {
       assert.equals(bee.String.length("abc"), 3)
+    }
+    testMatch(assert) {
+      assert.equals(bee.String.match("a b c", "b").pos, 3)
+      assert.equals(bee.String.match("a b c", [ "B", "ignorecase" ]).pos, 3)
+
+      assert.equals(bee.String.match("i)^(\s)$", "i)^(\s)$").pos, 1)
     }
     testRepeat(assert) {
       assert.equals(bee.String.repeat("abc", 3), "abcabcabc")
