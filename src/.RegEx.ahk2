@@ -128,6 +128,25 @@ class RegEx {
     return bee.RegEx.replaceAll(this.value, str, replacement)
   }
   /**
+   * Replaces first strings that match the regular expression.
+   * @param {string} regex
+   * @param {string} str
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
+   */
+  static replaceFirst(regex, str, replacement) {
+    return bee.RegEx.replace(regex, str, replacement, 1)
+  }
+  /**
+   * Replaces first strings that match the regular expression.
+   * @param {string} str
+   * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
+   */
+  replaceFirst(str, replacement) {
+    return bee.RegEx.replaceFirst(this.value, str, replacement)
+  }
+  /**
    * Adds one or more flags.
    * @param {string[]} flags*
    * @chainable
