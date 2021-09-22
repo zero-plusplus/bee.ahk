@@ -113,40 +113,19 @@
    * @param {string} str
    * @param {pattern} pattern
    * @param {pattern} [fromIndex := 1]
-   * @param {pattern} [times := 1]
    * @return {number} - The index of searched text. If not found, returns `0`.
    */
-  static indexOf(str, pattern, params*) {
-    pattern := bee.PatternLiteral(pattern)
-    if (pattern.type == "regex") {
-      regex := bee.RegEx.fromRegExLiteral(pattern)
-      if (params.length < 2) {
-        match := regex.match(str, params*)
-        if (!match) {
-          return 0
-        }
-        return match.pos
-      }
-
-      times := params[2]
-      matches := regex.matchAll(str, params*)
-      if (!matches || matches.length <= times) {
-        return 0
-      }
-      return matches[times].pos
-    }
-
-    caseSensitive := pattern.type == "ignorecase" ? false : true
-    return InStr(str, pattern.text, caseSensitive, params*)
+  static indexOf(str, pattern, times := 1) {
+    return bee.String.search(str, pattern, 1, Abs(times))
   }
   /**
    * Returns the index (1-base) of the text matching the `pattern`.
    * @param {pattern} pattern
-   * @param {number} [times := 1]
+   * @param {pattern} [fromIndex := 1]
    * @return {number} - The index of searched text. If not found, returns `0`.
    */
-  indexOf(pattern, params*) {
-    return bee.String.indexOf(this.value, pattern, params*)
+  indexOf(pattern, times := 1) {
+    return bee.String.indexOf(this.value, pattern, times)
   }
   /**
    * Returns the result of regular expression matching.
@@ -395,6 +374,46 @@
   replaceFirst(pattern, replacement) {
     replaced := bee.String.replaceFirst(this.value, pattern, replacement)
     return bee.String(replaced)
+  }
+  /**
+   * Returns the index (1-base) of the text matching the `pattern`.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {pattern} [fromIndex := 1]
+   * @param {pattern} [times := 1]
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  static search(str, pattern, params*) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      regex := bee.RegEx.fromRegExLiteral(pattern)
+      if (params.length < 2) {
+        match := regex.match(str, params*)
+        if (!match) {
+          return 0
+        }
+        return match.pos
+      }
+
+      times := params[2]
+      matches := regex.matchAll(str, params*)
+      if (!matches || matches.length < times) {
+        return 0
+      }
+      return matches[times].pos
+    }
+
+    caseSensitive := pattern.type == "ignorecase" ? false : true
+    return InStr(str, pattern.text, caseSensitive, params*)
+  }
+  /**
+   * Returns the index (1-base) of the text matching the `pattern`.
+   * @param {pattern} pattern
+   * @param {number} [times := 1]
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  search(pattern, params*) {
+    return bee.String.search(this.value, pattern, params*)
   }
   /**
    * Returns a new string with the specified range of the string sliced.
