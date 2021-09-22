@@ -58,6 +58,7 @@ class RegEx {
    * @param {string} str
    * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
    * @param {number} [limit := -1] - Limit the number of times to replace. `-1` indicates unlimited
+   * @return {string}
    */
   class replace extends bee.rule.PcreCalloutable {
     static callout := ""
@@ -106,6 +107,7 @@ class RegEx {
    * @param {string} str
    * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
    * @param {number} [limit := -1] - Limit the number of times to replace. `-1` indicates unlimited
+   * @return {string}
    */
   replace(str, replacement, limit := -1) {
     return bee.RegEx.replace(this.value, str, replacement, limit)
@@ -115,6 +117,7 @@ class RegEx {
    * @param {string} regex
    * @param {string} str
    * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
    */
   static replaceAll(regex, str, replacement) {
     return bee.RegEx.replace(regex, str, replacement)
@@ -123,6 +126,7 @@ class RegEx {
    * Replaces all strings that match the regular expression.
    * @param {string} str
    * @param {string | (match: RegExMatchInfo, pattern: string) => string} replacement - A string to replace or a callable object to output it
+   * @return {string}
    */
   replaceAll(str, replacement) {
     return bee.RegEx.replaceAll(this.value, str, replacement)
