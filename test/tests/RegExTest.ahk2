@@ -31,6 +31,11 @@ class RegExTest {
     testReplaceFirst(assert) {
       assert.equals(bee.RegEx("([^\s])").replaceFirst("a b c", "$"), "$ b c")
     }
+    testSplit(assert) {
+      assert.deepEquals(bee.RegEx("(`r`n|`n)").split("a`r`nb`nc"), [ "a", "b", "c"])
+      assert.deepEquals(bee.RegEx("(`r`n|`n)").split("[a]`r`n[b]`n[c]", "[]"), [ "a", "b", "c"])
+      assert.deepEquals(bee.RegEx("(`r`n|`n)").split("[a]`r`n[b]`n[c]", "[]", 1), [ "a" ])
+    }
   }
   class StaticTest {
     testEscape(assert) {
@@ -59,6 +64,11 @@ class RegExTest {
     }
     testReplaceFirst(assert) {
       assert.equals(bee.RegEx.replaceFirst("([^\s])", "a b c", "$"), "$ b c")
+    }
+    testSplit(assert) {
+      assert.deepEquals(bee.RegEx.split("(`r`n|`n)", "a`r`nb`nc"), [ "a", "b", "c"])
+      assert.deepEquals(bee.RegEx.split("(`r`n|`n)", "[a]`r`n[b]`n[c]", "[]"), [ "a", "b", "c"])
+      assert.deepEquals(bee.RegEx.split("(`r`n|`n)", "[a]`r`n[b]`n[c]", "[]", 1), [ "a" ])
     }
     testUnescape(assert) {
       assert.equals(bee.RegEx.unescape("\^\(\\s\)\$"), "^(\s)$")
