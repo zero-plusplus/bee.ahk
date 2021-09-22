@@ -58,5 +58,8 @@ class RegExTest {
     testReplaceFirst(assert) {
       assert.equals(bee.RegEx.replaceFirst("([^\s])", "a b c", "$"), "$ b c")
     }
+    testUnescape(assert) {
+      assert.equals(bee.RegEx.unescape("\^\(\\s\)\$"), "^(\s)$")
+    }
   }
 }
