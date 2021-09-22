@@ -1,4 +1,4 @@
-﻿class RegEx {
+class RegEx {
   ;; @type {string[]}
   static SPECIAL_CHARS => [ "\\", ".", "*", "?", "+", "[", "{", "(", ")", "^", "$" ]
   /**
@@ -323,11 +323,11 @@
       if (!match) {
         break
       }
+      matches.push(match)
+      lastIndex := match.pos + match.len
       if (lastIndex == match.pos) {
         break
       }
-      matches.push(match)
-      lastIndex := match.pos + match.len
     }
     return matches
   }
