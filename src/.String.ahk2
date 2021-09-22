@@ -1,4 +1,4 @@
-class String extends bee.rule.Primitive {
+﻿class String extends bee.rule.Primitive {
   /**
    * Get the character at the specified `index`.
    * @param {string} str
@@ -109,7 +109,60 @@ class String extends bee.rule.Primitive {
     return bee.String(formatted)
   }
   /**
-   * Matches `str` by regular expression.
+   * Returns the index (1-base) of the text matching the `pattern`.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {pattern} [fromIndex := 1]
+   * @param {pattern} [times := 1]
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  static indexOf(str, pattern, params*) {
+    pattern := bee.PatternLiteral(pattern)
+    if (pattern.type == "regex") {
+      regex := bee.RegEx.fromRegExLiteral(pattern)
+      if (params.length < 2) {
+        match := regex.match(str, params*)
+        if (!match) {
+          return 0
+        }
+        return match.pos
+      }
+
+      times := params[2]
+      matches := regex.matchAll(str, params*)
+      if (!matches || matches.length <= times) {
+        return 0
+      }
+      return matches[times].pos
+    }
+
+    caseSensitive := pattern.type == "ignorecase" ? false : true
+    return InStr(str, pattern.text, caseSensitive, params*)
+  }
+  /**
+   * Returns the index (1-base) of the text matching the `pattern`.
+   * @param {pattern} pattern
+   * @param {number} [times := 1]
+   * @return {number} - The index of searched text. If not found, returns `0`.
+   */
+  indexOf(pattern, params*) {
+    return bee.String.indexOf(this.value, pattern, params*)
+  }
+  /**
+   * Returns the result of regular expression matching.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {(match: RegExMatchInfo, regex: string) => number)} callout?
+   * Function to be called when a match is made.
+   * Depending on the return value, subsequent matches will be affected as follows.
+   * * If `0` or a `non-numeric value` is specified, it indicates the success of the current match and matching will continue
+   * * If a `number greater than or equal to 1` is specified, the current match will fail but matching will continue
+   * * If `-1` is specified, matching will be terminated immediately
+   * * If `less than -1` is specified, it indicates an error code and the matching will be terminated immediately
+   * @retrun {RegExMatchInfo | ""}
+   */
+  /**
+   * Returns the result of regular expression matching.
    * @param {string} str
    * @param {pattern} pattern
    * @param {number} fromIndex
@@ -342,30 +395,6 @@ class String extends bee.rule.Primitive {
   replaceFirst(pattern, replacement) {
     replaced := bee.String.replaceFirst(this.value, pattern, replacement)
     return bee.String(replaced)
-  }
-  /**
-   * Returns the index (1-base) of the text matching the `pattern`.
-   * @param {string} str
-   * @param {pattern} pattern
-   * @return {number} - The index of searched text. If not found, returns `0`.
-   */
-  static search(str, pattern) {
-    pattern := bee.PatternLiteral(pattern)
-    if (pattern.type == "regex") {
-      regex := bee.RegEx.fromRegExLiteral(pattern)
-      return RegExMatch(str, regex.value)
-    }
-
-    caseSensitive := pattern.type == "ignorecase" ? false : true
-    return InStr(str, pattern.text, caseSensitive)
-  }
-  /**
-   * Returns the index (1-base) of the text matching the `pattern`.
-   * @param {pattern} pattern
-   * @return {number} - The index of searched text. If not found, returns `0`.
-   */
-  search(pattern) {
-    return bee.String.search(this.value, pattern)
   }
   /**
    * Returns a new string with the specified range of the string sliced.

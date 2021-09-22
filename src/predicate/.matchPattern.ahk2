@@ -6,6 +6,6 @@
  */
 class matchPattern extends bee.rule.PredicateFunc {
   static behavior(value, pattern) {
-    return bee.toBoolean(bee.String.search(value, pattern))
+    return bee.toBoolean(bee.String.indexOf(value, pattern))
   }
 }

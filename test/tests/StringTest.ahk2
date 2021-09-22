@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class StringTest {
   testValue(assert) {
@@ -23,6 +23,16 @@ class StringTest {
     }
     testFormat(assert) {
       assert.equals(bee.String("{}: {}").format("a", "b").value, "a: b")
+    }
+    testIndexOf(assert) {
+      assert.equals(bee.String("example text").indexOf("e"), 1)
+      assert.equals(bee.String("example text").indexOf("e", -1), 10)
+      assert.equals(bee.String("example text").indexOf("e", 1, 2), 7)
+      assert.equals(bee.String("example text").indexOf("unknown"), 0)
+      assert.equals(bee.String("example text").indexOf({ text: "E", type: "ignorecase" }), 1)
+      assert.equals(bee.String("example text").indexOf("/(?<=l)e/"), 7)
+
+      assert.throws(() => bee.String("example text").indexOf("e", 0))
     }
     testLength(assert) {
       assert.equals(bee.String("abc").length, 3)
@@ -57,12 +67,6 @@ class StringTest {
     testReplaceFirst(assert) {
       assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
       assert.equals(bee.String("a b a").replaceFirst("a", "$").value, "$ b a")
-    }
-    testSearch(assert) {
-      assert.equals(bee.String("example text").search("e"), 1)
-      assert.equals(bee.String("example text").search("unknown"), 0)
-      assert.equals(bee.String("example text").search({ text: "E", type: "ignorecase" }), 1)
-      assert.equals(bee.String("example text").search("/(?<=l)e/"), 7)
     }
     testSubStr(assert) {
       assert.equals(bee.String("123456").substr(1).value, "123456")
@@ -114,6 +118,16 @@ class StringTest {
     testFormat(assert) {
       assert.equals(bee.String.format("{}: {}", "a", "b"), "a: b")
     }
+    testIndexOf(assert) {
+      assert.equals(bee.String.indexOf("example text", "e"), 1)
+      assert.equals(bee.String.indexOf("example text", "e", -1), 10)
+      assert.equals(bee.String.indexOf("example text", "e", 1, 2), 7)
+      assert.equals(bee.String.indexOf("example text", "unknown"), 0)
+      assert.equals(bee.String.indexOf("example text", { text: "E", type: "ignorecase" }), 1)
+      assert.equals(bee.String.indexOf("example text", "/(?<=l)e/"), 7)
+
+      assert.throws(() => bee.String.indexOf("example text", "e", 0))
+    }
     testLength(assert) {
       assert.equals(bee.String.length("abc"), 3)
     }
@@ -147,12 +161,6 @@ class StringTest {
     testReplaceFirst(assert) {
       assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
       assert.equals(bee.String.replaceFirst("a b a", "a", "$"), "$ b a")
-    }
-    testSearch(assert) {
-      assert.equals(bee.String.search("example text", "e"), 1)
-      assert.equals(bee.String.search("example text", "unknown"), 0)
-      assert.equals(bee.String.search("example text", { text: "E", type: "ignorecase" }), 1)
-      assert.equals(bee.String.search("example text", "/(?<=l)e/"), 7)
     }
     testSubStr(assert) {
       assert.equals(bee.String.substr("123456", 1), "123456")
