@@ -33,6 +33,9 @@ class StringTest {
 
       assert.equals(bee.String("i)^(\s)$").match("i)^(\s)$").pos, 1)
     }
+    testMatchAll(assert) {
+      assert.equals(bee.String("a b c").matchAll("/([^\s])/").length, 3)
+    }
     testRepeat(assert) {
       assert.equals(bee.String("abc").repeat(3), "abcabcabc")
     }
@@ -119,6 +122,9 @@ class StringTest {
       assert.equals(bee.String.match("a b c", [ "B", "ignorecase" ]).pos, 3)
 
       assert.equals(bee.String.match("i)^(\s)$", "i)^(\s)$").pos, 1)
+    }
+    testMatchAll(assert) {
+      assert.equals(bee.String.matchAll("a b c", "/([^\s])/").length, 3)
     }
     testRepeat(assert) {
       assert.equals(bee.String.repeat("abc", 3), "abcabcabc")
