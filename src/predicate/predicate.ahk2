@@ -42,6 +42,7 @@ class predicate {
   #Include %A_LineFile%\..\.isFalsy.ahk2
   #Include %A_LineFile%\..\.isFunc.ahk2
   #Include %A_LineFile%\..\.isFunctor.ahk2
+  #Include %A_LineFile%\..\.isInstance.ahk2
   #Include %A_LineFile%\..\.isNamedFunc.ahk2
   #Include %A_LineFile%\..\.isNamedCallable.ahk2
   #Include %A_LineFile%\..\.isNegative.ahk2

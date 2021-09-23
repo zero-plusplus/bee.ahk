@@ -1,0 +1,21 @@
+﻿/**
+ * Determines whether the `value` is an instance of any class or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isInstance extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    if (bee.isPrimitive(value)) {
+      return true
+    }
+
+    if (bee.isClass(value)) {
+      return false
+    }
+    if (!bee.hasKey(value, "__class")) {
+      return false
+    }
+    return value.__class == value.base.__class
+  }
+}

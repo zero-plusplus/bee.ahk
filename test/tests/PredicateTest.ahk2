@@ -88,6 +88,13 @@ class PredicateTest {
     assert.notOk(bee.isFunctor(() => ""))
     assert.notOk(bee.isFunctor(() => FuncExample))
   }
+  testIsInstance(assert) {
+    assert.ok(bee.isInstance(""))
+    assert.ok(bee.isInstance(123))
+    assert.ok(bee.isInstance({}))
+    assert.ok(bee.isInstance(bee.RangeLiteral("1..2")))
+    assert.notOk(bee.isInstance(bee.RangeLiteral))
+  }
   testIsNamedCallable(assert) {
     assert.ok(bee.isNamedCallable(SubStr))
     assert.ok(bee.isNamedCallable(this.testIsNamedFunc))
