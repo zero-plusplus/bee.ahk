@@ -1,0 +1,12 @@
+﻿/**
+ * Determines whether the `value` is an named function or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isNamedFunc extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    result := bee.isFunc(value) && bee.hasKey(value, "name") && value.name
+    return result
+  }
+}

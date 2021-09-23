@@ -74,6 +74,17 @@ class PredicateTest {
     FuncExample() {
     }
   }
+  testIsNamedFunc(assert) {
+    assert.ok(bee.isNamedFunc(FuncExample))
+    assert.ok(bee.isNamedFunc(this.testIsNamedFunc))
+    assert.notOk(bee.isNamedFunc(FuncExample.Bind()))
+    assert.notOk(bee.isNamedFunc(() => ""))
+    assert.notOk(bee.isNamedFunc({ call: () => "", name: "A" }))
+    return
+
+    FuncExample() {
+    }
+  }
   testIsNegative(assert) {
     assert.ok(bee.isNegative(-1))
     assert.notOk(bee.isNegative(0))
