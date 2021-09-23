@@ -38,6 +38,10 @@ class PredicateTest {
     assert.ok(bee.isBoolean(1))
     assert.ok(bee.isBoolean(0))
   }
+  testIsBoundFunc(assert) {
+    assert.ok(bee.isBoundFunc(SubStr.bind()))
+    assert.notOk(bee.isBoundFunc(SubStr))
+  }
   testIsCallable(assert) {
     assert.ok(bee.isCallable({ call: () => "" }))
   }

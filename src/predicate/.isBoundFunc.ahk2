@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an BoundFunc or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isBoundFunc extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return value is BoundFunc
+  }
+}
