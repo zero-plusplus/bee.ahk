@@ -42,6 +42,23 @@ class UtilTest {
     assert.equals(bee.getProp(Map("key", "value"), "key"), "value")
     assert.equals(bee.getProp([ "value" ], 1), "value")
   }
+  testNameOf(assert) {
+    assert.equals(bee.nameOf(""), "")
+    assert.equals(bee.nameOf(SubStr), "SubStr")
+    assert.equals(bee.nameOf(SubStr.bind()), "")
+
+    assert.equals(bee.nameOf(bee), "bee")
+    assert.equals(bee.nameOf.full(bee), "bee")
+    assert.equals(bee.nameOf.namespace(bee), "")
+
+    assert.equals(bee.nameOf(bee.util.nameOf), "nameOf")
+    assert.equals(bee.nameOf.full(bee.util.nameOf), "bee.util.nameOf")
+    assert.equals(bee.nameOf.namespace(bee.util.nameOf), "bee.util")
+
+    assert.equals(bee.nameOf(this.testNameOf), "testNameOf")
+    assert.equals(bee.nameOf.full(this.testNameOf), this.__class ".Prototype.testNameOf")
+    assert.equals(bee.nameOf.namespace(this.testNameOf), this.__class ".Prototype")
+  }
   testPartial(assert) {
     getChar := bee.partial(SubStr, bee, bee, 1)
     assert.equals(getChar("abc", 1), "a")

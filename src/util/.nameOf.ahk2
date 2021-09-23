@@ -1,0 +1,43 @@
+﻿/**
+ * Get the name. If it does not have a name, it returns an empty string
+ * @method
+ * @param {any} value
+ * @return {string | ""}
+ */
+class nameOf {
+  static call(value) {
+    fullName := this.full(value)
+    if (!fullName) {
+      return
+    }
+    shortName := StrSplit(fullName, ".").pop()
+    return shortName
+  }
+  /**
+   * Get the namespace. If it does not have a namespace, it returns an empty string
+   * @param {any} value
+   * @return {string | ""}
+   */
+  static namespace(value) {
+    fullName := this.full(value)
+    if (!InStr(fullName, ".")) {
+      return
+    }
+    namespace := bee.String.replaceFirst(fullName, "/\.[^\.]*$/", "")
+    return namespace
+  }
+  /**
+   * Get the full name. If it does not have a name, it returns an empty string
+   * @method
+   * @param {any} value
+   * @return {string | ""}
+   */
+  static full(value) {
+    if (bee.isClass(value)) {
+      return value.prototype.__class
+    }
+    if (bee.isNamedCallable(value)) {
+      return bee.tryGetProp(value, "name")
+    }
+  }
+}
