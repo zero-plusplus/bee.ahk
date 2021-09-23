@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class PredicateTest {
   testAll(assert) {
@@ -87,6 +87,14 @@ class PredicateTest {
     assert.notOk(bee.isFunctor(SubStr.bind()))
     assert.notOk(bee.isFunctor(() => ""))
     assert.notOk(bee.isFunctor(() => FuncExample))
+  }
+  testIsNamedCallable(assert) {
+    assert.ok(bee.isNamedCallable(SubStr))
+    assert.ok(bee.isNamedCallable(this.testIsNamedFunc))
+    assert.ok(bee.isNamedCallable(bee.predicate.isNamedCallable))
+    assert.ok(bee.isNamedCallable({ call: () => "", name: "A" }))
+    assert.notOk(bee.isNamedCallable(SubStr.Bind()))
+    assert.notOk(bee.isNamedCallable(() => ""))
   }
   testIsNamedFunc(assert) {
     assert.ok(bee.isNamedFunc(FuncExample))

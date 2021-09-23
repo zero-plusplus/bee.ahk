@@ -1,0 +1,22 @@
+﻿/**
+ * Determines whether the `value` has a call method and name or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isNamedCallable extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    if (bee.isNamedFunc(value)) {
+      return true
+    }
+    if (bee.isCallable(value)) {
+      if (bee.hasKey(value, "name") && value.name)  {
+        return true
+      }
+      if (bee.isClass(value) && bee.isFunctor(value)) {
+        return true
+      }
+    }
+    return false
+  }
+}
