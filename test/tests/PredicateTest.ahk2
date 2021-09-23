@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class PredicateTest {
   testAll(assert) {
@@ -40,6 +40,12 @@ class PredicateTest {
   }
   testIsCallable(assert) {
     assert.ok(bee.isCallable({ call: () => "" }))
+  }
+  testIsClass(assert) {
+    assert.ok(bee.isClass(bee))
+    assert.notOk(bee.isClass(this))
+    assert.notOk(bee.isClass(""))
+    assert.notOk(bee.isClass({}))
   }
   testIsDigit(assert) {
     assert.ok(bee.isDigit(0))
