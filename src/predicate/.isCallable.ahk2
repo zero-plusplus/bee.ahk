@@ -6,9 +6,6 @@
  */
 class isCallable extends bee.rule.PredicateFunc {
   static behavior(value) {
-    if (bee.isFunc(value)) {
-      return true
-    }
-    return bee.hasKey(value, "call") && bee.isFunc(value.call)
+    return bee.isFunc(value) || bee.isFunctor(value)
   }
 }

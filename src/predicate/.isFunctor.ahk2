@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is an user-defined function-like object or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isFunctor extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return !bee.isFunc(value) && bee.hasKey(value, "call") && bee.isFunc(value.call)
+  }
+}
