@@ -45,6 +45,13 @@ class PredicateTest {
   testIsCallable(assert) {
     assert.ok(bee.isCallable({ call: () => "" }))
   }
+  testIsChar(assert) {
+    assert.ok(bee.isChar("a"))
+    assert.ok(bee.isChar(1))
+    assert.notOk(bee.isChar("abc"))
+    assert.notOk(bee.isChar(123))
+    assert.notOk(bee.isChar({}))
+  }
   testIsClass(assert) {
     assert.ok(bee.isClass(bee))
     assert.notOk(bee.isClass(this))

@@ -1,0 +1,11 @@
+﻿/**
+ * Determines whether the `value` is a string of length 1 or not.
+ * @method
+ * @param {any} value
+ * @return {boolean}
+ */
+class isChar extends bee.rule.PredicateFunc {
+  static behavior(value) {
+    return bee.isPrimitive(value) && StrLen(value) == 1
+  }
+}

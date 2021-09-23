@@ -36,6 +36,7 @@ class predicate {
   #Include %A_LineFile%\..\.isBoolean.ahk2
   #Include %A_LineFile%\..\.isBoundFunc.ahk2
   #Include %A_LineFile%\..\.isCallable.ahk2
+  #Include %A_LineFile%\..\.isChar.ahk2
   #Include %A_LineFile%\..\.isClass.ahk2
   #Include %A_LineFile%\..\.isDigit.ahk2
   #Include %A_LineFile%\..\.isDigitLike.ahk2
