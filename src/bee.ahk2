@@ -9,7 +9,7 @@ class bee {
     }
   }
   static __GET(key, *) {
-    for i, cls in [ bee.predicate ] {
+    for i, cls in [ bee.console, bee.predicate, bee.util ] {
       if (cls.hasProp(key)) {
         return cls.%key%
       }
