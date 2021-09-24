@@ -12,6 +12,15 @@
       "useDebugDirective": true,
       "usePerfTips": true,
       "openFileOnExit": "${file}",
+      "skipFiles": [
+        "${workspaceFolder}/external/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/.*",
+      ],
+      "skipFunctions": [
+        "bee.__CALL",
+        "bee.__GET",
+      ]
     },
     {
       "name": "AutoHotkey Debug:AllTest.ahk2",
@@ -24,6 +33,15 @@
       "useDebugDirective": true,
       "usePerfTips": true,
       "openFileOnExit": "${file}",
+      "skipFiles": [
+        "${workspaceFolder}/external/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/.*",
+      ],
+      "skipFunctions": [
+        "bee.__CALL",
+        "bee.__GET",
+      ]
     },
     {
       "name": "AutoHotkey Debug:BundledAllTest.ahk2",
@@ -36,6 +54,15 @@
       "usePerfTips": true,
       "openFileOnExit": "${file}",
       "preLaunchTask": "subtask:watch",
+      "skipFiles": [
+        "${workspaceFolder}/external/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/.*",
+      ],
+      "skipFunctions": [
+        "bee.__CALL",
+        "bee.__GET",
+      ]
     },
     {
       "name": "AutoHotkey Debug:LogTest.ahk2",
@@ -48,6 +75,15 @@
       "useDebugDirective": true,
       "usePerfTips": true,
       "openFileOnExit": "${file}",
+      "skipFiles": [
+        "${workspaceFolder}/external/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/.*",
+      ],
+      "skipFunctions": [
+        "bee.__CALL",
+        "bee.__GET",
+      ]
     },
     {
       "name": "AutoHotkey Debug:NativeExtendTest.ahk2",
@@ -61,6 +97,15 @@
       "usePerfTips": true,
       "openFileOnExit": "${file}",
       "preLaunchTask": "subtask:watch",
+      "skipFiles": [
+        "${workspaceFolder}/external/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/*",
+        "${workspaceFolder}/node_modules/experimental-autohotkey-testframework/src/**/.*",
+      ],
+      "skipFunctions": [
+        "bee.__CALL",
+        "bee.__GET",
+      ]
     },
     {
       "name": "Gulp Debug:build",
