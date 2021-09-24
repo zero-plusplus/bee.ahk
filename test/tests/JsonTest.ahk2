@@ -45,5 +45,10 @@ class JsonTest {
     assert.equals(bee.Json.stringify([ 1, [ 2, [ 3 ] ] ], { space: true }), "[ 1, [ 2, [ 3 ] ] ]")
     assert.equals(bee.Json.stringify([ 1, [ 2, [ 3 ] ] ], { replacer: (value, *) => (value == 1 ? bee.Json.null : value) }), '[null,[2,[3]]]')
     assert.equals(bee.Json.stringify([ 1, [ 2, [ 3 ] ] ], { pick: [ 1 ]}), "[1]")
+
+
+    circular := {}
+    circular.circular := circular
+    assert.equals(bee.Json.stringify(circular, { space: true }), "{ circular: <circular> }")
   }
 }

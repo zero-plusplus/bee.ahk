@@ -255,7 +255,7 @@
   {
     static call(value, indentOrConfig := "")
     {
-      config := bee.query(bee.isPrimitive(indentOrConfig) ? { indent: indentOrConfig } : indentOrConfig).defaults({ indent: "", space: false, replacer: "", pick: "", _currentIndent: "" }).toObject()
+      config := bee.query(bee.isPrimitive(indentOrConfig) ? { indent: indentOrConfig } : indentOrConfig).defaults({ indent: "", space: false, replacer: "", pick: "", _currentIndent: "", _circular: [] }).toObject()
       if (bee.isNumber(config.indent)) {
         config.indent := bee.String.repeat(" ", config.indent)
         config._currentIndent := "`n"
@@ -270,6 +270,13 @@
       if (bee.isString(value)) {
         return this.string(value, config)
       }
+
+      if (bee.any.equals(config._circular, value)) {
+        config._circular.pop()
+        return "<circular>"
+      }
+      config._circular.push(value)
+
       if (bee.isArray(value)) {
         return this.array(value, config)
       }
@@ -282,7 +289,6 @@
       return value
     }
     static object(obj, config) {
-      obj := bee.Enumerable.toObject(obj)
       colon := config.indent || config.space ? ": " : ":"
       comma := config.space ? ", " : ","
       prevIndent := config._currentIndent
