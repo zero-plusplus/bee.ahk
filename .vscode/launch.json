@@ -38,6 +38,16 @@
       "extends": "AutoHotkey Selected Debug",
     },
     {
+      "name": "AutoHotkey Debug:HotkeyTest.ahk2",
+      "type": "autohotkey",
+      "request": "launch",
+      "args": [
+        "--no-auto-run"
+      ],
+      "program": "${workspaceFolder}/test/HotkeyTest.ahk2",
+      "extends": "AutoHotkey Selected Debug",
+    },
+    {
       "name": "AutoHotkey Debug:LogTest.ahk2",
       "type": "autohotkey",
       "request": "launch",

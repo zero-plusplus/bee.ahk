@@ -1,0 +1,8 @@
+﻿#Include common.ahk2
+
+bee.Hotkey("a & b", bee.noop).register()
+bee.Hotkey("Esc", f, (*) => true).register()
+
+f(params*) {
+}
+return

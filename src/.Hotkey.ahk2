@@ -1,4 +1,4 @@
-class Hotkey {
+﻿class Hotkey {
   /**
    * @typedef {(hotkey: bee.Hotkey) => void} HotkeyAction
    */
@@ -47,8 +47,8 @@ class Hotkey {
    */
   __New(keyName, action := "", condition := "") {
     this._value := keyName
-    this.action := action ? bee.callback(action) : ""
-    this.condition := condition ? bee.callback(condition) : ""
+    this.action := bee.callback(action ? action : bee.noop, 1).bind(this)
+    this.condition := bee.callback(condition ? condition : (*) => true, 1).bind(this)
 
     parsed := bee.Hotkey.parseHotKey(keyName)
     this.isCombination := parsed.isCombination
@@ -135,5 +135,86 @@ class Hotkey {
     static parseUp(context) {
       return bee.matchPattern(context.source, "/\s+up$/i")
     }
+  }
+  /**
+   * Register a hotkey. The registered hotkeys will be activated immediately.
+   * @chainable
+   */
+  register() {
+    HotIf(this.condition)
+    Hotkey(this.value, this.action)
+    HotIf()
+
+    return this
+  }
+  /**
+   * Enables hotkey.
+   * @chainable
+   */
+  enable() {
+    HotIf(this.condition)
+    Hotkey(this.value, "On")
+    HotIf()
+
+    return this
+  }
+  /**
+   * Disables hotkey.
+   * @chainable
+   */
+  disable() {
+    HotIf(this.condition)
+    Hotkey(this.value, "Off")
+    HotIf()
+
+    return this
+  }
+  /**
+   * Enables/disables hotkey buffering.
+   * @param {boolean} [enable := true]
+   * @chainable
+   */
+  enableBuffer(enable := true) {
+    HotIf(this.condition)
+    Hotkey(this.value, enable ? "B" : "B0")
+    HotIf()
+
+    return this
+  }
+  /**
+   * Sets the Input level of the hotkey.
+   * @param {number} level
+   * @chainable
+   */
+  setInputLevel(level) {
+    HotIf(this.condition)
+    Hotkey(this.value, "I" level)
+    HotIf()
+
+    return this
+  }
+  /**
+   * Sets the priority of hotkey.
+   * @param {number} priority
+   * @chainable
+   */
+  setPriority(priority) {
+    HotIf(this.condition)
+    Hotkey(this.value, "P" priority)
+    HotIf()
+
+    return this
+  }
+  /**
+   * Sets the maximum number of hotkey threads.
+   * @param {number} number
+   * @chainable
+   */
+  setMaxThreads(number) {
+    HotIf(this.condition)
+    Hotkey(this.value, "T" number)
+    HotIf()
+
+    return this
   }
 }
