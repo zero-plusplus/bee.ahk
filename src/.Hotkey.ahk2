@@ -72,8 +72,8 @@ class Hotkey {
 
       return {
         isCombination: context.isCombination,
-        flags: this.parseFlags(context),
-        modifiers: this.parseModifiers(context),
+        flags: bee.Array.sort.mutable(this.parseFlags(context)),
+        modifiers: bee.Array.sort.mutable(this.parseModifiers(context)),
         key: this.parseKey(context),
         up: this.parseUp(context),
       }
