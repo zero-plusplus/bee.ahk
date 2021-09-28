@@ -1,0 +1,134 @@
+﻿class Hotkey {
+  /**
+   * @typedef {(hotkey: bee.Hotkey) => void} HotkeyAction
+   */
+  /**
+   * @typedef {(context) => void} HotkeyCondition
+   */
+  ;; @type {string[]}
+  static options := [ "*", "~", "$" ]
+  ;; @type {Array<[ string, string]>}
+  static symbolToKeyNameEntries := [
+    [ ">>#",  "RWin" ],
+    [ "<#",   "LWin" ],
+    [ "#",    "Win" ],
+    [ ">>!",  "RAlt" ],
+    [ "<!",   "LAlt" ],
+    [ "!",    "Alt" ],
+    [ "<^>!", "AltGr" ],
+    [ ">>^",  "RCtrl" ],
+    [ "<^",   "LCtrl" ],
+    [ "^",    "Ctrl" ],
+    [ ">>+",  "RShift" ],
+    [ "<+",   "LShift" ],
+    [ "+",    "Shift" ],
+  ]
+  ;; @type {string}
+  _value := ""
+  value => this._value
+  ;; @type {HotkeyAction}
+  action := ""
+  ;; @type {HotkeyCondition?}
+  condition := ""
+  ;; @type {boolean}
+  isCombination := false
+  ;; @type {string[]}
+  flags := false
+  ;; @type {string[]}
+  modifiers := ""
+  ;; @type {string}
+  key := ""
+  /**
+   * @param {string} keyName
+   * @param {HotkeyAction} action
+   * @param {HotkeyCondition} condition
+   */
+  __New(keyName, action := "", condition := "") {
+    this._value := keyName
+    this.action := action ? bee.callback(action) : ""
+    this.condition := condition ? bee.callback(condition) : ""
+
+    parsed := bee.Hotkey.parseHotKeyName(keyName)
+    this.isCombination := parsed.isCombination
+    this.flags := parsed.flags
+    this.modifiers := parsed.modifiers
+    this.key := parsed.key
+  }
+  /**
+   * Parses the format of a hotkey.
+   * @param {string} source
+   * @return {{ isCombination: boolean; flags: string[]; modifiers: []; key: string }}
+   */
+  class parseHotkey {
+    static call(source) {
+      context := {
+        source: source,
+        current: 1,
+        isCombination: bee.matchPattern(source, "/\s+&\s+/")
+      }
+
+      return {
+        isCombination: context.isCombination,
+        flags: this.parseFlags(context),
+        modifiers: this.parseModifiers(context),
+        key: this.parseKey(context)
+      }
+    }
+    static parseFlags(context) {
+      options := []
+      if (context.isCombination) {
+        return options
+      }
+
+      while (true) {
+        char := bee.String.substr(context.source, context.current, 1)
+        if (bee.none.equals(bee.Hotkey.options, char)) {
+          break
+        }
+        for i, option in bee.Hotkey.options {
+          if (char == option) {
+            context.current++
+            options.push(char)
+            break
+          }
+        }
+
+      }
+      return options
+    }
+    static parseModifiers(context) {
+      modifiers := []
+
+      if (context.isCombination) {
+        modifier := bee.String.replace(context.source, "/\s+&.+$/", "")
+        modifiers.push(modifier)
+        return modifiers
+      }
+
+      symbols := bee.query(bee.Hotkey.symbolToKeyNameEntries).select((key, v) => v[1]).toValues()
+      while (true) {
+        target := bee.String.substr(context.source, context.current)
+        pattern := "/^(" bee.RegEx.escape(bee.Array.join(symbols, "|")) ")/"
+        if (!target || !bee.matchPattern(target, pattern)) {
+          break
+        }
+
+        for i, entry in bee.Hotkey.symbolToKeyNameEntries {
+          match := bee.String.match(target, "/^(" bee.RegEx.escape(entry[1]) ")/")
+          if (match) {
+            modifiers.push(entry[2])
+            context.current += match.len
+            break
+          }
+        }
+      }
+      return modifiers
+    }
+    static parseKey(context) {
+      if (context.isCombination) {
+        return bee.String.replace(context.source, "/^.+&\s+/", "")
+      }
+      return SubStr(context.source, context.current)
+    }
+  }
+}

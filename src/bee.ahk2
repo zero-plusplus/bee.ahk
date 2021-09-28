@@ -17,6 +17,7 @@ class bee {
   }
   #Include %A_LineFile%\..\.Array.ahk2
   #Include %A_LineFile%\..\.Enumerable.ahk2
+  #Include %A_LineFile%\..\.Hotkey.ahk2
   #Include %A_LineFile%\..\.Json.ahk2
   #Include %A_LineFile%\..\.Map.ahk2
   #Include %A_LineFile%\..\.Number.ahk2

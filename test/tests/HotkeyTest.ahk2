@@ -1,0 +1,10 @@
+﻿#Include ..\common.ahk2
+
+class HotkeyTest {
+  class StaticTest {
+    testParseHotkey(assert) {
+      assert.deepEquals(bee.Hotkey.parseHotkey("*~$+^!c"), { isCombination: false, flags: [ "*", "~", "$" ], modifiers: [ "Shift", "Ctrl", "Alt" ], key: "c" } )
+      assert.deepEquals(bee.Hotkey.parseHotkey("a & b"), { isCombination: true, flags: [], modifiers: [ "a" ], key: "b" } )
+    }
+  }
+}

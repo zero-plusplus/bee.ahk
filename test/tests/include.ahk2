@@ -1,5 +1,6 @@
 ﻿#Include ArrayTest.ahk2
 #Include EnumerableTest.ahk2
+#Include HotkeyTest.ahk2
 #Include JsonTest.ahk2
 #Include MapTest.ahk2
 #Include NumberTest.ahk2
