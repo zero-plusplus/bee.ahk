@@ -3,6 +3,7 @@
 class UtilTest {
   testCallback(assert) {
     assert.equals(bee.callback((value) => value)("a", "b", "c"), "a")
+    assert.equals(bee.callback((params*) => params.length, 2)("a", "b", "c"), 2)
   }
   testCompare(assert) {
     assert.equals(bee.compare(1, 5), -1)

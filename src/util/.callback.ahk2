@@ -3,12 +3,13 @@
  *
  * The callback object is passed as many real arguments as the number of arguments of `callable`.
  * @param {(params*) => any} callable
+ * @param {number} limit - Limit on the number of arguments passed to `callable`
  * @return {(params*) => any}
  */
-static callback(callable) {
-  return Call.bind(callable)
+static callback(callable, limit := -1) {
+  return Call.bind(callable, limit)
 
-  Call(callable, params*) {
+  Call(callable, limit, params*) {
     args := []
     Loop callable.maxParams {
       if (0 < params.length) {
@@ -19,6 +20,9 @@ static callback(callable) {
     }
     if (callable.isVariadic && 0 < params.length) {
       args.push(params*)
+    }
+    if (-1 < limit && limit < args.length) {
+      args := bee.Array.slice(args, 1, Abs(limit))
     }
     return callable.call(args*)
   }
