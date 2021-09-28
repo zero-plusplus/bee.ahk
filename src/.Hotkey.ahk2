@@ -1,4 +1,4 @@
-﻿class Hotkey {
+class Hotkey {
   /**
    * @typedef {(hotkey: bee.Hotkey) => void} HotkeyAction
    */
@@ -50,7 +50,7 @@
     this.action := bee.callback(action ? action : bee.noop, 1).bind(this)
     this.condition := bee.callback(condition ? condition : (*) => true, 1).bind(this)
 
-    parsed := bee.Hotkey.parseHotKey(keyName)
+    parsed := bee.Hotkey.parse(keyName)
     this.isCombination := parsed.isCombination
     this.flags := parsed.flags
     this.modifiers := parsed.modifiers
@@ -62,7 +62,7 @@
    * @param {string} source
    * @return {{ isCombination: boolean; flags: string[]; modifiers: []; key: string; up: boolean }}
    */
-  class parseHotkey {
+  class parse {
     static call(source) {
       context := {
         source: source,
