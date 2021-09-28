@@ -4,6 +4,7 @@
 #Include JsonTest.ahk2
 #Include MapTest.ahk2
 #Include NumberTest.ahk2
+#Include OrderedMapTest.ahk2
 #Include PatternLiteralTest.ahk2
 #Include PredicateTest.ahk2
 #Include RangeLiteralTest.ahk2

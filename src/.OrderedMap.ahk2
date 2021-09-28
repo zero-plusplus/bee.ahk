@@ -1,0 +1,24 @@
+﻿class OrderedMap extends Map {
+  __keys__ := []
+  __New(flatEntries*) {
+    while (A_Index <= flatEntries.length // 2) {
+      key :=   flatEntries[(A_Index * 2) - 1]
+      value := flatEntries[A_Index * 2]
+
+      this.__keys__.push(key)
+      this[key] := value
+    }
+  }
+  __Enum(*) {
+    enumerator := bee.Enumerable.toEnumeratorLike(this.__keys__)
+    return Enum.bind(this, enumerator)
+
+    Enum(this, enumerator, &key, &value := unset) {
+      if (enumerator.call(&i, &key)) {
+        value := this[key]
+        return true
+      }
+      return false
+    }
+  }
+}
