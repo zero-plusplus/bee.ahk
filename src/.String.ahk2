@@ -417,7 +417,7 @@
     pattern := bee.PatternLiteral(pattern)
     if (pattern.type == "regex") {
       regex := bee.RegEx.fromRegExLiteral(pattern)
-      if (params.length < 2) {
+      if (params.length < 2 || params[1] == 1) {
         match := regex.match(str, params*)
         if (!match) {
           return 0
