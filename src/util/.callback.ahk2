@@ -7,7 +7,15 @@
  * @return {(params*) => any}
  */
 static callback(callable, limit := -1) {
-  return Call.bind(callable, limit)
+  static callbackIdentifier := "<callback>", isCallback := ((callable) => bee.hasKey(callable, "__callback") && callable == callbackIdentifier)
+
+  if (isCallback(callable)) {
+    return callable
+  }
+
+  callback := Call.bind(callable, limit)
+  callback.__callback := callbackIdentifier
+  return callback
 
   Call(callable, limit, params*) {
     args := []
