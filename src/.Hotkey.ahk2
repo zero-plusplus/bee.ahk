@@ -1,4 +1,4 @@
-﻿class Hotkey {
+class Hotkey {
   /**
    * @typedef {(hotkey: bee.Hotkey) => void} HotkeyAction
    */
@@ -38,6 +38,8 @@
   modifiers := ""
   ;; @type {string}
   key := ""
+  ;; @type {boolean}
+  up := false
   /**
    * @param {string} keyName
    * @param {HotkeyAction} action
@@ -48,16 +50,17 @@
     this.action := action ? bee.callback(action) : ""
     this.condition := condition ? bee.callback(condition) : ""
 
-    parsed := bee.Hotkey.parseHotKeyName(keyName)
+    parsed := bee.Hotkey.parseHotKey(keyName)
     this.isCombination := parsed.isCombination
     this.flags := parsed.flags
     this.modifiers := parsed.modifiers
     this.key := parsed.key
+    this.up := parsed.up
   }
   /**
    * Parses the format of a hotkey.
    * @param {string} source
-   * @return {{ isCombination: boolean; flags: string[]; modifiers: []; key: string }}
+   * @return {{ isCombination: boolean; flags: string[]; modifiers: []; key: string; up: boolean }}
    */
   class parseHotkey {
     static call(source) {
@@ -71,7 +74,8 @@
         isCombination: context.isCombination,
         flags: this.parseFlags(context),
         modifiers: this.parseModifiers(context),
-        key: this.parseKey(context)
+        key: this.parseKey(context),
+        up: this.parseUp(context),
       }
     }
     static parseFlags(context) {
@@ -125,10 +129,11 @@
       return modifiers
     }
     static parseKey(context) {
-      if (context.isCombination) {
-        return bee.String.replace(context.source, "/^.+&\s+/", "")
-      }
-      return SubStr(context.source, context.current)
+      key := context.isCombination ? bee.String.replace(context.source, "/^.+&\s+/", "") : SubStr(context.source, context.current)
+      return bee.String.replace(key, "/\s+up$/i", "")
+    }
+    static parseUp(context) {
+      return bee.matchPattern(context.source, "/\s+up$/i")
     }
   }
 }

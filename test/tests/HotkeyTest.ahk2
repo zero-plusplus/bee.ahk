@@ -3,8 +3,9 @@
 class HotkeyTest {
   class StaticTest {
     testParseHotkey(assert) {
-      assert.deepEquals(bee.Hotkey.parseHotkey("*~$+^!c"), { isCombination: false, flags: [ "*", "~", "$" ], modifiers: [ "Shift", "Ctrl", "Alt" ], key: "c" } )
-      assert.deepEquals(bee.Hotkey.parseHotkey("a & b"), { isCombination: true, flags: [], modifiers: [ "a" ], key: "b" } )
+      assert.deepEquals(bee.Hotkey.parseHotkey("*~$+^!c"), { isCombination: false, flags: [ "*", "~", "$" ], modifiers: [ "Shift", "Ctrl", "Alt" ], key: "c", up: false } )
+      assert.deepEquals(bee.Hotkey.parseHotkey("a & b"), { isCombination: true, flags: [], modifiers: [ "a" ], key: "b", up: false } )
+      assert.deepEquals(bee.Hotkey.parseHotkey("a & b up"), { isCombination: true, flags: [], modifiers: [ "a" ], key: "b", up: true } )
     }
   }
 }
