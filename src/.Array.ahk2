@@ -55,11 +55,11 @@
    */
   class sort {
     static call(arr, comparer := "") {
-      comparer := comparer || (a, b) => bee.compare(a, b)
       return this.mutable(arr.clone(), comparer)
     }
     class mutable {
-      static call(arr, comparer) {
+      static call(arr, comparer := "") {
+        comparer := comparer || (a, b) => bee.compare(a, b)
         return this.haifdividing(arr, comparer)
       }
       static haifdividing(arr, comparer) {
