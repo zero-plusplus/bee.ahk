@@ -1,4 +1,23 @@
-class Array extends Array {
+﻿class Array extends Array {
+  /**
+   * Returns the index (1-base) of the array matching the `pattern`.
+   * @param {string} str
+   * @param {pattern} pattern
+   * @param {pattern} [times := 1]
+   * @return {number} - The index of searched array. If not found, returns `0`.
+   */
+  static indexOf(arr, patternOrCallback, times := 1) {
+    return bee.Array.search(arr, patternOrCallback, 1, times)
+  }
+  /**
+   * Returns the index (1-base) of the array matching the `pattern`.
+   * @param {pattern} pattern
+   * @param {pattern} [times := 1]
+   * @return {number} - The index of searched array. If not found, returns `0`.
+   */
+  indexOf(params*) {
+    return bee.Array.indexOf(this, params*)
+  }
   /**
    * Join each element with `delimiter`.
    * @param {string[] | bee.Enumerable} arr

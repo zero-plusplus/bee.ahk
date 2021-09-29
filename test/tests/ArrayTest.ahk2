@@ -1,7 +1,13 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class ArrayTest {
   class InstanceTest {
+    testIndexOf(assert) {
+      assert.equals(bee.Array("a", "b", "c").indexOf("b"), 2)
+      assert.equals(bee.Array("a", "b", "c").indexOf("d"), 0)
+      assert.equals(bee.Array("a", "b", "c").indexOf("/b/"), 2)
+      assert.equals(bee.Array({}, [], Map()).indexOf((value) => bee.isArray(value)), 2)
+    }
     testJoin(assert) {
       assert.equals(bee.Array("a", "b", "c").join(""), "abc")
       assert.equals(bee.Array("a", "b", "c").join(", "), "a, b, c")
@@ -29,6 +35,12 @@ class ArrayTest {
     }
   }
   class StaticTest {
+    testIndexOf(assert) {
+      assert.equals(bee.Array.indexOf([ "a", "b", "c"], "b"), 2)
+      assert.equals(bee.Array.indexOf([ "a", "b", "c"], "d"), 0)
+      assert.equals(bee.Array.indexOf([ "a", "b", "c"], "/b/"), 2)
+      assert.equals(bee.Array.indexOf([ {}, [], Map() ], (value) => bee.isArray(value)), 2)
+    }
     testJoin(assert) {
       assert.equals(bee.Array.join([ "a", "b", "c" ], ""), "abc")
       assert.equals(bee.Array.join({ a: "a", b: "b", c: "c" }, ", "), "a, b, c")
