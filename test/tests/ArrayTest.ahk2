@@ -1,4 +1,4 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class ArrayTest {
   class InstanceTest {
@@ -6,6 +6,7 @@ class ArrayTest {
       assert.equals(bee.Array("a", "b", "c").indexOf("b"), 2)
       assert.equals(bee.Array("a", "b", "c").indexOf("d"), 0)
       assert.equals(bee.Array("a", "b", "c").indexOf("/b/"), 2)
+      assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").indexOf("e", 2), 7)
       assert.equals(bee.Array({}, [], Map()).indexOf((value) => bee.isArray(value)), 2)
     }
     testJoin(assert) {
