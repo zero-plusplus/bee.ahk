@@ -1,6 +1,11 @@
 ﻿#Include ..\common.ahk2
 
 class OrderedMapTest {
+  testAccessor(assert) {
+    orderedMap := bee.OrderedMap()
+    orderedMap["key"] := "value"
+    assert.equals(orderedMap["key"], "value")
+  }
   testEnumerator(assert) {
     assert.deepEquals(bee.query(bee.OrderedMap("key3", "value3", "key2", "value2", "key", "value")).toValues(), [ "value3", "value2", "value"])
   }
