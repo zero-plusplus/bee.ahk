@@ -43,6 +43,11 @@ class UtilTest {
     assert.equals(bee.getProp(Map("key", "value"), "key"), "value")
     assert.equals(bee.getProp([ "value" ], 1), "value")
   }
+  testMatcher(assert) {
+    assert.ok(bee.matcher("a")("a"))
+    assert.ok(bee.matcher("/\d/")(1))
+    assert.ok(bee.matcher((value) => isNumber(value))(1))
+  }
   testNameOf(assert) {
     assert.equals(bee.nameOf(""), "")
     assert.equals(bee.nameOf(SubStr), "SubStr")

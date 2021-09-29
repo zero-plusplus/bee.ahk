@@ -1,0 +1,11 @@
+﻿/**
+ * Generate predicates for matching.
+ * @param {pattern | (params*) => boolean}  patternOrPredicate
+ * @return {callback}
+ */
+static matcher(patternOrPredicate) {
+  if (bee.isCallable(patternOrPredicate)) {
+    return bee.callback(patternOrPredicate)
+  }
+  return bee.callback(bee.matchPattern(patternOrPredicate), 1)
+}
