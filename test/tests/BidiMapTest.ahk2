@@ -1,0 +1,11 @@
+﻿#Include ..\common.ahk2
+
+class BidiMapTest {
+  testAccessor(assert) {
+    bidiMap := bee.BidiMap()
+    bidiMap["key"] := "value"
+    bidiMap["value"] := "overwrite"
+    assert.deepEquals(bidiMap["value"], "overwrite")
+    assert.deepEquals(bidiMap, Map("value", "overwrite"))
+  }
+}

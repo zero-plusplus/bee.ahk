@@ -1,0 +1,83 @@
+﻿class BidiMap extends Map {
+  ;; @type {Map<any, any>}
+  __keyValueMap__ := Map()
+  ;; @type {Map<any, any>}
+	__valueKeyMap__ := Map()
+  /**
+   * @param {any} flatEntries* - A sequence of key-value pairs.
+   */
+  __New(flatEntries*) {
+    this.set(flatEntries*)
+  }
+  __Item[key] {
+    get {
+      return this.get(key)
+    }
+    set {
+      return this.set(key, value)
+    }
+  }
+  __Enum(*) {
+    return bee.Enumerable.toEnumeratorLike(this.__keyValueMap__)
+  }
+  /**
+   * Determines whether the specified `keyOrValue` is owned or not.
+   * @param {any} keyOrValue
+   * @return {boolean}
+   */
+  has(keyOrValue) {
+    return this.__keyValueMap__.has(keyOrValue) || this.__valueKeyMap__.has(keyOrValue)
+  }
+  /**
+   * Determines whether the specified `keyOrValue` is owned or not.
+   * @param {any} keyOrValue
+   * @return {boolean}
+   */
+  get(keyOrValue, defaultValue := "") {
+    if (this.__keyValueMap__.has(keyOrValue)) {
+      return this.__keyValueMap__[keyOrValue]
+    }
+    if (this.__keyValueMap__.has(keyOrValue)) {
+      return this.__keyValueMap__[keyOrValue]
+    }
+    return defaultValue
+  }
+  /**
+   * Add zero or more elements.
+   * @param {any} flatEntries* - A sequence of key-value pairs.
+   * @chainable
+   */
+  set(flatEntries*) {
+    while (A_Index <= flatEntries.length // 2) {
+      key := flatEntries[(A_Index * 2) - 1]
+      value := flatEntries[A_Index * 2]
+
+      if (this.has(key)) {
+        this.delete(key)
+      }
+
+      this.__keyValueMap__[key] := value
+      this.__valueKeyMap__[value] := key
+    }
+  }
+  /**
+   * Deletes the elements that match the specified `keyOrValue`.
+   * Add one or more elements.
+   * @param {any} keyOrValue
+   * @return {any}
+   */
+  delete(keyOrValue) {
+    if (!this.has(keyOrValue)) {
+      return keyOrValue
+    }
+
+    if (this.__keyValueMap__.has(keyOrValue)) {
+      key := this.__valueKeyMap__.delete(this.__keyValueMap__[keyOrValue])
+      return this.__keyValueMap__.delete(key)
+    }
+    if (this.__valueKeyMap__.has(keyOrValue)) {
+      value := this.__keyValueMap__.delete(this.__valueKeyMap__[keyOrValue])
+      return this.__valueKeyMap__.delete(value)
+    }
+  }
+}

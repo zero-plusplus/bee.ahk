@@ -16,6 +16,7 @@ class bee {
     }
   }
   #Include %A_LineFile%\..\.Array.ahk2
+  #Include %A_LineFile%\..\.BidiMap.ahk2
   #Include %A_LineFile%\..\.Enumerable.ahk2
   #Include %A_LineFile%\..\.Hotkey.ahk2
   #Include %A_LineFile%\..\.Json.ahk2
