@@ -1,4 +1,4 @@
-﻿class Array extends Array {
+class Array extends Array {
   /**
    * Join each element with `delimiter`.
    * @param {string[] | bee.Enumerable} arr
@@ -21,6 +21,43 @@
    */
   join(delimiter) {
     return bee.Array.join(this, delimiter)
+  }
+  /**
+   * Returns the index (1-base) of the array matching the `pattern`.
+   * @template T
+   * @param {Array<T>} arr
+   * @param {pattern | (value: any, i: number, arr: Array<T>) => boolean} patternOrPredicate
+   * @param {pattern} [fromIndex := 1]
+   * @param {pattern} [times := 1]
+   * @return {number} - The index of searched array. If not found, returns `0`.
+   */
+  static search(arr, patternOrPredicate, fromIndex := 1, times := 1) {
+    if (fromIndex == 0) {
+      throw Error(bee.String.template("The fromIndex must be a non-zero number."))
+    }
+    query := bee.isPositive(fromIndex) ? bee.query(arr) : bee.query(arr).reverse()
+    predicate := bee.matcher(patternOrPredicate)
+
+    count := 1
+    for i, value in query {
+      if (predicate(value, i, arr)) {
+        if (count == times) {
+          return i
+        }
+        count++
+      }
+    }
+    return 0
+  }
+  /**
+   * Returns the index (1-base) of the array matching the `pattern`.
+   * @param {pattern | (value: any, i: number, arr: Array<T>) => boolean} patternOrPredicate
+   * @param {pattern} [fromIndex := 1]
+   * @param {pattern} [times := 1]
+   * @return {number} - The index of searched array. If not found, returns `0`.
+   */
+  search(params*) {
+    return bee.Array.search(this, params*)
   }
   /**
    * Returns a new array containing the elements of the specified range.

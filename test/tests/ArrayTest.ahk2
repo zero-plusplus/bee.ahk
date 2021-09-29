@@ -1,10 +1,20 @@
-﻿#Include ..\common.ahk2
+#Include ..\common.ahk2
 
 class ArrayTest {
   class InstanceTest {
     testJoin(assert) {
       assert.equals(bee.Array("a", "b", "c").join(""), "abc")
       assert.equals(bee.Array("a", "b", "c").join(", "), "a, b, c")
+    }
+    testSearch(assert) {
+      assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").search("e"), 1)
+      assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").search("e", -1), 7)
+      assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").search("e", 1, 2), 7)
+      assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").search("z"), 0)
+      assert.equals(bee.Array("a", "b", "c").search({ text: "C", type: "ignorecase" }), 3)
+      assert.equals(bee.Array("a", "1", "b").search("/\d/"), 2)
+
+      assert.throws(() => bee.Array("example text").search("e", 0))
     }
     testSort(assert) {
       assert.deepEquals(bee.Array.sort([ 3, 1, 2 ]), [ 1, 2, 3 ])
@@ -22,6 +32,16 @@ class ArrayTest {
     testJoin(assert) {
       assert.equals(bee.Array.join([ "a", "b", "c" ], ""), "abc")
       assert.equals(bee.Array.join({ a: "a", b: "b", c: "c" }, ", "), "a, b, c")
+    }
+    testSearch(assert) {
+      assert.equals(bee.Array.search([ "e", "x", "a", "m", "p", "l", "e" ], "e"), 1)
+      assert.equals(bee.Array.search([ "e", "x", "a", "m", "p", "l", "e" ], "e", -1), 7)
+      assert.equals(bee.Array.search([ "e", "x", "a", "m", "p", "l", "e" ], "e", 1, 2), 7)
+      assert.equals(bee.Array.search([ "e", "x", "a", "m", "p", "l", "e" ], "z"), 0)
+      assert.equals(bee.Array.search([ "a", "b", "c" ], { text: "C", type: "ignorecase" }), 3)
+      assert.equals(bee.Array.search([ "a", "1", "b" ], "/\d/"), 2)
+
+      assert.throws(() => bee.Array.search([ "example text" ], "e", 0))
     }
     testSlice(assert) {
       assert.deepEquals(bee.Array.slice([ 1, 2, 3, 4, 5 ], 1), [ 1, 2, 3, 4, 5 ])
