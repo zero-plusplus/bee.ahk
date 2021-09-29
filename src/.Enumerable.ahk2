@@ -259,12 +259,14 @@ class Enumerable {
         selector := selector
         comparer := (a, b) => bee.compare(a, b, descending)
       }
-      this.selector := bee.callback(selector || defaultComparer)
-      this.comparer := bee.callback(bee.callable(comparer) ? comparer : (a, b) => bee.compare(a, b, comparer))
+      selector := bee.callback(selector || defaultComparer)
+      this.comparer := bee.callback(bee.callable(comparer)
+        ? (pair_a, pair_b) => comparer(selector(pair_a*), selector(pair_b*))
+        : (pair_a, pair_b) => bee.compare(selector(pair_a*), selector(pair_b*), bee.toBoolean(comparer)))
     }
     _init() {
       this.map := bee.Enumerable.toMap(this.source)
-      this.sorted := bee.Array.sort(bee.Enumerable.toEntries(this.source), (a, b) => this.comparer.call(this.selector.call(a*), this.selector.call(b*)))
+      this.sorted := bee.Array.sort(bee.Enumerable.toEntries(this.source), (a, b) => this.comparer.call(a, b))
       this.keysEnumerator := bee.Enumerable.select(this.sorted, (key) => key).toEnumeratorLike()
     }
     _next(&key, &value) {
@@ -296,10 +298,20 @@ class Enumerable {
      */
     thenBy(selector := "", comparer := "") {
       selector := bee.callback(selector || (key, value) => value)
-      comparer := this.comparer
-      childComparer := bee.callback(comparer || (a, b) => bee.compare(a, b))
-      this.comparer := (a, b) => comparer(a, b) == 0 || childComparer(a, b)
+      parentComparer := this.comparer
+      childComparer := bee.callback(bee.isCallable(comparer)
+        ? (pair_a, pair_b) => comparer(selector(pair_a*), selector(pair_b*))
+        : (pair_a, pair_b) => bee.compare(selector(pair_a*), selector(pair_b*), bee.toBoolean(comparer)))
+      this.comparer := Compare ; (a, b) => parentComparer(a, b) == 0 || childComparer(a, b)
       return this
+
+      Compare(a, b) {
+        comparison := parentComparer(a, b)
+        if (comparison == 0) {
+          comparison := childComparer(a, b)
+        }
+        return comparison
+      }
     }
   }
   /**
