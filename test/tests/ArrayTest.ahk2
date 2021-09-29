@@ -1,4 +1,4 @@
-#Include ..\common.ahk2
+﻿#Include ..\common.ahk2
 
 class ArrayTest {
   class InstanceTest {
@@ -12,6 +12,13 @@ class ArrayTest {
     testJoin(assert) {
       assert.equals(bee.Array("a", "b", "c").join(""), "abc")
       assert.equals(bee.Array("a", "b", "c").join(", "), "a, b, c")
+    }
+    testLastIndexOf(assert) {
+      assert.equals(bee.Array("a", "b", "c").lastIndexOf("b"), 2)
+      assert.equals(bee.Array("a", "b", "c").lastIndexOf("d"), 0)
+      assert.equals(bee.Array("a", "b", "c").lastIndexOf("/b/"), 2)
+      assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").lastIndexOf("e", 2), 1)
+      assert.equals(bee.Array({}, [], Map()).lastIndexOf((value) => bee.isArray(value)), 2)
     }
     testSearch(assert) {
       assert.equals(bee.Array("e", "x", "a", "m", "p", "l", "e").search("e"), 1)
@@ -45,6 +52,13 @@ class ArrayTest {
     testJoin(assert) {
       assert.equals(bee.Array.join([ "a", "b", "c" ], ""), "abc")
       assert.equals(bee.Array.join({ a: "a", b: "b", c: "c" }, ", "), "a, b, c")
+    }
+    testLastIndexOf(assert) {
+      assert.equals(bee.Array.lastIndexOf([ "a", "b", "c" ], "b"), 2)
+      assert.equals(bee.Array.lastIndexOf([ "a", "b", "c" ], "d"), 0)
+      assert.equals(bee.Array.lastIndexOf([ "a", "b", "c" ], "/b/"), 2)
+      assert.equals(bee.Array.lastIndexOf([ "e", "x", "a", "m", "p", "l", "e" ], "e", 2), 1)
+      assert.equals(bee.Array.lastIndexOf([ {}, [], Map() ], (value) => bee.isArray(value)), 2)
     }
     testSearch(assert) {
       assert.equals(bee.Array.search([ "e", "x", "a", "m", "p", "l", "e" ], "e"), 1)

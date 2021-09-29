@@ -19,6 +19,26 @@
     return bee.Array.indexOf(this, params*)
   }
   /**
+   * Searches array in the reverse direction and returns the index of the matching element.
+   * @template T
+   * @param {array<T>} arr
+   * @param {pattern} patternOrCallback
+   * @param {pattern} [fromIndex := 1]
+   * @return {number} - The index of searched element. If not found, returns `0`.
+   */
+  static lastIndexOf(arr, patternOrCallback, times := 1) {
+    return bee.Array.search(arr, patternOrCallback, -1, times)
+  }
+  /**
+   * Searches array in the reverse direction and returns the index of the matching element.
+   * @param {pattern} patternOrCallback
+   * @param {pattern} [fromIndex := 1]
+   * @return {number} - The index of searched element. If not found, returns `0`.
+   */
+  lastIndexOf(params*) {
+    return bee.Array.lastIndexOf(this, params*)
+  }
+  /**
    * Join each element with `delimiter`.
    * @param {string[] | bee.Enumerable} arr
    * @param {string} delimiter
