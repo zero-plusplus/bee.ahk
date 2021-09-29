@@ -338,6 +338,36 @@ class Enumerable {
     return bee.Enumerable.orderBy(this, selector, comparer)
   }
   /**
+   * Sorts the elements of a descending order according to their keys.
+   * @method
+   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @return {bee.Enumerable<KEY, VALUE>}
+   */
+  class orderByDescending extends bee.Enumerable.orderBy {
+    __New(source, selector := "") {
+      super.__New(source, selector, true)
+    }
+    /**
+     * Set additional conditions for sorting.
+     * @method
+     * @param {(key, value) => any} selector? - Callback that returns the value of the field being compared
+     * @param {boolean} [descending := false]
+     * @return {bee.Enumerable<KEY, VALUE>}
+     */
+    thenBy(selector := "") {
+      return super.thenBy(selector, true)
+    }
+  }
+  /**
+   * Sorts the elements of a descending order according to their keys.
+   * @method
+   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @return {bee.Enumerable<KEY, VALUE>}
+   */
+  orderByDescending(params*) {
+    return bee.Enumerable.orderByDescending(this, params*)
+  }
+  /**
    * Reverse the direction of the sequence.
    * @template KEY, VALUE
    * @method
