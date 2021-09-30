@@ -389,7 +389,7 @@ class RegEx {
    * @chainable
    */
   removeFlag(flags*) {
-    this.flags := bee.query(this.flags).where((i, flag) => bee.none.equals(flags, flag)).toValues()
+    this.flags := bee.query(this.flags).where((flag) => bee.none.equals(flags, flag)).toValues()
     return this
   }
   /**

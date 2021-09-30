@@ -109,7 +109,7 @@ class Hotkey {
         return modifiers
       }
 
-      symbols := bee.query(bee.Hotkey.symbolToKeyNameEntries).select((key, v) => v[1]).toValues()
+      symbols := bee.query(bee.Hotkey.symbolToKeyNameEntries).select((value) => value[1]).toValues()
       while (true) {
         target := bee.String.substr(context.source, context.current)
         pattern := "/^(" bee.RegEx.escape(bee.Array.join(symbols, "|")) ")/"

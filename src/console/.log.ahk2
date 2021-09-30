@@ -8,6 +8,6 @@
     return
   }
 
-  stringifiedVariables := bee.query(variables).select((key, value) => bee.Json.stringify(value, { space: true })).toValues()
+  stringifiedVariables := bee.query(variables).select((value) => bee.Json.stringify(value, { space: true })).toValues()
   this.log(Format(message, stringifiedVariables*))
 }

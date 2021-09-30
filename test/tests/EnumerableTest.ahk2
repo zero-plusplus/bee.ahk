@@ -40,9 +40,9 @@ class EnumerableTest {
       this.map := ""
     }
     testCombination(assert) {
-      assert.deepEquals(bee.Enumerable(this.object).where((key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
-      assert.deepEquals(bee.Enumerable(this.array).where((key) => key == 2).toArray(), [ { key: 2, value: "value2" }])
-      assert.deepEquals(bee.Enumerable(this.map).where((key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
+      assert.deepEquals(bee.Enumerable(this.object).where((value, key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
+      assert.deepEquals(bee.Enumerable(this.array).where((value, key) => key == 2).toArray(), [ { key: 2, value: "value2" }])
+      assert.deepEquals(bee.Enumerable(this.map).where((value, key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
     }
     testConcat(assert) {
       assert.deepEquals(bee.Enumerable(this.object).concat({ added: "value3" }).toObject(), { added: "value3", key: "value", key2: "value2" })
@@ -54,19 +54,19 @@ class EnumerableTest {
     testOrderBy(assert) {
       assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy().toArray(), [ { key: 3, value: 1 }, { key: 2, value: 2 }, { key: 1, value: 3 }, { key: 4, value: 4 } ])
       assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy(true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
-      assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy((key, value) => value, true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
+      assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderBy((value) => value, true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
 
-      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }]).orderBy((key, value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 4, name: "B" }, { id: 1, name: "C" }, { id: 2, name: "D" } ])
-      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }]).orderBy((key, value) => value.name, (a, b) => bee.compare(a, b, true)).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }]).orderBy((value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 4, name: "B" }, { id: 1, name: "C" }, { id: 2, name: "D" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }]).orderBy((value) => value.name, (a, b) => bee.compare(a, b, true)).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
 
-      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((key, value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 2, name: "A" }, { id: 1, name: "B" } ])
-      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((key, value) => value.name).thenBy((key, value) => value.id).toValues(), [ { id: 2, name: "A" }, { id: 3, name: "A" }, { id: 1, name: "B" } ])
-      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((key, value) => value.name, true).thenBy((key, value) => value.id, true).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 2, name: "A" }, { id: 1, name: "B" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((value) => value.name).thenBy((value) => value.id).toValues(), [ { id: 2, name: "A" }, { id: 3, name: "A" }, { id: 1, name: "B" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderBy((value) => value.name, true).thenBy((value) => value.id, true).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
     }
     testOrderByDescending(assert) {
       assert.deepEquals(bee.Enumerable([ 3, 2, 1, 4]).orderByDescending().toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
-      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" } ]).orderByDescending((key, value) => value.name).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
-      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderByDescending((key, value) => value.name).thenBy((key, value) => value.id).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" } ]).orderByDescending((value) => value.name).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
+      assert.deepEquals(bee.Enumerable([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ]).orderByDescending((value) => value.name).thenBy((value) => value.id).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
     }
     testReverse(assert) {
       assert.deepEquals(bee.Enumerable(this.object).reverse().toValues(), [ "value2", "value" ])
@@ -74,9 +74,9 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable(this.map).reverse().toValues(), [ "value2", "value" ])
     }
     testSelect(assert) {
-      assert.deepEquals(bee.Enumerable(this.object).select((key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
-      assert.deepEquals(bee.Enumerable(this.array).select((key, value) => (value . value)).toArray(), [ { key: 1, value: "valuevalue" }, { key: 2, value: "value2value2" } ])
-      assert.deepEquals(bee.Enumerable(this.map).select((key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable(this.object).select((value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable(this.array).select((value) => (value . value)).toArray(), [ { key: 1, value: "valuevalue" }, { key: 2, value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable(this.map).select((value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
     }
     testToArray(assert) {
       assert.deepEquals(bee.Enumerable(this.object).toArray(), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])
@@ -128,9 +128,9 @@ class EnumerableTest {
       this.map := ""
     }
     testCombination(assert) {
-      assert.deepEquals(bee.Enumerable.where(this.object, (key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
-      assert.deepEquals(bee.Enumerable.where(this.array, (key) => key == 2).toArray(), [ { key: 2, value: "value2" }])
-      assert.deepEquals(bee.Enumerable.where(this.map, (key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
+      assert.deepEquals(bee.Enumerable.where(this.object, (value, key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
+      assert.deepEquals(bee.Enumerable.where(this.array, (value, key) => key == 2).toArray(), [ { key: 2, value: "value2" }])
+      assert.deepEquals(bee.Enumerable.where(this.map, (value, key) => InStr(key, 2)).toArray(), [ { key: "key2", value: "value2" }])
     }
     testConcat(assert) {
       assert.deepEquals(bee.Enumerable.concat(this.object, { added: "value3" }).toObject(), { added: "value3", key: "value", key2: "value2" })
@@ -142,19 +142,19 @@ class EnumerableTest {
     testOrderBy(assert) {
       assert.deepEquals(bee.Enumerable.orderBy([ 3, 2, 1, 4], ).toArray(), [ { key: 3, value: 1 }, { key: 2, value: 2 }, { key: 1, value: 3 }, { key: 4, value: 4 } ])
       assert.deepEquals(bee.Enumerable.orderBy([ 3, 2, 1, 4], true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
-      assert.deepEquals(bee.Enumerable.orderBy([ 3, 2, 1, 4], (key, value) => value, true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
+      assert.deepEquals(bee.Enumerable.orderBy([ 3, 2, 1, 4], (value) => value, true).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
 
-      assert.deepEquals(bee.Enumerable.orderBy([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }], (key, value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 4, name: "B" }, { id: 1, name: "C" }, { id: 2, name: "D" } ])
-      assert.deepEquals(bee.Enumerable.orderBy([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }], (key, value) => value.name, (a, b) => bee.compare(a, b, true)).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
+      assert.deepEquals(bee.Enumerable.orderBy([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }], (value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 4, name: "B" }, { id: 1, name: "C" }, { id: 2, name: "D" } ])
+      assert.deepEquals(bee.Enumerable.orderBy([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" }], (value) => value.name, (a, b) => bee.compare(a, b, true)).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
 
-      assert.deepEquals(bee.Enumerable.orderBy([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (key, value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 2, name: "A" }, { id: 1, name: "B" } ])
-      assert.deepEquals(bee.Enumerable.orderBy([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (key, value) => value.name).thenBy((key, value) => value.id).toValues(), [ { id: 2, name: "A" }, { id: 3, name: "A" }, { id: 1, name: "B" } ])
-      assert.deepEquals(bee.Enumerable.orderBy([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (key, value) => value.name, true).thenBy((key, value) => value.id, true).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
+      assert.deepEquals(bee.Enumerable.orderBy([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (value) => value.name).toValues(), [ { id: 3, name: "A" }, { id: 2, name: "A" }, { id: 1, name: "B" } ])
+      assert.deepEquals(bee.Enumerable.orderBy([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (value) => value.name).thenBy((value) => value.id).toValues(), [ { id: 2, name: "A" }, { id: 3, name: "A" }, { id: 1, name: "B" } ])
+      assert.deepEquals(bee.Enumerable.orderBy([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (value) => value.name, true).thenBy((value) => value.id, true).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
     }
     testOrderByDescending(assert) {
       assert.deepEquals(bee.Enumerable.orderByDescending([ 3, 2, 1, 4]).toArray(), [ { key: 4, value: 4 }, { key: 1, value: 3 }, { key: 2, value: 2 }, { key: 3, value: 1 } ])
-      assert.deepEquals(bee.Enumerable.orderByDescending([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" } ], (key, value) => value.name).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
-      assert.deepEquals(bee.Enumerable.orderByDescending([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (key, value) => value.name).thenBy((key, value) => value.id).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
+      assert.deepEquals(bee.Enumerable.orderByDescending([ { id: 4, name: "B" }, { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 3, name: "A" } ], (value) => value.name).toValues(), [ { id: 2, name: "D" }, { id: 1, name: "C" }, { id: 4, name: "B" }, { id: 3, name: "A" } ])
+      assert.deepEquals(bee.Enumerable.orderByDescending([ { id: 3, name: "A" }, { id: 1, name: "B" }, { id: 2, name: "A" } ], (value) => value.name).thenBy((value) => value.id).toValues(), [ { id: 1, name: "B" }, { id: 3, name: "A" }, { id: 2, name: "A" } ])
     }
     testReverse(assert) {
       assert.deepEquals(bee.Enumerable.reverse(this.object).toValues(), [ "value2", "value" ])
@@ -162,9 +162,9 @@ class EnumerableTest {
       assert.deepEquals(bee.Enumerable.reverse(this.map).toValues(), [ "value2", "value" ])
     }
     testSelect(assert) {
-      assert.deepEquals(bee.Enumerable.select(this.object, (key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
-      assert.deepEquals(bee.Enumerable.select(this.array, (key, value) => (value . value)).toArray(), [ { key: 1, value: "valuevalue" }, { key: 2, value: "value2value2" } ])
-      assert.deepEquals(bee.Enumerable.select(this.map, (key, value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable.select(this.object, (value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable.select(this.array, (value) => (value . value)).toArray(), [ { key: 1, value: "valuevalue" }, { key: 2, value: "value2value2" } ])
+      assert.deepEquals(bee.Enumerable.select(this.map, (value) => (value . value)).toArray(), [ { key: "key", value: "valuevalue" }, { key: "key2", value: "value2value2" } ])
     }
     testToArray(assert) {
       assert.deepEquals(bee.Enumerable.toArray(this.map), [ { key: "key", value: "value" }, { key: "key2", value: "value2" } ])

@@ -176,7 +176,7 @@ class Enumerable {
         return false
       }
       key := _key
-      value := this.selector.call(_key, _value)
+      value := this.selector.call(_value, _key)
       return true
     }
   }
@@ -202,7 +202,7 @@ class Enumerable {
     }
     _next(&key, &value) {
       while (this.enumerator.call(&_key, &_value)) {
-        if (this.predicate.call(_key, _value)) {
+        if (this.predicate.call(_value, _key)) {
           key := _key
           value := _value
           return true
@@ -213,7 +213,7 @@ class Enumerable {
   }
   /**
    * Returns all elements for which the `predicate` returns `true`.
-   * @param {(key, value) => boolean} predicate
+   * @param {(value, key) => boolean} predicate
    * @return {bee.Enumerable<KEY, VALUE}
    */
   where(predicate) {
@@ -232,7 +232,7 @@ class Enumerable {
    * Sorts the elements of a sequence in ascending or descending order according to their keys.
    * @method
    * @param {object<KEY, VALUE>} source
-   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
    * @param {boolean} [descending := false]
    * @return {bee.Enumerable<KEY, VALUE>}
    */
@@ -240,13 +240,13 @@ class Enumerable {
    * Sorts the elements of a sequence using the compare function.
    * @method
    * @param {object<KEY, VALUE>} source
-   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
    * @param {(a, b) => number} comparer?
    * @return {bee.Enumerable<KEY, VALUE>}
    */
   class orderBy extends bee.rule.EnumerableFunc {
     __New(source, selector := "", comparer := "") {
-      static defaultComparer := (key, value) => value
+      static defaultComparer := (value) => value
 
       super.__New(source)
       if (bee.isBoolean(selector) && !comparer) {
@@ -261,8 +261,8 @@ class Enumerable {
       }
       selector := bee.callback(selector || defaultComparer)
       this.comparer := bee.callback(bee.callable(comparer)
-        ? (pair_a, pair_b) => comparer(selector(pair_a*), selector(pair_b*))
-        : (pair_a, pair_b) => bee.compare(selector(pair_a*), selector(pair_b*), bee.toBoolean(comparer)))
+        ? (pair_a, pair_b) => comparer(selector(pair_a[2], pair_a[1]), selector(pair_b[2], pair_b[1]))
+        : (pair_a, pair_b) => bee.compare(selector(pair_a[2], pair_a[1]), selector(pair_b[2], pair_b[1]), bee.toBoolean(comparer)))
     }
     _init() {
       this.map := bee.Enumerable.toMap(this.source)
@@ -285,24 +285,24 @@ class Enumerable {
     /**
      * Set additional conditions for sorting.
      * @method
-     * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+     * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
      * @param {boolean} [descending := false]
      * @return {bee.Enumerable<KEY, VALUE>}
      */
     /**
      * Set additional conditions for sorting.
      * @method
-     * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+     * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
      * @param {(a, b) => number} comparer?
      * @return {bee.Enumerable<KEY, VALUE>}
      */
     thenBy(selector := "", comparer := "") {
-      selector := bee.callback(selector || (key, value) => value)
+      selector := bee.callback(selector || (value) => value)
       parentComparer := this.comparer
       childComparer := bee.callback(bee.isCallable(comparer)
-        ? (pair_a, pair_b) => comparer(selector(pair_a*), selector(pair_b*))
-        : (pair_a, pair_b) => bee.compare(selector(pair_a*), selector(pair_b*), bee.toBoolean(comparer)))
-      this.comparer := Compare ; (a, b) => parentComparer(a, b) == 0 || childComparer(a, b)
+        ? (pair_a, pair_b) => comparer(selector(pair_a[2], pair_a[1]), selector(pair_b[2], pair_b[1]))
+        : (pair_a, pair_b) => bee.compare(selector(pair_a[2], pair_a[1]), selector(pair_b[2], pair_b[1]), bee.toBoolean(comparer)))
+      this.comparer := Compare
       return this
 
       Compare(a, b) {
@@ -323,14 +323,14 @@ class Enumerable {
   /**
    * Sorts the elements of a sequence in ascending or descending order according to their keys.
    * @method
-   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
    * @param {boolean} [descending := false]
    * @return {bee.Enumerable<KEY, VALUE>}
    */
   /**
    * Sorts the elements of a sequence using the compare function.
    * @method
-   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
    * @param {(a, b) => number} comparer?
    * @return {bee.Enumerable<KEY, VALUE>}
    */
@@ -340,7 +340,7 @@ class Enumerable {
   /**
    * Sorts the elements of a descending order according to their keys.
    * @method
-   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
    * @return {bee.Enumerable<KEY, VALUE>}
    */
   class orderByDescending extends bee.Enumerable.orderBy {
@@ -350,7 +350,7 @@ class Enumerable {
     /**
      * Set additional conditions for sorting.
      * @method
-     * @param {(key, value) => any} selector? - Callback that returns the value of the field being compared
+     * @param {(value, key) => any} selector? - Callback that returns the value of the field being compared
      * @param {boolean} [descending := false]
      * @return {bee.Enumerable<KEY, VALUE>}
      */
@@ -361,7 +361,7 @@ class Enumerable {
   /**
    * Sorts the elements of a descending order according to their keys.
    * @method
-   * @param {(key, value) => any} selector - Callback that returns the value of the field being compared
+   * @param {(value, key) => any} selector - Callback that returns the value of the field being compared
    * @return {bee.Enumerable<KEY, VALUE>}
    */
   orderByDescending(params*) {
