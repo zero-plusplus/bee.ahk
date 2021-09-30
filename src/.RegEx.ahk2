@@ -64,7 +64,7 @@ class RegEx {
    * @param {bee.PatternLiteral} pattern
    * @return {bee.RegEx}
    */
-  static fromRegExLiteral(pattern) {
+  static fromPattern(pattern) {
     if (pattern.type == "regex") {
       RegExMatch(pattern.text, bee.PatternLiteral.regexPatternRegEx, &match)
       return bee.RegEx(match.pattern, match.flags)

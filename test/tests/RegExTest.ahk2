@@ -42,7 +42,7 @@ class RegExTest {
       assert.equals(bee.RegEx.escape("^(\s)$"), "\^\(\\s\)\$")
     }
     testFromRegExLiteral(assert) {
-      assert.deepEquals(bee.RegEx.fromRegExLiteral(bee.PatternLiteral("/source/im")), { flags: [ "i", "m" ], source: "source" })
+      assert.deepEquals(bee.RegEx.fromPattern(bee.PatternLiteral("/source/im")), { flags: [ "i", "m" ], source: "source" })
     }
     testMatch(assert) {
       assert.deepEquals(bee.RegEx.match("(\s)", "a b c")[1], " ")

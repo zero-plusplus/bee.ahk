@@ -45,7 +45,7 @@
   static count(str, pattern) {
     pattern := bee.PatternLiteral(pattern)
     if (pattern.type == "regex") {
-      RegExReplace(str, bee.RegEx.fromRegExLiteral(pattern).value, "", &count)
+      RegExReplace(str, bee.RegEx.fromPattern(pattern).value, "", &count)
       return count
     }
     caseSensitive := pattern.type == "ignorecase" ? false : true
@@ -140,7 +140,7 @@
       return bee.String.search(str, pattern, -1, Abs(times) * -1)
     }
 
-    regex := bee.RegEx.fromRegExLiteral(pattern)
+    regex := bee.RegEx.fromPattern(pattern)
     matches := regex.matchAll(str)
     index := matches.length - (times - 1)
     if (matches.length < index) {
@@ -187,7 +187,7 @@
   static match(str, pattern, params*) {
     pattern := bee.PatternLiteral(pattern)
     if (pattern.type == "regex") {
-      regex := bee.RegEx.fromRegExLiteral(pattern)
+      regex := bee.RegEx.fromPattern(pattern)
       return regex.match(str, params*)
     }
 
@@ -254,7 +254,7 @@
   static matchAll(str, pattern, params*) {
     pattern := bee.PatternLiteral(pattern)
     if (pattern.type == "regex") {
-      regex := bee.RegEx.fromRegExLiteral(pattern)
+      regex := bee.RegEx.fromPattern(pattern)
       return regex.matchAll(str, params*)
     }
 
@@ -306,7 +306,7 @@
   static replace(str, pattern, replacement, limit := -1) {
     pattern := bee.PatternLiteral(pattern)
     if (pattern.type == "regex") {
-      return bee.RegEx.fromRegExLiteral(pattern).replace(str, replacement, limit)
+      return bee.RegEx.fromPattern(pattern).replace(str, replacement, limit)
     }
 
     caseSensitive := pattern.type == "ignorecase" ? false : true
@@ -416,7 +416,7 @@
   static search(str, pattern, params*) {
     pattern := bee.PatternLiteral(pattern)
     if (pattern.type == "regex") {
-      regex := bee.RegEx.fromRegExLiteral(pattern)
+      regex := bee.RegEx.fromPattern(pattern)
       if (params.length < 2 || params[1] == 1) {
         match := regex.match(str, params*)
         if (!match) {
@@ -484,7 +484,7 @@
 
     pattern := bee.PatternLiteral(delimiter)
     if (pattern.type == "regex") {
-      regex := bee.RegEx.fromRegExLiteral(pattern)
+      regex := bee.RegEx.fromPattern(pattern)
       return regex.split(str, omitChars, maxParts)
     }
     if (pattern.type == "text") {
