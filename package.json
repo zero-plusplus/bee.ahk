@@ -20,6 +20,7 @@
     "@types/del": "^4.0.0",
     "@types/gulp": "^4.0.9",
     "@types/mkdirp": "^1.0.2",
+    "@zero-plusplus/autohotkey-utilities": "github:zero-plusplus/node-autohotkey-utilities#develop",
     "@zero-plusplus/eslint-my-rules": "^1.0.30",
     "experimental-autohotkey-testframework": "github:zero-plusplus/experimental-autohotkey-testframework#develop",
     "gulp": "^4.0.2",
