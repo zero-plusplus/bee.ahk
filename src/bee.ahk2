@@ -15,22 +15,22 @@ class bee {
       }
     }
   }
-  #Include %A_LineFile%\..\.Array.ahk2
-  #Include %A_LineFile%\..\.BidiMap.ahk2
-  #Include %A_LineFile%\..\.Enumerable.ahk2
-  #Include %A_LineFile%\..\.Hotkey.ahk2
-  #Include %A_LineFile%\..\.Json.ahk2
-  #Include %A_LineFile%\..\.Map.ahk2
-  #Include %A_LineFile%\..\.Number.ahk2
-  #Include %A_LineFile%\..\.OrderedMap.ahk2
-  #Include %A_LineFile%\..\.PatternLiteral.ahk2
-  #Include %A_LineFile%\..\.RangeLiteral.ahk2
-  #Include %A_LineFile%\..\.RegEx.ahk2
-  #Include %A_LineFile%\..\.String.ahk2
+  #Include .\.Array.ahk2
+  #Include .\.BidiMap.ahk2
+  #Include .\.Enumerable.ahk2
+  #Include .\.Hotkey.ahk2
+  #Include .\.Json.ahk2
+  #Include .\.Map.ahk2
+  #Include .\.Number.ahk2
+  #Include .\.OrderedMap.ahk2
+  #Include .\.PatternLiteral.ahk2
+  #Include .\.RangeLiteral.ahk2
+  #Include .\.RegEx.ahk2
+  #Include .\.String.ahk2
 
-  #Include %A_LineFile%\..\console\console.ahk2
-  #Include %A_LineFile%\..\debug\debug.ahk2
-  #Include %A_LineFile%\..\predicate\predicate.ahk2
-  #Include %A_LineFile%\..\rule\rule.ahk2
-  #Include %A_LineFile%\..\util\util.ahk2
+  #Include .\console\console.ahk2
+  #Include .\debug\debug.ahk2
+  #Include .\predicate\predicate.ahk2
+  #Include .\rule\rule.ahk2
+  #Include .\util\util.ahk2
 }
