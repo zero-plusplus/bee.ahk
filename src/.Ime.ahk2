@@ -1,0 +1,55 @@
+﻿class Ime {
+  /**
+   * Get a boolean value indicating whether the IME is enabled or disabled.
+   * @type {boolean}
+   */
+  static status {
+    get {
+      return this.get()
+    }
+  }
+  /**
+   * Get a boolean value indicating whether the IME is enabled or disabled.
+   * @return {boolean}
+   */
+  static get() {
+    static WM_IME_CONTROL := 0x0283, IMC_GETOPENSTATUS := 0x0005
+
+    hwnd := WinActive("A")
+    if (!hwnd) {
+      return false
+    }
+
+    return bee.toBoolean(DllCall(
+      "SendMessage",
+      "UInt", DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hwnd),
+      "UInt", msg := WM_IME_CONTROL,
+      "Int",  wParam := IMC_GETOPENSTATUS,
+      "Int",  lParam := 0,
+    ))
+  }
+  /**
+   * Set the IME status.
+   * @param {boolean} status - Enable if `true`, disable if `false`.
+   * @throws Error - Throw an exception if the state setting fails.
+   */
+  static set(status) {
+    static WM_IME_CONTROL := 0x0283, IMC_SETOPENSTATUS := 0x006
+
+    hwnd := WinActive("A")
+    if (!hwnd) {
+      return false
+    }
+
+    errorCode := DllCall(
+      "SendMessage",
+      "UInt", DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hwnd),
+      "UInt", msg := WM_IME_CONTROL,
+      "Int", wParam := IMC_SETOPENSTATUS,
+      "Int", lParam := status
+    )
+    if (0 < errorCode) {
+      throw Error("Failed to set status. code: " errorCode)
+    }
+  }
+}

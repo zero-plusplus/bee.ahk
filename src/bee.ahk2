@@ -19,6 +19,7 @@ class bee {
   #Include .\.BidiMap.ahk2
   #Include .\.Enumerable.ahk2
   #Include .\.Hotkey.ahk2
+  #Include .\.Ime.ahk2
   #Include .\.Json.ahk2
   #Include .\.Map.ahk2
   #Include .\.Number.ahk2

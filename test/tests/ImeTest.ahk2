@@ -1,0 +1,13 @@
+﻿#Include ..\common.ahk2
+
+class ImeTest {
+  testStatus(assert) {
+    bee.Ime.set(false)
+    assert.ok(bee.Ime.get() == false)
+    assert.ok(bee.Ime.status == false)
+
+    bee.Ime.set(true)
+    assert.ok(bee.Ime.get() == true)
+    assert.ok(bee.Ime.status == true)
+  }
+}
