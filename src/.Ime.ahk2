@@ -13,20 +13,9 @@
    * @return {boolean}
    */
   static get() {
-    static WM_IME_CONTROL := 0x0283, IMC_GETOPENSTATUS := 0x0005
+    static IMC_GETOPENSTATUS := 0x0005
 
-    hwnd := WinActive("A")
-    if (!hwnd) {
-      return false
-    }
-
-    return bee.toBoolean(DllCall(
-      "SendMessage",
-      "UInt", DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hwnd),
-      "UInt", msg := WM_IME_CONTROL,
-      "Int",  wParam := IMC_GETOPENSTATUS,
-      "Int",  lParam := 0,
-    ))
+    return bee.toBoolean(this._sendMessage(IMC_GETOPENSTATUS))
   }
   /**
    * Set the IME status.
@@ -34,22 +23,22 @@
    * @throws Error - Throw an exception if the state setting fails.
    */
   static set(status) {
-    static WM_IME_CONTROL := 0x0283, IMC_SETOPENSTATUS := 0x006
+    static IMC_SETOPENSTATUS := 0x006
 
-    hwnd := WinActive("A")
-    if (!hwnd) {
-      return false
-    }
-
-    errorCode := DllCall(
-      "SendMessage",
-      "UInt", DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hwnd),
-      "UInt", msg := WM_IME_CONTROL,
-      "Int", wParam := IMC_SETOPENSTATUS,
-      "Int", lParam := status
-    )
+    errorCode := this._sendMessage(IMC_SETOPENSTATUS, status)
     if (0 < errorCode) {
       throw Error("Failed to set status. code: " errorCode)
     }
+  }
+  static _sendMessage(wParam, lParam := 0) {
+    static WM_IME_CONTROL := 0x0283
+
+    return DllCall(
+      "SendMessage",
+      "UInt", DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", WinActive("A")),
+      "UInt", msg := WM_IME_CONTROL,
+      "Int", wParam,
+      "Int", lParam
+    )
   }
 }
