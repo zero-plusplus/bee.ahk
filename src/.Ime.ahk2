@@ -30,6 +30,11 @@
       throw Error("Failed to set status. code: " errorCode)
     }
   }
+  /**
+   * @private
+   * @param {number} wParam
+   * @param {number} [lParam := 0]
+   */
   static _sendMessage(wParam, lParam := 0) {
     static WM_IME_CONTROL := 0x0283
 
